@@ -1,0 +1,1387 @@
+{
+  "schema_version": "0.1.0",
+  "generated_at": "2026-03-22T05:12:37.918Z",
+  "source_url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSgVsdmTcaWlepz42z8pHGNGn5VjT9FADDr-Tl4Nm7dEw7IxoeBXJJ-TEMm1qXzCbntsa2-94h43fbF/pubhtml",
+  "devices": [
+    {
+      "id": "6f-roadmaster-90cm",
+      "name": "6F Roadmaster (90 cm)",
+      "category": "ガイディング",
+      "maker": "Nipro",
+      "id_inch": 0.071,
+      "od_fr": 6,
+      "length_cm": 90,
+      "notes": ""
+    },
+    {
+      "id": "6f-roadmaster-100cm",
+      "name": "6F Roadmaster (100 cm)",
+      "category": "ガイディング",
+      "maker": "Nipro",
+      "id_inch": 0.071,
+      "od_fr": 6,
+      "length_cm": 100,
+      "notes": ""
+    },
+    {
+      "id": "7f-roadmaster-90cm",
+      "name": "7F Roadmaster (90 cm)",
+      "category": "ガイディング",
+      "maker": "Nipro",
+      "id_inch": 0.08,
+      "od_fr": 7,
+      "length_cm": 90,
+      "notes": ""
+    },
+    {
+      "id": "7f-roadmaster-100cm",
+      "name": "7F Roadmaster (100 cm)",
+      "category": "ガイディング",
+      "maker": "Nipro",
+      "id_inch": 0.08,
+      "od_fr": 7,
+      "length_cm": 100,
+      "notes": ""
+    },
+    {
+      "id": "8f-roadmaster-80cm",
+      "name": "8F Roadmaster (80 cm)",
+      "category": "ガイディング",
+      "maker": "Nipro",
+      "id_inch": 0.09,
+      "od_fr": 8,
+      "length_cm": 80,
+      "notes": ""
+    },
+    {
+      "id": "8f-roadmaster-85cm",
+      "name": "8F Roadmaster (85 cm)",
+      "category": "ガイディング",
+      "maker": "Nipro",
+      "id_inch": 0.09,
+      "od_fr": 8,
+      "length_cm": 85,
+      "notes": ""
+    },
+    {
+      "id": "8f-roadmaster-90cm",
+      "name": "8F Roadmaster (90 cm)",
+      "category": "ガイディング",
+      "maker": "Nipro",
+      "id_inch": 0.09,
+      "od_fr": 8,
+      "length_cm": 90,
+      "notes": ""
+    },
+    {
+      "id": "5f-launcher-90cm",
+      "name": "5F Launcher (90 cm)",
+      "category": "ガイディング",
+      "maker": "Medtronic",
+      "id_inch": 0.058,
+      "od_fr": 5,
+      "length_cm": 90,
+      "notes": ""
+    },
+    {
+      "id": "5f-launcher-100cm",
+      "name": "5F Launcher (100 cm)",
+      "category": "ガイディング",
+      "maker": "Medtronic",
+      "id_inch": 0.058,
+      "od_fr": 5,
+      "length_cm": 100,
+      "notes": ""
+    },
+    {
+      "id": "6f-launcher-90cm",
+      "name": "6F Launcher (90 cm)",
+      "category": "ガイディング",
+      "maker": "Medtronic",
+      "id_inch": 0.071,
+      "od_fr": 6,
+      "length_cm": 90,
+      "notes": ""
+    },
+    {
+      "id": "6f-launcher-100cm",
+      "name": "6F Launcher (100 cm)",
+      "category": "ガイディング",
+      "maker": "Medtronic",
+      "id_inch": 0.071,
+      "od_fr": 6,
+      "length_cm": 100,
+      "notes": ""
+    },
+    {
+      "id": "7f-launcher-90cm",
+      "name": "7F Launcher (90 cm)",
+      "category": "ガイディング",
+      "maker": "Medtronic",
+      "id_inch": 0.081,
+      "od_fr": 7,
+      "length_cm": 90,
+      "notes": ""
+    },
+    {
+      "id": "8f-launcher-90cm",
+      "name": "8F Launcher (90 cm)",
+      "category": "ガイディング",
+      "maker": "Medtronic",
+      "id_inch": 0.09,
+      "od_fr": 8,
+      "length_cm": 90,
+      "notes": ""
+    },
+    {
+      "id": "5f-envoy-90cm",
+      "name": "5F Envoy (90 cm)",
+      "category": "ガイディング",
+      "maker": "Johnson & Johnson",
+      "id_inch": 0.056,
+      "od_fr": 5,
+      "length_cm": 90,
+      "notes": ""
+    },
+    {
+      "id": "5f-envoy-100cm",
+      "name": "5F Envoy (100 cm)",
+      "category": "ガイディング",
+      "maker": "Johnson & Johnson",
+      "id_inch": 0.056,
+      "od_fr": 5,
+      "length_cm": 100,
+      "notes": ""
+    },
+    {
+      "id": "6f-envoy-90cm",
+      "name": "6F Envoy (90 cm)",
+      "category": "ガイディング",
+      "maker": "Johnson & Johnson",
+      "id_inch": 0.07,
+      "od_fr": 6,
+      "length_cm": 90,
+      "notes": ""
+    },
+    {
+      "id": "6f-envoy-100cm",
+      "name": "6F Envoy (100 cm)",
+      "category": "ガイディング",
+      "maker": "Johnson & Johnson",
+      "id_inch": 0.07,
+      "od_fr": 6,
+      "length_cm": 100,
+      "notes": ""
+    },
+    {
+      "id": "7f-envoy-90cm",
+      "name": "7F Envoy (90 cm)",
+      "category": "ガイディング",
+      "maker": "Johnson & Johnson",
+      "id_inch": 0.078,
+      "od_fr": 7,
+      "length_cm": 90,
+      "notes": ""
+    },
+    {
+      "id": "7f-envoy-100cm",
+      "name": "7F Envoy (100 cm)",
+      "category": "ガイディング",
+      "maker": "Johnson & Johnson",
+      "id_inch": 0.078,
+      "od_fr": 7,
+      "length_cm": 100,
+      "notes": ""
+    },
+    {
+      "id": "envoy-xb-90cm",
+      "name": "Envoy XB (90 cm)",
+      "category": "ガイディング",
+      "maker": "Johnson & Johnson",
+      "id_inch": 0.07,
+      "od_fr": 6,
+      "length_cm": 90,
+      "notes": ""
+    },
+    {
+      "id": "envoy-xb-100cm",
+      "name": "Envoy XB (100 cm)",
+      "category": "ガイディング",
+      "maker": "Johnson & Johnson",
+      "id_inch": 0.07,
+      "od_fr": 6,
+      "length_cm": 100,
+      "notes": ""
+    },
+    {
+      "id": "6f-fubuki-80cm",
+      "name": "6F Fubuki (80 cm)",
+      "category": "ガイディング",
+      "maker": "Asahi Intecc",
+      "id_inch": 0.071,
+      "od_fr": 6,
+      "length_cm": 80,
+      "notes": ""
+    },
+    {
+      "id": "6f-fubuki-90cm",
+      "name": "6F Fubuki (90 cm)",
+      "category": "ガイディング",
+      "maker": "Asahi Intecc",
+      "id_inch": 0.071,
+      "od_fr": 6,
+      "length_cm": 90,
+      "notes": ""
+    },
+    {
+      "id": "6f-fubuki-100cm",
+      "name": "6F Fubuki (100 cm)",
+      "category": "ガイディング",
+      "maker": "Asahi Intecc",
+      "id_inch": 0.071,
+      "od_fr": 6,
+      "length_cm": 100,
+      "notes": ""
+    },
+    {
+      "id": "6f-fubuki-110cm",
+      "name": "6F Fubuki (110 cm)",
+      "category": "ガイディング",
+      "maker": "Asahi Intecc",
+      "id_inch": 0.071,
+      "od_fr": 6,
+      "length_cm": 110,
+      "notes": ""
+    },
+    {
+      "id": "7f-fubuki-80cm",
+      "name": "7F Fubuki (80 cm)",
+      "category": "ガイディング",
+      "maker": "Asahi Intecc",
+      "id_inch": 0.081,
+      "od_fr": 7,
+      "length_cm": 80,
+      "notes": ""
+    },
+    {
+      "id": "7f-fubuki-90cm",
+      "name": "7F Fubuki (90 cm)",
+      "category": "ガイディング",
+      "maker": "Asahi Intecc",
+      "id_inch": 0.081,
+      "od_fr": 7,
+      "length_cm": 90,
+      "notes": ""
+    },
+    {
+      "id": "7f-fubuki-100cm",
+      "name": "7F Fubuki (100 cm)",
+      "category": "ガイディング",
+      "maker": "Asahi Intecc",
+      "id_inch": 0.081,
+      "od_fr": 7,
+      "length_cm": 100,
+      "notes": ""
+    },
+    {
+      "id": "7f-fubuki-110cm",
+      "name": "7F Fubuki (110 cm)",
+      "category": "ガイディング",
+      "maker": "Asahi Intecc",
+      "id_inch": 0.081,
+      "od_fr": 7,
+      "length_cm": 110,
+      "notes": ""
+    },
+    {
+      "id": "8f-fubuki-80cm",
+      "name": "8F Fubuki (80 cm)",
+      "category": "ガイディング",
+      "maker": "Asahi Intecc",
+      "id_inch": 0.09,
+      "od_fr": 8,
+      "length_cm": 80,
+      "notes": ""
+    },
+    {
+      "id": "8f-fubuki-90cm",
+      "name": "8F Fubuki (90 cm)",
+      "category": "ガイディング",
+      "maker": "Asahi Intecc",
+      "id_inch": 0.09,
+      "od_fr": 8,
+      "length_cm": 90,
+      "notes": ""
+    },
+    {
+      "id": "8f-fubuki-100cm",
+      "name": "8F Fubuki (100 cm)",
+      "category": "ガイディング",
+      "maker": "Asahi Intecc",
+      "id_inch": 0.09,
+      "od_fr": 8,
+      "length_cm": 100,
+      "notes": ""
+    },
+    {
+      "id": "8f-fubuki-110cm",
+      "name": "8F Fubuki (110 cm)",
+      "category": "ガイディング",
+      "maker": "Asahi Intecc",
+      "id_inch": 0.09,
+      "od_fr": 8,
+      "length_cm": 110,
+      "notes": ""
+    },
+    {
+      "id": "fubuki-xf-80cm",
+      "name": "Fubuki XF (80 cm)",
+      "category": "ガイディング",
+      "maker": "Asahi Intecc",
+      "id_inch": 0.09,
+      "od_fr": 8,
+      "length_cm": 80,
+      "notes": ""
+    },
+    {
+      "id": "fubuki-xf-90cm",
+      "name": "Fubuki XF (90 cm)",
+      "category": "ガイディング",
+      "maker": "Asahi Intecc",
+      "id_inch": 0.09,
+      "od_fr": 8,
+      "length_cm": 90,
+      "notes": ""
+    },
+    {
+      "id": "fubuki-xf-100cm",
+      "name": "Fubuki XF (100 cm)",
+      "category": "ガイディング",
+      "maker": "Asahi Intecc",
+      "id_inch": 0.09,
+      "od_fr": 8,
+      "length_cm": 100,
+      "notes": ""
+    },
+    {
+      "id": "fubuki-xf-110cm",
+      "name": "Fubuki XF (110 cm)",
+      "category": "ガイディング",
+      "maker": "Asahi Intecc",
+      "id_inch": 0.09,
+      "od_fr": 8,
+      "length_cm": 110,
+      "notes": ""
+    },
+    {
+      "id": "6f-slim-guide-90cm",
+      "name": "6F Slim Guide (90 cm)",
+      "category": "ガイディング",
+      "maker": "Medikit",
+      "id_inch": 0.072,
+      "od_fr": 6.1,
+      "length_cm": 90,
+      "notes": ""
+    },
+    {
+      "id": "6f-slim-guide-100cm",
+      "name": "6F Slim Guide (100 cm)",
+      "category": "ガイディング",
+      "maker": "Medikit",
+      "id_inch": 0.072,
+      "od_fr": 6.1,
+      "length_cm": 100,
+      "notes": ""
+    },
+    {
+      "id": "7f-slim-guide-90cm",
+      "name": "7F Slim Guide (90 cm)",
+      "category": "ガイディング",
+      "maker": "Medikit",
+      "id_inch": 0.08,
+      "od_fr": 7.2,
+      "length_cm": 90,
+      "notes": ""
+    },
+    {
+      "id": "8f-slim-guide-78cm",
+      "name": "8F Slim Guide (78 cm)",
+      "category": "ガイディング",
+      "maker": "Medikit",
+      "id_inch": 0.089,
+      "od_fr": 8.1,
+      "length_cm": 78,
+      "notes": ""
+    },
+    {
+      "id": "8f-slim-guide-90cm",
+      "name": "8F Slim Guide (90 cm)",
+      "category": "ガイディング",
+      "maker": "Medikit",
+      "id_inch": 0.089,
+      "od_fr": 8.1,
+      "length_cm": 90,
+      "notes": ""
+    },
+    {
+      "id": "5f-guider-softip-100cm",
+      "name": "5F Guider Softip (100 cm)",
+      "category": "ガイディング",
+      "maker": "Stryker",
+      "id_inch": 0.053,
+      "od_fr": 5,
+      "length_cm": 100,
+      "notes": ""
+    },
+    {
+      "id": "6f-guider-softip-90cm",
+      "name": "6F Guider Softip (90 cm)",
+      "category": "ガイディング",
+      "maker": "Stryker",
+      "id_inch": 0.064,
+      "od_fr": 6,
+      "length_cm": 90,
+      "notes": ""
+    },
+    {
+      "id": "6f-guider-softip-100cm",
+      "name": "6F Guider Softip (100 cm)",
+      "category": "ガイディング",
+      "maker": "Stryker",
+      "id_inch": 0.064,
+      "od_fr": 6,
+      "length_cm": 100,
+      "notes": ""
+    },
+    {
+      "id": "7f-guider-softip-90cm",
+      "name": "7F Guider Softip (90 cm)",
+      "category": "ガイディング",
+      "maker": "Stryker",
+      "id_inch": 0.073,
+      "od_fr": 7,
+      "length_cm": 90,
+      "notes": ""
+    },
+    {
+      "id": "7f-guider-softip-100cm",
+      "name": "7F Guider Softip (100 cm)",
+      "category": "ガイディング",
+      "maker": "Stryker",
+      "id_inch": 0.073,
+      "od_fr": 7,
+      "length_cm": 100,
+      "notes": ""
+    },
+    {
+      "id": "8f-guider-softip-90cm",
+      "name": "8F Guider Softip (90 cm)",
+      "category": "ガイディング",
+      "maker": "Stryker",
+      "id_inch": 0.086,
+      "od_fr": 8,
+      "length_cm": 90,
+      "notes": ""
+    },
+    {
+      "id": "8f-guider-softip-100cm",
+      "name": "8F Guider Softip (100 cm)",
+      "category": "ガイディング",
+      "maker": "Stryker",
+      "id_inch": 0.086,
+      "od_fr": 8,
+      "length_cm": 100,
+      "notes": ""
+    },
+    {
+      "id": "neuro-ebu",
+      "name": "Neuro EBU",
+      "category": "ガイディング",
+      "maker": "SILUX",
+      "id_inch": 0.09,
+      "od_fr": 8,
+      "length_cm": 83,
+      "notes": ""
+    },
+    {
+      "id": "rist071-95cm",
+      "name": "RIST071 (95 cm)",
+      "category": "ガイディング",
+      "maker": "Medtronic",
+      "id_inch": 0.071,
+      "od_fr": 6.6,
+      "length_cm": 95,
+      "notes": ""
+    },
+    {
+      "id": "rist071-100cm",
+      "name": "RIST071 (100 cm)",
+      "category": "ガイディング",
+      "maker": "Medtronic",
+      "id_inch": 0.071,
+      "od_fr": 6.6,
+      "length_cm": 100,
+      "notes": ""
+    },
+    {
+      "id": "rist071-105cm",
+      "name": "RIST071 (105 cm)",
+      "category": "ガイディング",
+      "maker": "Medtronic",
+      "id_inch": 0.071,
+      "od_fr": 6.6,
+      "length_cm": 105,
+      "notes": ""
+    },
+    {
+      "id": "rist079-95cm",
+      "name": "RIST079 (95 cm)",
+      "category": "ガイディング",
+      "maker": "Medtronic",
+      "id_inch": 0.079,
+      "od_fr": 7.1,
+      "length_cm": 95,
+      "notes": ""
+    },
+    {
+      "id": "rist079-100cm",
+      "name": "RIST079 (100 cm)",
+      "category": "ガイディング",
+      "maker": "Medtronic",
+      "id_inch": 0.079,
+      "od_fr": 7.1,
+      "length_cm": 100,
+      "notes": ""
+    },
+    {
+      "id": "rist079-105cm",
+      "name": "RIST079 (105 cm)",
+      "category": "ガイディング",
+      "maker": "Medtronic",
+      "id_inch": 0.079,
+      "od_fr": 7.1,
+      "length_cm": 105,
+      "notes": ""
+    },
+    {
+      "id": "carnelian-hf-s-105cm",
+      "name": "Carnelian HF-S (105 cm)",
+      "category": "中間",
+      "maker": "Tokai Medical",
+      "id_inch": 0.027,
+      "od_fr": 2.8,
+      "length_cm": 105,
+      "notes": ""
+    },
+    {
+      "id": "carnelian-hf-s-125cm",
+      "name": "Carnelian HF-S (125 cm)",
+      "category": "中間",
+      "maker": "Tokai Medical",
+      "id_inch": 0.027,
+      "od_fr": 2.8,
+      "length_cm": 125,
+      "notes": ""
+    },
+    {
+      "id": "carnelian-hf-s-135cm",
+      "name": "Carnelian HF-S (135 cm)",
+      "category": "中間",
+      "maker": "Tokai Medical",
+      "id_inch": 0.027,
+      "od_fr": 2.8,
+      "length_cm": 135,
+      "notes": ""
+    },
+    {
+      "id": "guidepost-120cm",
+      "name": "Guidepost (120 cm)",
+      "category": "中間",
+      "maker": "Tokai Medical",
+      "id_inch": 0.035,
+      "od_fr": 3.4,
+      "length_cm": 120,
+      "notes": ""
+    },
+    {
+      "id": "guidepost-130cm",
+      "name": "Guidepost (130 cm)",
+      "category": "中間",
+      "maker": "Tokai Medical",
+      "id_inch": 0.035,
+      "od_fr": 3.4,
+      "length_cm": 130,
+      "notes": ""
+    },
+    {
+      "id": "tactics-120cm",
+      "name": "TACTICS (120 cm)",
+      "category": "中間",
+      "maker": "Technocrat",
+      "id_inch": 0.035,
+      "od_fr": 3.4,
+      "length_cm": 120,
+      "notes": ""
+    },
+    {
+      "id": "tactics-125cm",
+      "name": "TACTICS (125 cm)",
+      "category": "中間",
+      "maker": "Technocrat",
+      "id_inch": 0.035,
+      "od_fr": 3.4,
+      "length_cm": 125,
+      "notes": ""
+    },
+    {
+      "id": "tactics-130cm",
+      "name": "TACTICS (130 cm)",
+      "category": "中間",
+      "maker": "Technocrat",
+      "id_inch": 0.035,
+      "od_fr": 3.4,
+      "length_cm": 130,
+      "notes": ""
+    },
+    {
+      "id": "tactics-140cm",
+      "name": "TACTICS (140 cm)",
+      "category": "中間",
+      "maker": "Technocrat",
+      "id_inch": 0.035,
+      "od_fr": 3.4,
+      "length_cm": 140,
+      "notes": ""
+    },
+    {
+      "id": "tactics-150cm",
+      "name": "TACTICS (150 cm)",
+      "category": "中間",
+      "maker": "Technocrat",
+      "id_inch": 0.035,
+      "od_fr": 3.4,
+      "length_cm": 150,
+      "notes": ""
+    },
+    {
+      "id": "tactics-plus-120cm",
+      "name": "TACTICS Plus (120 cm)",
+      "category": "中間",
+      "maker": "Technocrat",
+      "id_inch": 0.04,
+      "od_fr": 3.4,
+      "length_cm": 120,
+      "notes": ""
+    },
+    {
+      "id": "tactics-plus-125cm",
+      "name": "TACTICS Plus (125 cm)",
+      "category": "中間",
+      "maker": "Technocrat",
+      "id_inch": 0.04,
+      "od_fr": 3.4,
+      "length_cm": 125,
+      "notes": ""
+    },
+    {
+      "id": "tactics-plus-130cm",
+      "name": "TACTICS Plus (130 cm)",
+      "category": "中間",
+      "maker": "Technocrat",
+      "id_inch": 0.04,
+      "od_fr": 3.4,
+      "length_cm": 130,
+      "notes": ""
+    },
+    {
+      "id": "tactics-plus-140cm",
+      "name": "TACTICS Plus (140 cm)",
+      "category": "中間",
+      "maker": "Technocrat",
+      "id_inch": 0.04,
+      "od_fr": 3.4,
+      "length_cm": 140,
+      "notes": ""
+    },
+    {
+      "id": "tactics-plus-150cm",
+      "name": "TACTICS Plus (150 cm)",
+      "category": "中間",
+      "maker": "Technocrat",
+      "id_inch": 0.04,
+      "od_fr": 3.4,
+      "length_cm": 150,
+      "notes": ""
+    },
+    {
+      "id": "phenom-plus",
+      "name": "Phenom Plus",
+      "category": "中間",
+      "maker": "Medtronic",
+      "id_inch": 0.0445,
+      "od_fr": 4.7,
+      "length_cm": 120,
+      "notes": ""
+    },
+    {
+      "id": "4-2f-fubuki",
+      "name": "4.2F Fubuki",
+      "category": "中間",
+      "maker": "Asahi Intecc",
+      "id_inch": 0.043,
+      "od_fr": 4.2,
+      "length_cm": 120,
+      "notes": ""
+    },
+    {
+      "id": "navien058-115cm",
+      "name": "Navien058 (115 cm)",
+      "category": "中間",
+      "maker": "Medtronic",
+      "id_inch": 0.058,
+      "od_fr": 5.4,
+      "length_cm": 115,
+      "notes": ""
+    },
+    {
+      "id": "navien058-125cm",
+      "name": "Navien058 (125 cm)",
+      "category": "中間",
+      "maker": "Medtronic",
+      "id_inch": 0.058,
+      "od_fr": 5.4,
+      "length_cm": 125,
+      "notes": ""
+    },
+    {
+      "id": "navien072-115cm",
+      "name": "Navien072 (115 cm)",
+      "category": "中間",
+      "maker": "Medtronic",
+      "id_inch": 0.072,
+      "od_fr": 6.5,
+      "length_cm": 115,
+      "notes": ""
+    },
+    {
+      "id": "navien072-125cm",
+      "name": "Navien072 (125 cm)",
+      "category": "中間",
+      "maker": "Medtronic",
+      "id_inch": 0.072,
+      "od_fr": 6.5,
+      "length_cm": 125,
+      "notes": ""
+    },
+    {
+      "id": "5f-sofia-select-115cm",
+      "name": "5F Sofia Select (115 cm)",
+      "category": "中間",
+      "maker": "Terumo",
+      "id_inch": 0.055,
+      "od_fr": 5.2,
+      "length_cm": 115,
+      "notes": ""
+    },
+    {
+      "id": "5f-sofia-select-125cm",
+      "name": "5F Sofia Select (125 cm)",
+      "category": "中間",
+      "maker": "Terumo",
+      "id_inch": 0.055,
+      "od_fr": 5.2,
+      "length_cm": 125,
+      "notes": ""
+    },
+    {
+      "id": "6f-sofia-select-115cm",
+      "name": "6F Sofia Select (115 cm)",
+      "category": "中間",
+      "maker": "Terumo",
+      "id_inch": 0.07,
+      "od_fr": 6.3,
+      "length_cm": 115,
+      "notes": ""
+    },
+    {
+      "id": "6f-sofia-select-125cm",
+      "name": "6F Sofia Select (125 cm)",
+      "category": "中間",
+      "maker": "Terumo",
+      "id_inch": 0.07,
+      "od_fr": 6.3,
+      "length_cm": 125,
+      "notes": ""
+    },
+    {
+      "id": "sofia-ex",
+      "name": "Sofia EX",
+      "category": "中間",
+      "maker": "Terumo",
+      "id_inch": 0.058,
+      "od_fr": 5.4,
+      "length_cm": 115,
+      "notes": ""
+    },
+    {
+      "id": "acs-catalyst5",
+      "name": "ACS Catalyst5",
+      "category": "中間",
+      "maker": "Stryker",
+      "id_inch": 0.058,
+      "od_fr": 5.6,
+      "length_cm": 115,
+      "notes": ""
+    },
+    {
+      "id": "acs-vecta71-115cm",
+      "name": "ACS Vecta71 (115 cm)",
+      "category": "中間",
+      "maker": "Stryker",
+      "id_inch": 0.071,
+      "od_fr": 6.5,
+      "length_cm": 115,
+      "notes": ""
+    },
+    {
+      "id": "acs-vecta71-125cm",
+      "name": "ACS Vecta71 (125 cm)",
+      "category": "中間",
+      "maker": "Stryker",
+      "id_inch": 0.071,
+      "od_fr": 6.5,
+      "length_cm": 125,
+      "notes": ""
+    },
+    {
+      "id": "acs-vecta74-115cm",
+      "name": "ACS Vecta74 (115 cm)",
+      "category": "中間",
+      "maker": "Stryker",
+      "id_inch": 0.074,
+      "od_fr": 6.6,
+      "length_cm": 115,
+      "notes": ""
+    },
+    {
+      "id": "acs-vecta74-125cm",
+      "name": "ACS Vecta74 (125 cm)",
+      "category": "中間",
+      "maker": "Stryker",
+      "id_inch": 0.074,
+      "od_fr": 6.6,
+      "length_cm": 125,
+      "notes": ""
+    },
+    {
+      "id": "cerulean-dd6-103cm",
+      "name": "Cerulean DD6 (103 cm)",
+      "category": "中間",
+      "maker": "Medikit",
+      "id_inch": 0.072,
+      "od_fr": 6.2,
+      "length_cm": 103,
+      "notes": ""
+    },
+    {
+      "id": "cerulean-dd6-113cm",
+      "name": "Cerulean DD6 (113 cm)",
+      "category": "中間",
+      "maker": "Medikit",
+      "id_inch": 0.072,
+      "od_fr": 6.2,
+      "length_cm": 113,
+      "notes": ""
+    },
+    {
+      "id": "4f-cerulean-105cm",
+      "name": "4F Cerulean (105 cm)",
+      "category": "中間",
+      "maker": "Medikit",
+      "id_inch": 0.04,
+      "od_fr": 4.2,
+      "length_cm": 105,
+      "notes": ""
+    },
+    {
+      "id": "4f-cerulean-113cm",
+      "name": "4F Cerulean (113 cm)",
+      "category": "中間",
+      "maker": "Medikit",
+      "id_inch": 0.04,
+      "od_fr": 4.2,
+      "length_cm": 113,
+      "notes": ""
+    },
+    {
+      "id": "4f-cerulean-118cm",
+      "name": "4F Cerulean (118 cm)",
+      "category": "中間",
+      "maker": "Medikit",
+      "id_inch": 0.04,
+      "od_fr": 4.2,
+      "length_cm": 118,
+      "notes": ""
+    },
+    {
+      "id": "4f-cerulean-123cm",
+      "name": "4F Cerulean (123 cm)",
+      "category": "中間",
+      "maker": "Medikit",
+      "id_inch": 0.04,
+      "od_fr": 4.2,
+      "length_cm": 123,
+      "notes": ""
+    },
+    {
+      "id": "4f-cerulean-133cm",
+      "name": "4F Cerulean (133 cm)",
+      "category": "中間",
+      "maker": "Medikit",
+      "id_inch": 0.04,
+      "od_fr": 4.2,
+      "length_cm": 133,
+      "notes": ""
+    },
+    {
+      "id": "5f-cerulean-113cm",
+      "name": "5F Cerulean (113 cm)",
+      "category": "中間",
+      "maker": "Medikit",
+      "id_inch": 0.05,
+      "od_fr": 5.1,
+      "length_cm": 113,
+      "notes": ""
+    },
+    {
+      "id": "5f-cerulean-118cm",
+      "name": "5F Cerulean (118 cm)",
+      "category": "中間",
+      "maker": "Medikit",
+      "id_inch": 0.05,
+      "od_fr": 5.1,
+      "length_cm": 118,
+      "notes": ""
+    },
+    {
+      "id": "5f-cerulean-123cm",
+      "name": "5F Cerulean (123 cm)",
+      "category": "中間",
+      "maker": "Medikit",
+      "id_inch": 0.05,
+      "od_fr": 5.1,
+      "length_cm": 123,
+      "notes": ""
+    },
+    {
+      "id": "5f-cerulean-133cm",
+      "name": "5F Cerulean (133 cm)",
+      "category": "中間",
+      "maker": "Medikit",
+      "id_inch": 0.05,
+      "od_fr": 5.1,
+      "length_cm": 133,
+      "notes": ""
+    },
+    {
+      "id": "excelsior-sl-10",
+      "name": "Excelsior SL-10",
+      "category": "マイクロ",
+      "maker": "Stryker",
+      "id_inch": 0.0165,
+      "od_fr": 2.4,
+      "length_cm": 150,
+      "notes": ""
+    },
+    {
+      "id": "excelsior-1018",
+      "name": "Excelsior 1018",
+      "category": "マイクロ",
+      "maker": "Stryker",
+      "id_inch": 0.019,
+      "od_fr": 2.4,
+      "length_cm": 150,
+      "notes": ""
+    },
+    {
+      "id": "excelsior-xt-27",
+      "name": "Excelsior XT-27",
+      "category": "マイクロ",
+      "maker": "Stryker",
+      "id_inch": 0.027,
+      "od_fr": 2.9,
+      "length_cm": 150,
+      "notes": ""
+    },
+    {
+      "id": "echelon-10",
+      "name": "Echelon 10",
+      "category": "マイクロ",
+      "maker": "Medtronic",
+      "id_inch": 0.017,
+      "od_fr": 2.1,
+      "length_cm": 147,
+      "notes": ""
+    },
+    {
+      "id": "phenom-17",
+      "name": "Phenom 17",
+      "category": "マイクロ",
+      "maker": "Medtronic",
+      "id_inch": 0.017,
+      "od_fr": 2.2,
+      "length_cm": 150,
+      "notes": ""
+    },
+    {
+      "id": "phenom-21",
+      "name": "Phenom 21",
+      "category": "マイクロ",
+      "maker": "Medtronic",
+      "id_inch": 0.021,
+      "od_fr": 2.6,
+      "length_cm": 160,
+      "notes": ""
+    },
+    {
+      "id": "phenom-27-150cm",
+      "name": "Phenom 27 (150 cm)",
+      "category": "マイクロ",
+      "maker": "Medtronic",
+      "id_inch": 0.027,
+      "od_fr": 3.1,
+      "length_cm": 150,
+      "notes": ""
+    },
+    {
+      "id": "phenom-27-160cm",
+      "name": "Phenom 27 (160 cm)",
+      "category": "マイクロ",
+      "maker": "Medtronic",
+      "id_inch": 0.021,
+      "od_fr": 3.1,
+      "length_cm": 160,
+      "notes": ""
+    },
+    {
+      "id": "marathon",
+      "name": "Marathon",
+      "category": "マイクロ",
+      "maker": "Medtronic",
+      "id_inch": 0.012,
+      "od_fr": 2.7,
+      "length_cm": 165,
+      "notes": ""
+    },
+    {
+      "id": "headway-duo",
+      "name": "Headway Duo",
+      "category": "マイクロ",
+      "maker": "Terumo",
+      "id_inch": 0.0165,
+      "od_fr": 2.1,
+      "length_cm": 156,
+      "notes": ""
+    },
+    {
+      "id": "headway-17",
+      "name": "Headway 17",
+      "category": "マイクロ",
+      "maker": "Terumo",
+      "id_inch": 0.017,
+      "od_fr": 2.4,
+      "length_cm": 150,
+      "notes": ""
+    },
+    {
+      "id": "headway-plus-21",
+      "name": "Headway Plus 21",
+      "category": "マイクロ",
+      "maker": "Terumo",
+      "id_inch": 0.021,
+      "od_fr": 2.5,
+      "length_cm": 156,
+      "notes": ""
+    },
+    {
+      "id": "headway-plus-27",
+      "name": "Headway Plus 27",
+      "category": "マイクロ",
+      "maker": "Terumo",
+      "id_inch": 0.027,
+      "od_fr": 3.1,
+      "length_cm": 156,
+      "notes": ""
+    },
+    {
+      "id": "scepter-c",
+      "name": "Scepter C",
+      "category": "マイクロ",
+      "maker": "Terumo",
+      "id_inch": 0.0165,
+      "od_fr": 2.8,
+      "length_cm": 150,
+      "notes": ""
+    },
+    {
+      "id": "scepter-xc",
+      "name": "Scepter XC",
+      "category": "マイクロ",
+      "maker": "Terumo",
+      "id_inch": 0.0165,
+      "od_fr": 2.8,
+      "length_cm": 150,
+      "notes": ""
+    },
+    {
+      "id": "carnelian-marvel-non-taper",
+      "name": "Carnelian MARVEL Non Taper",
+      "category": "マイクロ",
+      "maker": "Tokai Medical",
+      "id_inch": 0.017,
+      "od_fr": 1.9,
+      "length_cm": 160,
+      "notes": ""
+    },
+    {
+      "id": "prowler-select-plus-150cm",
+      "name": "Prowler Select Plus (150 cm)",
+      "category": "マイクロ",
+      "maker": "Johnson & Johnson",
+      "id_inch": 0.021,
+      "od_fr": 2.8,
+      "length_cm": 150,
+      "notes": ""
+    },
+    {
+      "id": "prowler-select-plus-160cm",
+      "name": "Prowler Select Plus (160 cm)",
+      "category": "マイクロ",
+      "maker": "Johnson & Johnson",
+      "id_inch": 0.021,
+      "od_fr": 2.8,
+      "length_cm": 160,
+      "notes": ""
+    },
+    {
+      "id": "shouryu",
+      "name": "SHOURYU",
+      "category": "マイクロ",
+      "maker": "Kaneka",
+      "id_inch": 0.01,
+      "od_fr": 2.7,
+      "length_cm": 150,
+      "notes": ""
+    },
+    {
+      "id": "transform-c",
+      "name": "Transform C",
+      "category": "マイクロ",
+      "maker": "Stryker",
+      "id_inch": 0.014,
+      "od_fr": 2.8,
+      "length_cm": 150,
+      "notes": ""
+    },
+    {
+      "id": "transform-sc",
+      "name": "Transform SC",
+      "category": "マイクロ",
+      "maker": "Stryker",
+      "id_inch": 0.014,
+      "od_fr": 2.8,
+      "length_cm": 150,
+      "notes": ""
+    },
+    {
+      "id": "axcelguide-radix-5-5-88cm",
+      "name": "Axcelguide Radix 5.5 (88 cm)",
+      "category": "ガイディング",
+      "maker": "Medikit",
+      "id_inch": 0.087,
+      "od_fr": 7.6,
+      "length_cm": 88,
+      "notes": ""
+    },
+    {
+      "id": "axcelguide-radix-5-5-93cm",
+      "name": "Axcelguide Radix 5.5 (93 cm)",
+      "category": "ガイディング",
+      "maker": "Medikit",
+      "id_inch": 0.087,
+      "od_fr": 7.6,
+      "length_cm": 93,
+      "notes": ""
+    },
+    {
+      "id": "axcelguide-radix-5-5-98cm",
+      "name": "Axcelguide Radix 5.5 (98 cm)",
+      "category": "ガイディング",
+      "maker": "Medikit",
+      "id_inch": 0.087,
+      "od_fr": 7.6,
+      "length_cm": 98,
+      "notes": ""
+    },
+    {
+      "id": "neuro-compass-80cm",
+      "name": "Neuro Compass (80 cm)",
+      "category": "ガイディング",
+      "maker": "Technocrat",
+      "id_inch": 0.095,
+      "od_fr": 8.2,
+      "length_cm": 80,
+      "notes": ""
+    },
+    {
+      "id": "neuro-compass-90cm",
+      "name": "Neuro Compass (90 cm)",
+      "category": "ガイディング",
+      "maker": "Technocrat",
+      "id_inch": 0.095,
+      "od_fr": 8.2,
+      "length_cm": 90,
+      "notes": ""
+    },
+    {
+      "id": "defrictor-nano",
+      "name": "Defrictor Nano",
+      "category": "マイクロ",
+      "maker": "Medicos Hirata",
+      "id_inch": 0.011,
+      "od_fr": 2.2,
+      "length_cm": 165,
+      "notes": ""
+    },
+    {
+      "id": "defrictor-zero-120cm",
+      "name": "Defrictor Zero (120 cm)",
+      "category": "中間",
+      "maker": "Medicos Hirata",
+      "id_inch": 0.035,
+      "od_fr": 3.4,
+      "length_cm": 120,
+      "notes": ""
+    },
+    {
+      "id": "defrictor-zero-130cm",
+      "name": "Defrictor Zero (130 cm)",
+      "category": "中間",
+      "maker": "Medicos Hirata",
+      "id_inch": 0.035,
+      "od_fr": 3.4,
+      "length_cm": 130,
+      "notes": ""
+    },
+    {
+      "id": "defrictor-zero-165cm",
+      "name": "Defrictor Zero (165 cm)",
+      "category": "マイクロ",
+      "maker": "Medicos Hirata",
+      "id_inch": 0.035,
+      "od_fr": 3.4,
+      "length_cm": 165,
+      "notes": ""
+    },
+    {
+      "id": "defrictor-bull",
+      "name": "Defrictor Bull",
+      "category": "マイクロ",
+      "maker": "Medicos Hirata",
+      "id_inch": 0.013,
+      "od_fr": 2.4,
+      "length_cm": 165,
+      "notes": ""
+    },
+    {
+      "id": "via21",
+      "name": "VIA21",
+      "category": "マイクロ",
+      "maker": "Terumo",
+      "id_inch": 0.021,
+      "od_fr": 2.7,
+      "length_cm": 154,
+      "notes": ""
+    },
+    {
+      "id": "via27",
+      "name": "VIA27",
+      "category": "マイクロ",
+      "maker": "Terumo",
+      "id_inch": 0.027,
+      "od_fr": 3.2,
+      "length_cm": 154,
+      "notes": ""
+    },
+    {
+      "id": "via33",
+      "name": "VIA33",
+      "category": "マイクロ",
+      "maker": "Terumo",
+      "id_inch": 0.033,
+      "od_fr": 3.8,
+      "length_cm": 154,
+      "notes": ""
+    },
+    {
+      "id": "6f-optimo-100cm",
+      "name": "6F Optimo (100cm)",
+      "category": "ガイディング",
+      "maker": "Tokai Medical",
+      "id_inch": 0.058,
+      "od_fr": 6,
+      "length_cm": 100,
+      "notes": ""
+    },
+    {
+      "id": "7f-optimo-95cm",
+      "name": "7F Optimo (95cm)",
+      "category": "ガイディング",
+      "maker": "Tokai Medical",
+      "id_inch": 0.071,
+      "od_fr": 7,
+      "length_cm": 95,
+      "notes": ""
+    },
+    {
+      "id": "8f-optimo-90cm",
+      "name": "8F Optimo (90cm)",
+      "category": "ガイディング",
+      "maker": "Tokai Medical",
+      "id_inch": 0.087,
+      "od_fr": 8,
+      "length_cm": 90,
+      "notes": ""
+    },
+    {
+      "id": "8f-optimo-95cm",
+      "name": "8F Optimo (95cm)",
+      "category": "ガイディング",
+      "maker": "Tokai Medical",
+      "id_inch": 0.087,
+      "od_fr": 8,
+      "length_cm": 95,
+      "notes": ""
+    },
+    {
+      "id": "9f-optimo-90cm",
+      "name": "9F Optimo (90cm)",
+      "category": "ガイディング",
+      "maker": "Tokai Medical",
+      "id_inch": 0.093,
+      "od_fr": 9,
+      "length_cm": 90,
+      "notes": ""
+    },
+    {
+      "id": "9f-optimo-95cm",
+      "name": "9F Optimo (95cm)",
+      "category": "ガイディング",
+      "maker": "Tokai Medical",
+      "id_inch": 0.093,
+      "od_fr": 9,
+      "length_cm": 95,
+      "notes": ""
+    }
+  ]
+}

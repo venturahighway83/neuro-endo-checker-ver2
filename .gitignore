@@ -1,0 +1,56 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build outputs
+dist/
+.next/
+out/
+.expo/
+*.d.ts
+!packages/config/tsconfig/*.d.ts
+
+# Turbo
+.turbo/
+
+# Testing
+coverage/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Expo
+expo-env.d.ts
+android/
+ios/
+
+# Sensitive / copyright files
+*.pdf
+*.docx
+*.csv
+*.txt
+
+# Local Claude settings
+.claude/
+
+# TypeScript build info
+*.tsbuildinfo

@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "Neuro-Endo Checker",
+    "slug": "neuro-endo-checker",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "scheme": "neuroendo",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.neuroendo.checker"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.neuroendo.checker"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static"
+    },
+    "plugins": [
+      "expo-router"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

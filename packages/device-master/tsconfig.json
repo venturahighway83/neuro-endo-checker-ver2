@@ -1,0 +1,10 @@
+{
+  "extends": "@neuro-endo/config/tsconfig/base.json",
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "outDir": "./dist",
+    "rootDir": "."
+  },
+  "include": ["src/**/*", "scripts/**/*"],
+  "exclude": ["node_modules", "dist", "raw"]
+}

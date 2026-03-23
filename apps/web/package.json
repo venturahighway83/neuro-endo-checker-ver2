@@ -1,0 +1,35 @@
+{
+  "name": "@neuro-endo/web",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@neuro-endo/core": "workspace:*",
+    "@neuro-endo/device-master": "workspace:*",
+    "@neuro-endo/ui": "workspace:*",
+    "@react-three/drei": "^9.122.0",
+    "@react-three/fiber": "^8.18.0",
+    "next": "^15.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "three": "^0.183.2"
+  },
+  "devDependencies": {
+    "@neuro-endo/config": "workspace:*",
+    "@tailwindcss/postcss": "^4.2.2",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "@types/three": "^0.183.1",
+    "autoprefixer": "^10.4.27",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^4.2.2",
+    "typescript": "^5.5.0"
+  }
+}
