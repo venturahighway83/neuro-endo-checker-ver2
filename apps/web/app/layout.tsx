@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   description: SITE_DESCRIPTION,
   alternates: { canonical: '/' },
   robots: { index: true, follow: true },
+  verification: { google: 'mg2__pLzzfT-eXOySlCLsDuAG6jPu96nbE_LjeVtk48' },
   openGraph: {
     type: 'website',
     locale: 'ja_JP',
