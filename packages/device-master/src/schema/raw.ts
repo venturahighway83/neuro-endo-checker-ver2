@@ -57,9 +57,17 @@ export const RawDeviceRowSchema = z.object({
     .min(1, 'od_fr は空にできません'),
 
   notes: z.string().default(''),
+  proximal_id_inch: z.string().trim().default(''),
+  proximal_od_inch: z.string().trim().default(''),
+  distal_id_inch: z.string().trim().default(''),
+  distal_od_inch: z.string().trim().default(''),
 });
 
 export type RawDeviceRow = z.infer<typeof RawDeviceRowSchema>;
+
+export const REGIONAL_DIAMETER_COLUMNS = [
+  'proximal_id_inch', 'proximal_od_inch', 'distal_id_inch', 'distal_od_inch',
+] as const;
 
 /** Columns that are part of the raw schema but not mapped to the normalized output. */
 export const UNRESOLVED_COLUMNS = ['id_mm', 'od_mm'] as const;

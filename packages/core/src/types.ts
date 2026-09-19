@@ -23,6 +23,11 @@ export interface Device {
   id_inch: number;
   /** Outer diameter in French (Fr). Source: od_fr column in upstream CSV. */
   od_fr: number;
+  /** Proximal/distal measurements in inches. null or omitted means unavailable. Explicit and user-convention assignments are tracked in the evidence ledger. */
+  proximal_id_inch?: number | null;
+  proximal_od_inch?: number | null;
+  distal_id_inch?: number | null;
+  distal_od_inch?: number | null;
   /** Length in cm */
   length_cm: number;
   /** Free-text notes from upstream CSV */

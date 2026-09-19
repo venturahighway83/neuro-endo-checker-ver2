@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react';
 import type { Device, CompatibilityResult, DualCompatibilityResult } from '@neuro-endo/core';
 import { checkCompatibility, checkDualCompatibility } from '@neuro-endo/core';
 import { DevicePanel } from './DevicePanel';
+import { DeviceConnections } from './DeviceConnections';
 import { CatheterDiagram } from './CatheterDiagram';
 import { STATUS_LABEL, STATUS_BG, STATUS_TEXT, STATUS_BORDER } from './statusUtils';
 
@@ -55,15 +56,16 @@ function DualResultCard({ label, result }: { label: string; result: DualCompatib
   );
 }
 
-// ── Micro device dropdowns (no connectors) ─────────────────────────────────────
+// ── Micro device dropdowns ─────────────────────────────────────
 
 function MicroColumn({
-  outerLabel, microDevices,
+  outerLabel, parentId, microDevices,
   micro1, setMicro1,
   micro2, setMicro2,
   showMicro2, setShowMicro2,
 }: {
   outerLabel: string;
+  parentId: string;
   microDevices: Device[];
   micro1: Device | null; setMicro1: (d: Device | null) => void;
   micro2: Device | null; setMicro2: (d: Device | null) => void;
@@ -74,6 +76,7 @@ function MicroColumn({
   return (
     <div className="flex flex-col gap-2">
       <DevicePanel
+        nodeId={`${parentId}-m1`} parentId={parentId}
         title={`マイクロ（${outerLabel}内）①`}
         devices={microDevices}
         selected={micro1}
@@ -83,6 +86,7 @@ function MicroColumn({
         <div className="flex items-start gap-1">
           <div className="flex-1">
             <DevicePanel
+              nodeId={`${parentId}-m2`} parentId={parentId}
               title={`マイクロ（${outerLabel}内）②`}
               devices={microDevices}
               selected={micro2}
@@ -194,18 +198,21 @@ export function CheckerApp({ guidingDevices, intermediateDevices, microDevices }
 
   // ── Render ─────────────────────────────────────────────────────────────────
   return (
-    <div className="flex flex-col h-full">
+    <div className="relative isolate flex flex-col h-full bg-gray-900">
 
       {/* ── Device selection + results ── */}
-      <div className="relative z-10 flex gap-4 p-4 border-b border-gray-700 bg-gray-800">
+      <div className="relative z-10 shrink-0 flex flex-wrap gap-x-4 gap-y-3 px-4 py-3 border-b border-gray-700/60 bg-gray-800/60">
 
         {/* Left: device dropdowns */}
-        <div className="flex flex-col gap-3 flex-1 min-w-0">
+        <div className="flex-1 min-w-0 basis-[52rem] overflow-x-auto pb-2">
 
+          <DeviceConnections>
+          <div className="flex flex-col gap-3">
           {/* Row 1: guiding + inner① + micro① — all in the same row */}
-          <div className="flex gap-3 items-start flex-wrap">
+          <div className="flex gap-12 items-start">
             <div className="w-64 shrink-0">
               <DevicePanel
+                nodeId="guiding"
                 title="ガイディング"
                 devices={guidingDevices}
                 selected={guiding}
@@ -214,6 +221,7 @@ export function CheckerApp({ guidingDevices, intermediateDevices, microDevices }
             </div>
             <div className="w-64 shrink-0">
               <DevicePanel
+                nodeId="inner1" parentId="guiding"
                 title="内腔カテーテル①"
                 devices={innerDevices}
                 selected={inner1}
@@ -223,7 +231,7 @@ export function CheckerApp({ guidingDevices, intermediateDevices, microDevices }
             {inner1IsIntermediate && (
               <div className="w-64 shrink-0">
                 <MicroColumn
-                  outerLabel="内腔①"
+                  outerLabel="内腔①" parentId="inner1"
                   microDevices={microDevices}
                   micro1={micro_i1_1} setMicro1={setMicro_i1_1}
                   micro2={micro_i1_2} setMicro2={setMicro_i1_2}
@@ -235,12 +243,13 @@ export function CheckerApp({ guidingDevices, intermediateDevices, microDevices }
 
           {/* Row 2: guiding spacer + inner② + micro②, or + add button */}
           {showInner2 ? (
-            <div className="flex gap-3 items-start flex-wrap">
+            <div className="flex gap-12 items-start">
               {/* spacer to align inner② under inner① */}
               <div className="w-64 shrink-0" aria-hidden />
-              <div className="flex items-start gap-1 shrink-0">
+              <div className="relative w-64 shrink-0">
                 <div className="w-64">
                   <DevicePanel
+                    nodeId="inner2" parentId="guiding"
                     title="内腔カテーテル②"
                     devices={innerDevices}
                     selected={inner2}
@@ -249,14 +258,14 @@ export function CheckerApp({ guidingDevices, intermediateDevices, microDevices }
                 </div>
                 <button
                   onClick={handleRemoveInner2}
-                  className="mt-5 text-sm bg-gray-700 border border-gray-600 rounded px-1 py-0.5 text-gray-400 hover:text-red-400 hover:border-red-600 shrink-0"
+                  className="absolute -right-6 top-5 text-sm bg-gray-700 border border-gray-600 rounded px-1 py-0.5 text-gray-400 hover:text-red-400 hover:border-red-600 shrink-0"
                   title="2本目を削除"
                 >✕</button>
               </div>
               {inner2IsIntermediate && (
                 <div className="w-64 shrink-0">
                   <MicroColumn
-                    outerLabel="内腔②"
+                    outerLabel="内腔②" parentId="inner2"
                     microDevices={microDevices}
                     micro1={micro_i2_1} setMicro1={setMicro_i2_1}
                     micro2={micro_i2_2} setMicro2={setMicro_i2_2}
@@ -266,7 +275,7 @@ export function CheckerApp({ guidingDevices, intermediateDevices, microDevices }
               )}
             </div>
           ) : (
-            <div className="flex gap-3">
+            <div className="flex gap-12">
               {/* spacer to align add button under inner① */}
               <div className="w-64 shrink-0" aria-hidden />
               <button
@@ -277,10 +286,12 @@ export function CheckerApp({ guidingDevices, intermediateDevices, microDevices }
               </button>
             </div>
           )}
+          </div>
+          </DeviceConnections>
         </div>
 
         {/* Right: compatibility results */}
-        <div className="w-[27rem] shrink-0 flex flex-col gap-1.5">
+        <div className="w-[27rem] max-w-full shrink-0 flex flex-col gap-1.5">
           <div className="text-sm font-semibold text-gray-400 mb-0.5">適合性チェック</div>
           {!hasAnyResult && (
             <div className="text-sm text-gray-500 text-center py-6">
@@ -318,8 +329,9 @@ export function CheckerApp({ guidingDevices, intermediateDevices, microDevices }
       </div>
 
       {/* ── Catheter diagram ── */}
-      <div className="flex-1 bg-gray-900 overflow-hidden relative">
+      <div className="relative z-0 -mt-24 min-h-0 flex-1">
         <CatheterDiagram
+          overlayTop={96}
           guiding={guiding}
           inner1={inner1}
           inner2={showInner2 ? inner2 : null}

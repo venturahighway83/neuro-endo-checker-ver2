@@ -1,14 +1,53 @@
 # Master Device Schema
 
 **File:** `packages/device-master/master.json`
-**Schema version:** 0.1.0
+**Schema version:** 0.2.0
+
+## 近位・遠位の寸法（0.2.0）
+
+| CSV / JSON フィールド | 意味 | 単位 |
+|---|---|---|
+| `proximal_id_inch` | 近位内径 | inch |
+| `proximal_od_inch` | 近位外径 | inch |
+| `distal_id_inch` | 遠位内径 | inch |
+| `distal_od_inch` | 遠位外径 | inch |
+
+CSV は空欄・列省略を許容し、JSON は必ず4項目を出力して未登録を `null` とする。
+入力値は有限の正の数値のみ（単位文字列なし）。一部の項目だけ登録することも可能。
+既存の `id_inch` / `od_fr` は従来値として保持する。部位未区別の一般外径は近位外径、一般内径は遠位内径へ登録する（2026-09-18ユーザー指定）。明示部位の値を優先し、型式不一致・寸法種別不明の値は保留する。
+割当は出典確認とともに編集CSVに記録し、汎用の正規化処理では無条件補完しない。各補完値は出典記録の `assignment: "user_convention"` で識別する。
+既存コードとの互換性のため TypeScript の Device 型では4項目の省略も許容する。
+
+現在の145件を編集するCSVは `packages/device-master/raw/devices.csv`。
+既存 master.json から作成した編集用コピーであり、新たにシートから取得したものではない。
+確認済み値を入力した後、以下のコマンドで再生成する。
+
+```bash
+pnpm --filter @neuro-endo/device-master validate --input raw/devices.csv
+pnpm --filter @neuro-endo/device-master normalize --input raw/devices.csv
+```
+
+Google Sheets を使う場合も同じ4列を追加してエクスポートする。シート自体は今回変更していない。
+部位別データ登録後に旧形式CSVを取り込むと4項目は `null` に戻るため、最新のCSVを使用すること。
+`source_url` は従来のシートURLを保持し、各部位の寸法の個別出典を保証するものではない。
+3D表示は内径・外径それぞれの両端が揃う場合に近位から遠位へ線形補間する。片端が欠ける径は従来のid_inch / od_frによる一定径を使用する。適合性判定は引き続き従来の寸法を使用する。
+テーパーの長さや形状は本スキーマでは定義しない。
+
+### 公開資料による補完（2026-09-18）
+
+部位別4項目には、ユーザーの依頼に基づきメーカー資料・規制当局公開資料・原著論文から確認した値を登録した。
+各値の出典・原単位・inch換算・製品対応・保留理由は
+`packages/device-master/evidence/regional-diameters.json` に保存する。
+集計と全製品の調査状況は [調査結果](../research/regional-diameters-2026-09-18.md) を参照。
+論文でのみ確認した値や元一覧の一般径をメーカー確認済みと扱わない。部位不明の一般径は上記ルールで割り当て、型式不一致やワイヤー径との区別がつかない値は未登録のままにする。
+編集時はCSV・出典記録・master.jsonを一致させ、`regional-evidence.test.ts` と既存のCSV再生成テストを実行する。
 
 ---
 
 ## Data Provenance
 
 ```
-Google Sheets (upstream — canonical source of truth)
+Google Sheets (legacy fields の上流データ。部位別4項目の補完出典は上記記録)
     │
     │  手動エクスポート (CSV, UTF-8)
     ▼
@@ -60,7 +99,7 @@ packages/device-master/master.json   ← アプリが読む唯一のファイル
 
 ```jsonc
 {
-  "schema_version": "0.1.0",       // このスキーマのバージョン（デバイスデータのバージョンではない）
+  "schema_version": "0.2.0",       // このスキーマのバージョン（デバイスデータのバージョンではない）
   "generated_at": "<ISO 8601>",    // normalize 実行時刻 (UTC)
   "source_url": "<Google Sheets URL>",
   "devices": [/* Device[] */]
@@ -133,12 +172,12 @@ packages/device-master/master.json   ← アプリが読む唯一のファイル
 
 ---
 
-## 過去のデータ不整合（解決済み）
+## 既存データの不整合
 
 | 行 | デバイス名 | 問題 | 状態 |
 |---|---|---|---|
 | 46 | `6F Guider Softip (90 cm)` | name="90 cm" だが length_cm=100 | ✅ 修正済み |
-| 107 | `Phenom 27 (160 cm)` | name="27" だが id_inch=0.021 | ✅ 修正済み |
+| 107 | `Phenom 27 (160 cm)` | name="27" だが id_inch=0.021。2026-09-18の実データでも残存 | 要確認。公式160 cm品の単一IDは0.027。今回旧値は未変更 |
 
 ---
 

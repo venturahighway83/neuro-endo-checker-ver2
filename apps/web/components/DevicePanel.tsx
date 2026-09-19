@@ -8,9 +8,17 @@ interface Props {
   devices: Device[];
   selected: Device | null;
   onSelect: (device: Device | null) => void;
+  nodeId?: string;
+  parentId?: string;
 }
 
-export function DevicePanel({ title, devices, selected, onSelect }: Props) {
+function formatDiameter(value: number | null | undefined): string {
+  return typeof value === 'number' && Number.isFinite(value) && value > 0
+    ? value.toPrecision(3)
+    : '—';
+}
+
+export function DevicePanel({ title, devices, selected, onSelect, nodeId, parentId }: Props) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const ref = useRef<HTMLDivElement>(null);
@@ -48,6 +56,9 @@ export function DevicePanel({ title, devices, selected, onSelect }: Props) {
       {/* Trigger */}
       <button
         type="button"
+        data-device-node={nodeId}
+        data-device-parent={parentId}
+        data-device-selected={!!selected}
         onClick={() => setOpen((v) => !v)}
         className={`w-full flex items-center gap-1 px-2 py-1.5 text-left rounded border text-sm transition-colors ${
           open
@@ -65,8 +76,32 @@ export function DevicePanel({ title, devices, selected, onSelect }: Props) {
 
       {/* Selected specs */}
       {selected && !open && (
-        <div className="mt-0.5 text-xs text-gray-500 font-mono leading-tight">
-          ID&nbsp;{selected.id_inch}"&nbsp;({(selected.id_inch * 76.2).toFixed(1)}Fr) · OD&nbsp;{selected.od_fr}Fr · {selected.length_cm}cm
+        <div className="mt-1 text-xs text-gray-400 leading-4">
+          <table className="w-full table-fixed border-collapse border border-gray-600 text-left [&_th]:border [&_th]:border-gray-600 [&_th]:px-1.5 [&_th]:py-0.5 [&_td]:border [&_td]:border-gray-600 [&_td]:px-1.5 [&_td]:py-0.5" aria-label={`${selected.name}の径（inch）`}>
+            <thead>
+              <tr className="bg-gray-700/50 text-gray-300">
+                <th className="w-12 font-normal" scope="col">部位</th>
+                <th className="font-normal" scope="col">内径 (inch)</th>
+                <th className="font-normal" scope="col">外径 (inch)</th>
+              </tr>
+            </thead>
+            <tbody className="font-mono tabular-nums">
+              <tr>
+                <th className="font-normal" scope="row">近位</th>
+                <td>{formatDiameter(selected.proximal_id_inch)}</td>
+                <td>{formatDiameter(selected.proximal_od_inch)}</td>
+              </tr>
+              <tr>
+                <th className="font-normal" scope="row">遠位</th>
+                <td>{formatDiameter(selected.distal_id_inch)}</td>
+                <td>{formatDiameter(selected.distal_od_inch)}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div className="flex flex-wrap justify-between gap-x-2">
+            <span>長さ {selected.length_cm} cm</span>
+            <span className="text-gray-500">—：未登録</span>
+          </div>
         </div>
       )}
 

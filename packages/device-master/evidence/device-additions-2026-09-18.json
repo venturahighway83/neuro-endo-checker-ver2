@@ -1,0 +1,54 @@
+{
+  "researched_on": "2026-09-18",
+  "sources": {
+    "via17": "https://medical.terumo.co.jp/sites/default/files/assets/equipment/me180/pdf/26T043.pdf",
+    "saya86": "https://www.accessdata.fda.gov/cdrh_docs/pdf25/K254178.pdf"
+  },
+  "records": [
+    {
+      "device_ids": [
+        "via17"
+      ],
+      "source_id": "via17",
+      "length_cm": [
+        154
+      ],
+      "id_inch": 0.0175,
+      "proximal_od_mm": 0.81,
+      "distal_od_mm": 0.74,
+      "nominal_proximal_od_fr": 2.4,
+      "stored_od_fr": 2.43,
+      "conversion": "0.81 mm × 3 = 2.43 Fr",
+      "codes": [
+        "MV-VIA1701",
+        "MV-VIA1745",
+        "MV-VIA1790"
+      ]
+    },
+    {
+      "device_ids": [
+        "saya-86-80cm",
+        "saya-86-90cm",
+        "saya-86-95cm",
+        "saya-86-100cm",
+        "saya-86-105cm",
+        "saya-86-110cm"
+      ],
+      "source_id": "saya86",
+      "length_cm": [
+        80,
+        90,
+        95,
+        100,
+        105,
+        110
+      ],
+      "id_inch": 0.086,
+      "od_inch": 0.097,
+      "nominal_od_fr": 7,
+      "stored_od_fr": 7.3914,
+      "conversion": "0.097 inch × 76.2 = 7.3914 Fr",
+      "note": "FDA公開のGuide Catheter仕様。公称7Frを3で割ると資料の外径より小さくなるため、inch外径から換算。部位別仕様・国内各型番の販売状況は未確認。"
+    }
+  ]
+}

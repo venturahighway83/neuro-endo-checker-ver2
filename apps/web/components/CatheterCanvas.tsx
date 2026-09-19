@@ -2,18 +2,18 @@
 
 import { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
+import { tubeSurface, type TubeRadii } from './tubeGeometry';
 
-export interface TubeSpec {
+export interface TubeSpec extends TubeRadii {
   id:     string;
   label:  string;
-  outerR: number;
-  innerR: number;
   length: number;
   y:      number;
   c: { fill: string; dark: string; lumen: string };
 }
 
 interface Props {
+  overlayTop?: number;
   tubes:    TubeSpec[];
   totalLen: number;
   maxR3:    number;
@@ -69,7 +69,7 @@ function attachOrbit(
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
-export function CatheterCanvas({ tubes, totalLen, maxR3, camPos }: Props) {
+export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, overlayTop = 0 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [error, setError]       = useState<string | null>(null);
   const [ready, setReady]       = useState(false);
@@ -114,31 +114,25 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos }: Props) {
       scene.add(dl2);
 
       // Tube meshes
-      for (const { outerR, innerR, length, y, c } of tubes) {
-        const ir = Math.max(0.001, innerR);
+      for (const { proximalOuterR, distalOuterR, proximalInnerR, distalInnerR, length, y, c } of tubes) {
         const group = new THREE.Group();
         group.position.y = y;
 
-        const outerG = new THREE.CylinderGeometry(outerR, outerR, length, 48, 1, true);
-        outerG.rotateX(Math.PI / 2);
+        const outerG = tubeSurface(proximalOuterR, distalOuterR, length);
         const outerM = new THREE.Mesh(outerG,
           new THREE.MeshStandardMaterial({ color: c.fill, roughness: 0.32, metalness: 0.1 }));
-        outerM.position.z = length / 2;
         group.add(outerM);
 
-        const innerG = new THREE.CylinderGeometry(ir, ir, length, 48, 1, true);
-        innerG.rotateX(Math.PI / 2);
+        const innerG = tubeSurface(proximalInnerR, distalInnerR, length);
         const innerM = new THREE.Mesh(innerG,
           new THREE.MeshStandardMaterial({ color: c.lumen, roughness: 0.65, side: THREE.BackSide }));
-        innerM.position.z = length / 2;
         group.add(innerM);
 
-        const capG   = new THREE.RingGeometry(ir, outerR, 48);
         const capMat = new THREE.MeshStandardMaterial({ color: c.dark, roughness: 0.45, side: THREE.DoubleSide });
-        const lCap   = new THREE.Mesh(capG, capMat);
+        const lCap   = new THREE.Mesh(new THREE.RingGeometry(proximalInnerR, proximalOuterR, 48), capMat);
         lCap.position.z = 0;
         group.add(lCap);
-        const rCap   = new THREE.Mesh(capG, capMat);
+        const rCap   = new THREE.Mesh(new THREE.RingGeometry(distalInnerR, distalOuterR, 48), capMat);
         rCap.position.z = length;
         group.add(rCap);
 
@@ -206,7 +200,7 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos }: Props) {
       {/* Legend */}
       {ready && (
         <div style={{
-          position: 'absolute', top: 12, left: 12,
+          position: 'absolute', top: overlayTop + 12, left: 12,
           display: 'flex', flexDirection: 'column', gap: 6,
           pointerEvents: 'none',
         }}>
@@ -234,6 +228,8 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos }: Props) {
           pointerEvents: 'none',
         }}>
           ドラッグ: 回転 &nbsp;|&nbsp; スクロール: ズーム
+          <br />
+          近位（根元）→遠位（先端）。両端径を直線的に補間した模式図です。
         </div>
       )}
 

@@ -112,7 +112,8 @@ See `docs/specs/compatibility-engine.md` for full details.
 ## Key Design Constraints
 
 - **Do not infer or assume medical rules.** If a clinical decision is needed, add a TODO and document it in `docs/specs/compatibility-engine.md`.
-- **Do not populate device specs from PDFs or secondary sources.** The Google Sheets is the only upstream source of truth.
+- **Device provenance:** Google Sheets remains the upstream source for legacy fields. The user authorized public-source research and, on 2026-09-18, specified that generic outer diameter maps to proximal outer diameter and generic inner diameter maps to distal inner diameter. Preserve explicit endpoint values and legacy fields. Record convention-based assignments as `assignment: user_convention`, separately from the source of the numerical value, in `packages/device-master/evidence/regional-diameters.json`. Existing generic dataset values may be used with source `legacySheet`; this is not manufacturer re-verification. Keep model mismatches and uncertain wire/lumen dimensions unresolved. See `docs/research/regional-diameters-2026-09-18.md`.
+- **Local book supplement:** The user also authorized reading `超入門脳血管内治療2.pdf`. Matching historical models may supplement missing regional diameters when the book explicitly labels endpoints. Record the source as `local_book`, including edition, publication date, printed/PDF page numbers, and file hash. Do not treat book values as current manufacturer confirmation. See `docs/research/local-book-diameters-2026-09-18.md`.
 - **master.json is committed.** Regenerate it only via the normalize script after human review of the raw CSV.
 - **Compatibility results must be deterministic and explainable** — every result includes numeric values and a human-readable reason string.
 - The `packages/ui` boundary: shared hooks and design tokens only. Platform-specific rendering (div/span vs View/Text) stays in the app layer.

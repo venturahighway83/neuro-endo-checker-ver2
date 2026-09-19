@@ -33,6 +33,10 @@ export const NormalizedDeviceSchema = z.object({
   od_fr: z.number().positive('od_fr は正の数値でなければなりません'),
   length_cm: z.number().positive('length_cm は正の数値でなければなりません'),
   notes: z.string(),
+  proximal_id_inch: z.number().finite().positive().nullable(),
+  proximal_od_inch: z.number().finite().positive().nullable(),
+  distal_id_inch: z.number().finite().positive().nullable(),
+  distal_od_inch: z.number().finite().positive().nullable(),
 });
 
 export type NormalizedDevice = z.infer<typeof NormalizedDeviceSchema>;

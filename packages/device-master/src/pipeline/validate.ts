@@ -1,4 +1,4 @@
-import { RawDeviceRowSchema, UNRESOLVED_COLUMNS } from '../schema/raw';
+import { RawDeviceRowSchema, UNRESOLVED_COLUMNS, REGIONAL_DIAMETER_COLUMNS } from '../schema/raw';
 import { VALID_CATEGORIES } from '../schema/normalized';
 
 /** English aliases accepted from Google Sheets CSV exports. */
@@ -131,8 +131,9 @@ export function validateRawRows(rows: unknown[]): ValidationReport {
     }
 
     // --- Step 3: Numeric fields ---
-    const numericFields = ['length_cm', 'id_inch', 'od_fr'] as const;
+    const numericFields = ['length_cm', 'id_inch', 'od_fr', ...REGIONAL_DIAMETER_COLUMNS] as const;
     for (const field of numericFields) {
+      if (raw[field] === '') continue; // Optional measurements: blank means unknown.
       const result = parsePositiveNumber(raw[field]);
       if ('error' in result) {
         const code = result.error;

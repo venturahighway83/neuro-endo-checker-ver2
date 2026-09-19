@@ -19,7 +19,7 @@ function normalizeCategory(raw: string): string {
   return CATEGORY_EN_TO_JA[raw.trim()] ?? raw.trim();
 }
 
-export const SCHEMA_VERSION = '0.1.0';
+export const SCHEMA_VERSION = '0.2.0';
 
 /**
  * Converts validated raw rows into a `DeviceMaster` object.
@@ -69,6 +69,10 @@ export function normalizeValidRows(
       od_fr: parseFloat(raw.od_fr),
       length_cm: parseFloat(raw.length_cm),
       notes: raw.notes,
+      proximal_id_inch: raw.proximal_id_inch === '' ? null : Number(raw.proximal_id_inch),
+      proximal_od_inch: raw.proximal_od_inch === '' ? null : Number(raw.proximal_od_inch),
+      distal_id_inch: raw.distal_id_inch === '' ? null : Number(raw.distal_id_inch),
+      distal_od_inch: raw.distal_od_inch === '' ? null : Number(raw.distal_od_inch),
     };
 
     // Post-normalization validation — catches bugs in the transform above.

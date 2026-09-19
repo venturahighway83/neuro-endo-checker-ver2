@@ -47,6 +47,7 @@ ios/
 *.pdf
 *.docx
 *.csv
+!packages/device-master/raw/devices.csv
 *.txt
 
 # Local Claude settings
