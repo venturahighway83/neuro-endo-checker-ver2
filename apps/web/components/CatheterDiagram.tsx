@@ -82,10 +82,11 @@ export function CatheterDiagram({
   const maxOD  = Math.max(...allDevices.map((d) => maxOuterRadius(deviceTubeRadii(d)) * 2));
   const maxLen = Math.max(...allDevices.map((d) => d.length_cm));
 
-  const LS = 22 / maxLen;
-  // Keep the reference connector recognisable at its 5 cm axial size rather
-  // than flattening it against the formerly very exaggerated tube diameters.
-  const RS = (Y_CONNECTOR_LENGTH_CM * LS) / (2.3 * maxOD);
+  // Schematic display: shorten the axis and emphasise diameters for readability.
+  // All catheter/connector lengths still share one scale; diameter ratios also
+  // remain consistent across the selected devices.
+  const LS = 16 / maxLen;
+  const RS = (Y_CONNECTOR_LENGTH_CM * (22 / maxLen) * 4) / (2.3 * maxOD);
 
   const radii = (device: Device) => deviceTubeRadii(device, RS);
   const r3 = (device: Device) => maxOuterRadius(radii(device));
