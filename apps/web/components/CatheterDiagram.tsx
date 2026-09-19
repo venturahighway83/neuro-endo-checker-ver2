@@ -116,43 +116,43 @@ export function CatheterDiagram({
   const tubes: TubeSpec[] = [];
 
   if (guiding) tubes.push({
-    id: 'g', label: `G: ${guiding.name}`,
+    id: 'g', label: guiding.name,
     ...radii(guiding),
     length: l3(guiding.length_cm), y: 0,
     c: col('guiding'),
   });
   if (inner1) tubes.push({
-    id: 'i1', label: `内①: ${inner1.name}`,
+    id: 'i1', label: inner1.name,
     ...radii(inner1),
     length: l3(inner1.length_cm), y: y_i1,
     c: col(inner1.category === '中間' ? 'intermediate' : 'micro', 1, result_g_i1?.status),
   });
   if (inner2) tubes.push({
-    id: 'i2', label: `内②: ${inner2.name}`,
+    id: 'i2', label: inner2.name,
     ...radii(inner2),
     length: l3(inner2.length_cm), y: y_i2,
     c: col(inner2.category === '中間' ? 'intermediate' : 'micro', 2, result_g_i2?.status),
   });
   if (micro1a) tubes.push({
-    id: 'm1a', label: `M①a: ${micro1a.name}`,
+    id: 'm1a', label: micro1a.name,
     ...radii(micro1a),
     length: l3(micro1a.length_cm), y: y_m1a,
     c: col('micro', 1, result_i1_m1?.status),
   });
   if (micro1b) tubes.push({
-    id: 'm1b', label: `M①b: ${micro1b.name}`,
+    id: 'm1b', label: micro1b.name,
     ...radii(micro1b),
     length: l3(micro1b.length_cm), y: y_m1b,
     c: col('micro', 2, result_i1_m2?.status),
   });
   if (micro2a) tubes.push({
-    id: 'm2a', label: `M②a: ${micro2a.name}`,
+    id: 'm2a', label: micro2a.name,
     ...radii(micro2a),
     length: l3(micro2a.length_cm), y: y_m2a,
     c: col('micro', 1, result_i2_m1?.status),
   });
   if (micro2b) tubes.push({
-    id: 'm2b', label: `M②b: ${micro2b.name}`,
+    id: 'm2b', label: micro2b.name,
     ...radii(micro2b),
     length: l3(micro2b.length_cm), y: y_m2b,
     c: col('micro', 2, result_i2_m2?.status),
