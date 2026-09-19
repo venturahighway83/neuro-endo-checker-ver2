@@ -6,6 +6,7 @@ import { type TubeRadii } from './tubeGeometry';
 import { routeCatheters, routedSurface } from './catheterRouting';
 import { createYConnector } from './yConnector';
 import type { ConnectorKind } from './connectorKind';
+import { placeDeviceLabels } from './deviceLabelLayout';
 
 export interface TubeSpec extends TubeRadii {
   id:     string;
@@ -125,6 +126,7 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, proximalExposur
 
       // Tube meshes
       const routes = routeCatheters(tubes, proximalExposure);
+      const deviceBounds: THREE.Box3[] = [];
       for (const { id, proximalOuterR, distalOuterR, proximalInnerR, distalInnerR, c, connector, connectorLength = 0 } of tubes) {
         const group = new THREE.Group();
         const { path, rootRotation } = routes.get(id)!;
@@ -156,6 +158,7 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, proximalExposur
         }
 
         scene.add(group);
+        deviceBounds.push(new THREE.Box3().setFromObject(group));
       }
 
       // Camera look-at + orbit
@@ -182,36 +185,43 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, proximalExposur
       const anchors = tubes.map((tube) => routes.get(tube.id)!.path.getPointAt(1));
       const projected = new THREE.Vector3();
       const updateLabels = () => {
-        const labelWidth = Math.min(300, viewportWidth * 0.42);
-        const top = Math.min(overlayTop + 46, viewportHeight * 0.35);
+        const top = overlayTop + 44;
         const bottom = Math.max(top + 28, viewportHeight - 72);
         const items = anchors.map((anchor, index) => {
           projected.copy(anchor).project(camera);
           const visible = projected.z >= -1 && projected.z <= 1 && Math.abs(projected.x) <= 1.2 && Math.abs(projected.y) <= 1.2;
           const x = (projected.x + 1) * viewportWidth / 2;
           const y = (1 - projected.y) * viewportHeight / 2;
-          const left = x < viewportWidth / 2;
-          labelNodes[index].style.visibility = visible ? 'visible' : 'hidden';
-          lineNodes[index].style.visibility = visible ? 'visible' : 'hidden';
-          return { index, x, y, left, visible, labelY: Math.max(top, Math.min(bottom - 28, y - 14)) };
+          return { index, x, y, visible };
         });
-        for (const left of [true, false]) {
-          const column = items.filter((item) => item.visible && item.left === left).sort((a, b) => a.labelY - b.labelY);
-          for (let i = 1; i < column.length; i++) column[i].labelY = Math.max(column[i].labelY, column[i - 1].labelY + 32);
-          const overflow = column.length ? Math.max(0, column[column.length - 1].labelY + 28 - bottom) : 0;
-          for (const item of column) item.labelY -= overflow;
-        }
+        const obstacles = deviceBounds.map((box) => {
+          let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+          for (const x of [box.min.x, box.max.x]) for (const y of [box.min.y, box.max.y]) for (const z of [box.min.z, box.max.z]) {
+            projected.set(x, y, z).project(camera);
+            // A near-plane intersection has no reliable finite projected box.
+            if (projected.z < -1 || projected.z > 1) return { x: 0, y: 0, width: viewportWidth, height: viewportHeight };
+            const px = (projected.x + 1) * viewportWidth / 2;
+            const py = (1 - projected.y) * viewportHeight / 2;
+            minX = Math.min(minX, px); maxX = Math.max(maxX, px);
+            minY = Math.min(minY, py); maxY = Math.max(maxY, py);
+          }
+          return { x: minX, y: minY, width: maxX - minX, height: maxY - minY };
+        });
+        const placements = placeDeviceLabels(items, obstacles, { x: 8, y: top, width: viewportWidth - 16, height: bottom - top });
         for (const item of items) {
-          if (!item.visible) continue;
-          const x = Math.max(8, Math.min(viewportWidth - labelWidth - 8, item.left ? item.x - labelWidth - 24 : item.x + 24));
+          const placement = placements[item.index];
+          labelNodes[item.index].style.visibility = placement ? 'visible' : 'hidden';
+          lineNodes[item.index].style.visibility = placement ? 'visible' : 'hidden';
+          if (!placement) continue;
+          const { x, y, width: labelWidth } = placement;
           const node = labelNodes[item.index];
           node.style.width = `${labelWidth}px`;
-          node.style.transform = `translate(${x}px, ${item.labelY}px)`;
+          node.style.transform = `translate(${x}px, ${y}px)`;
           const line = lineNodes[item.index];
           line.setAttribute('x1', String(item.x));
           line.setAttribute('y1', String(item.y));
-          line.setAttribute('x2', String(item.left ? x + labelWidth : x));
-          line.setAttribute('y2', String(item.labelY + 14));
+          line.setAttribute('x2', String(Math.max(x, Math.min(x + labelWidth, item.x))));
+          line.setAttribute('y2', String(Math.max(y, Math.min(y + 28, item.y))));
         }
       };
       // Render loop
@@ -286,7 +296,7 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, proximalExposur
           <svg aria-hidden="true" width="100%" height="100%" style={{ position: 'absolute', inset: 0 }}>
             {tubes.map(({ id, c }) => <line key={id} stroke={c.fill} strokeWidth="1.5" strokeOpacity="0.85" />)}
           </svg>
-          {tubes.map(({ id, label, c, connector }) => (
+          {tubes.map(({ id, label, c }) => (
             <div key={id} data-device-label={id} title={label} style={{
               position: 'absolute', top: 0, left: 0, height: 28,
               display: 'flex', alignItems: 'center', gap: 6,
@@ -305,7 +315,6 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, proximalExposur
                 const siblings = tubes.filter((item) => item.parentId === parent.id);
                 return <span style={{ fontSize: 11, color: '#93c5fd' }}>（{siblings[1]?.id === id ? 'サイドポート' : '中央ポート'}）</span>;
               })()}
-              {showConnectors && connector && <span style={{ fontSize: 11, color: '#cbd5e1' }}> · {connector === 'tri' ? 'トリコネクター' : 'Yコネクタ'}</span>}
             </div>
           ))}
         </div>
