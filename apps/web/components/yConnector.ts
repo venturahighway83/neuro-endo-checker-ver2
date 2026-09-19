@@ -1,7 +1,10 @@
 import * as THREE from 'three';
 
-/** Illustration only: connector proportions are not measured device dimensions. */
-export function createYConnector(radius: number, lumenRadius: number): THREE.Group {
+// User-specified approximate axial length; width remains schematic.
+export const Y_CONNECTOR_LENGTH_CM = 5;
+
+/** Axial length uses the catheter length scale, independently of diameter. */
+export function createYConnector(radius: number, lumenRadius: number, length: number): THREE.Group {
   const group = new THREE.Group();
   group.name = 'Y connector (schematic)';
   const shell = new THREE.MeshStandardMaterial({
@@ -53,5 +56,6 @@ export function createYConnector(radius: number, lumenRadius: number): THREE.Gro
     rib.rotation.z = -angle;
     group.add(rib);
   }
+  group.scale.z = length / (4.6 * r);
   return group;
 }

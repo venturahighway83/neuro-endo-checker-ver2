@@ -5,6 +5,7 @@ import type { Device, CompatibilityResult } from '@neuro-endo/core';
 import { deviceTubeRadii, maxOuterRadius } from './tubeGeometry';
 import { CatheterCanvas } from './CatheterCanvas';
 import type { TubeSpec } from './CatheterCanvas';
+import { Y_CONNECTOR_LENGTH_CM } from './yConnector';
 
 // ── Props ─────────────────────────────────────────────────────────────────────
 
@@ -80,8 +81,10 @@ export function CatheterDiagram({
   const maxOD  = Math.max(...allDevices.map((d) => maxOuterRadius(deviceTubeRadii(d)) * 2));
   const maxLen = Math.max(...allDevices.map((d) => d.length_cm));
 
-  const RS = 12 / maxOD;
   const LS = 22 / maxLen;
+  // Keep the reference connector recognisable at its 5 cm axial size rather
+  // than flattening it against the formerly very exaggerated tube diameters.
+  const RS = (Y_CONNECTOR_LENGTH_CM * LS) / (2.3 * maxOD);
 
   const radii = (device: Device) => deviceTubeRadii(device, RS);
   const r3 = (device: Device) => maxOuterRadius(radii(device));
@@ -152,21 +155,22 @@ export function CatheterDiagram({
     c: col('micro', 2, result_i2_m2?.status),
   });
 
-  // Stagger external hubs for readability; distal endpoints and compatibility
-  // calculations remain based on the selected catheter data.
+  // Stagger external hubs while preserving each catheter's displayed length.
+  // Connector and spacing lengths use the same axial scale as the catheters.
   const deviceByTube: Record<string, Device | null> = { g: guiding, i1: inner1, i2: inner2 };
   let nextRoot = 0;
   for (const tube of tubes) {
     const device = deviceByTube[tube.id];
     tube.connector = device?.category === 'ガイディング' || device?.category === '中間';
     if (tube.connector) {
+      tube.connectorLength = l3(Y_CONNECTOR_LENGTH_CM);
       tube.proximalZ = nextRoot;
-      nextRoot -= tube.proximalOuterR * 4.6 + 3;
+      nextRoot -= tube.connectorLength + l3(0.5);
     }
   }
   const inlet = (id: string) => {
     const parent = tubes.find((tube) => tube.id === id);
-    return parent?.connector ? (parent.proximalZ ?? 0) - parent.proximalOuterR * 4.6 - 2 : 0;
+    return parent?.connector ? (parent.proximalZ ?? 0) - (parent.connectorLength ?? 0) - l3(0.5) : 0;
   };
   for (const tube of tubes) {
     if (tube.connector) continue;
@@ -176,7 +180,7 @@ export function CatheterDiagram({
 
   const totalLen = maxLen * LS;
   const maxR3    = (maxOD / 2) * RS;
-  const camPos: [number, number, number] = [maxR3 * 4, maxR3 * 6, totalLen * 1.5];
+  const camPos: [number, number, number] = [totalLen * 0.9, totalLen * 0.6, totalLen * 0.8];
 
   return (
     <CatheterCanvas

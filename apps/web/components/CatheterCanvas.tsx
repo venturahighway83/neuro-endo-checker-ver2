@@ -12,6 +12,7 @@ export interface TubeSpec extends TubeRadii {
   y:      number;
   proximalZ?: number;
   connector?: boolean;
+  connectorLength?: number;
   c: { fill: string; dark: string; lumen: string };
 }
 
@@ -118,12 +119,12 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, overlayTop = 0 
       scene.add(dl2);
 
       // Tube meshes
-      for (const { proximalOuterR, distalOuterR, proximalInnerR, distalInnerR, length, y, c, proximalZ = 0, connector } of tubes) {
+      for (const { proximalOuterR, distalOuterR, proximalInnerR, distalInnerR, length, y, c, proximalZ = 0, connector, connectorLength = 0 } of tubes) {
         const group = new THREE.Group();
         group.position.y = y;
         const z = showConnectors ? proximalZ : 0;
         group.position.z = z;
-        const drawnLength = length - z;
+        const drawnLength = length;
 
         const outerG = tubeSurface(proximalOuterR, distalOuterR, drawnLength);
         const outerM = new THREE.Mesh(outerG,
@@ -142,7 +143,7 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, overlayTop = 0 
         const rCap   = new THREE.Mesh(new THREE.RingGeometry(distalInnerR, distalOuterR, 48), capMat);
         rCap.position.z = drawnLength;
         group.add(rCap);
-        if (showConnectors && connector) group.add(createYConnector(proximalOuterR, proximalInnerR));
+        if (showConnectors && connector) group.add(createYConnector(proximalOuterR, proximalInnerR, connectorLength));
 
         scene.add(group);
       }
@@ -258,7 +259,7 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, overlayTop = 0 
           ドラッグ: 回転 &nbsp;|&nbsp; スクロール: ズーム
           <br />
           近位（根元）→遠位（先端）。両端径を直線的に補間した模式図です。
-          {showConnectors && tubes.some((tube) => tube.connector) && <><br />Yコネクタ・根元の配置は模式表示（実寸・有効長計算の対象外）。</>}
+          {showConnectors && tubes.some((tube) => tube.connector) && <><br />Yコネクタ：長さ約5cm（カテーテルと同じ長さ縮尺）。太さは拡大表示、適合性判定には含みません。</>}
         </div>
       )}
 
