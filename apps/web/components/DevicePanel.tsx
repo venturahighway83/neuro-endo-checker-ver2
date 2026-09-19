@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import type { Device } from '@neuro-endo/core';
+import { inchToMm, mmToFr } from '@neuro-endo/core';
 
 interface Props {
   title: string;
@@ -15,6 +16,12 @@ interface Props {
 function formatDiameter(value: number | null | undefined): string {
   return typeof value === 'number' && Number.isFinite(value) && value > 0
     ? value.toPrecision(3)
+    : '—';
+}
+
+function formatOuterDiameter(value: number | null | undefined): string {
+  return typeof value === 'number' && Number.isFinite(value) && value > 0
+    ? `${formatDiameter(value)} (${mmToFr(inchToMm(value)).toFixed(2)} Fr)`
     : '—';
 }
 
@@ -77,7 +84,7 @@ export function DevicePanel({ title, devices, selected, onSelect, nodeId, parent
       {/* Selected specs */}
       {selected && !open && (
         <div className="mt-1 text-xs text-gray-400 leading-4">
-          <table className="w-full table-fixed border-collapse border border-gray-600 text-left [&_th]:border [&_th]:border-gray-600 [&_th]:px-1.5 [&_th]:py-0.5 [&_td]:border [&_td]:border-gray-600 [&_td]:px-1.5 [&_td]:py-0.5" aria-label={`${selected.name}の径（inch）`}>
+          <table className="w-full table-fixed border-collapse border border-gray-600 text-left [&_th]:border [&_th]:border-gray-600 [&_th]:px-1.5 [&_th]:py-0.5 [&_td]:border [&_td]:border-gray-600 [&_td]:px-1.5 [&_td]:py-0.5" aria-label={`${selected.name}の径（inch、外径はFr併記）`}>
             <thead>
               <tr className="bg-gray-700/50 text-gray-300">
                 <th className="w-12 font-normal" scope="col">部位</th>
@@ -89,12 +96,12 @@ export function DevicePanel({ title, devices, selected, onSelect, nodeId, parent
               <tr>
                 <th className="font-normal" scope="row">近位</th>
                 <td>{formatDiameter(selected.proximal_id_inch)}</td>
-                <td>{formatDiameter(selected.proximal_od_inch)}</td>
+                <td>{formatOuterDiameter(selected.proximal_od_inch)}</td>
               </tr>
               <tr>
                 <th className="font-normal" scope="row">遠位</th>
                 <td>{formatDiameter(selected.distal_id_inch)}</td>
-                <td>{formatDiameter(selected.distal_od_inch)}</td>
+                <td>{formatOuterDiameter(selected.distal_od_inch)}</td>
               </tr>
             </tbody>
           </table>
