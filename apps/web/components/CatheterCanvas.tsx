@@ -2,7 +2,8 @@
 
 import { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
-import { tubeSurface, type TubeRadii } from './tubeGeometry';
+import { type TubeRadii } from './tubeGeometry';
+import { routeCatheters, routedSurface } from './catheterRouting';
 import { createYConnector } from './yConnector';
 import type { ConnectorKind } from './connectorKind';
 
@@ -24,6 +25,7 @@ interface Props {
   totalLen: number;
   maxR3:    number;
   camPos:   [number, number, number];
+  proximalExposure: number;
 }
 
 // ── Inline orbit controls ─────────────────────────────────────────────────────
@@ -75,13 +77,13 @@ function attachOrbit(
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
-export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, overlayTop = 0 }: Props) {
+export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, proximalExposure, overlayTop = 0 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [error, setError]       = useState<string | null>(null);
   const [ready, setReady]       = useState(false);
   const [showConnectors, setShowConnectors] = useState(true);
 
-  const sceneKey = JSON.stringify({ tubes, camPos, totalLen, maxR3, showConnectors });
+  const sceneKey = JSON.stringify({ tubes, camPos, totalLen, maxR3, showConnectors, proximalExposure });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -121,31 +123,36 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, overlayTop = 0 
       scene.add(dl2);
 
       // Tube meshes
-      for (const { proximalOuterR, distalOuterR, proximalInnerR, distalInnerR, length, y, c, proximalZ = 0, connector, connectorLength = 0 } of tubes) {
+      const routes = routeCatheters(tubes, proximalExposure);
+      for (const { id, proximalOuterR, distalOuterR, proximalInnerR, distalInnerR, c, connector, connectorLength = 0 } of tubes) {
         const group = new THREE.Group();
-        group.position.y = y;
-        // Hiding connector meshes must not change catheter insertion depths.
-        group.position.z = proximalZ;
-        const drawnLength = length;
+        const { path, rootRotation } = routes.get(id)!;
 
-        const outerG = tubeSurface(proximalOuterR, distalOuterR, drawnLength);
+        const outerG = routedSurface(path, proximalOuterR, distalOuterR);
         const outerM = new THREE.Mesh(outerG,
           new THREE.MeshStandardMaterial({ color: c.fill, roughness: 0.32, metalness: 0.1 }));
         group.add(outerM);
 
-        const innerG = tubeSurface(proximalInnerR, distalInnerR, drawnLength);
+        const innerG = routedSurface(path, proximalInnerR, distalInnerR);
         const innerM = new THREE.Mesh(innerG,
           new THREE.MeshStandardMaterial({ color: c.lumen, roughness: 0.65, side: THREE.BackSide }));
         group.add(innerM);
 
         const capMat = new THREE.MeshStandardMaterial({ color: c.dark, roughness: 0.45, side: THREE.DoubleSide });
         const lCap   = new THREE.Mesh(new THREE.RingGeometry(proximalInnerR, proximalOuterR, 48), capMat);
-        lCap.position.z = 0;
+        lCap.position.copy(path.getPointAt(0));
+        lCap.quaternion.copy(rootRotation);
         group.add(lCap);
         const rCap   = new THREE.Mesh(new THREE.RingGeometry(distalInnerR, distalOuterR, 48), capMat);
-        rCap.position.z = drawnLength;
+        rCap.position.copy(path.getPointAt(1));
+        rCap.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), path.getTangentAt(1));
         group.add(rCap);
-        if (showConnectors && connector) group.add(createYConnector(proximalOuterR, proximalInnerR, connectorLength, connector));
+        if (showConnectors && connector) {
+          const mesh = createYConnector(proximalOuterR, proximalInnerR, connectorLength, connector);
+          mesh.position.copy(path.getPointAt(0));
+          mesh.quaternion.copy(rootRotation);
+          group.add(mesh);
+        }
 
         scene.add(group);
       }
@@ -246,6 +253,13 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, overlayTop = 0 
             }}>
               <span style={{ width: 10, height: 10, borderRadius: '50%', background: c.fill, flexShrink: 0 }} />
               {label}
+              {(() => {
+                const tube = tubes.find((item) => item.id === id)!;
+                const parent = tubes.find((item) => item.id === tube.parentId);
+                if (parent?.connector !== 'tri') return null;
+                const siblings = tubes.filter((item) => item.parentId === parent.id);
+                return <span style={{ fontSize: 11, color: '#93c5fd' }}>（{siblings[1]?.id === id ? 'サイドポート' : '中央ポート'}）</span>;
+              })()}
               {showConnectors && connector && <span style={{ fontSize: 11, color: '#cbd5e1' }}> · {connector === 'tri' ? 'トリコネクター' : 'Yコネクタ'}</span>}
             </div>
           ))}

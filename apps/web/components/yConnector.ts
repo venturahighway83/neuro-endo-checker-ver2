@@ -4,6 +4,25 @@ import type { ConnectorKind } from './connectorKind';
 // User-specified approximate axial length; width remains schematic.
 export const Y_CONNECTOR_LENGTH_CM = 5;
 
+export function triBranch(radius: number) {
+  const start = new THREE.Vector3(0, -radius * 0.55, -radius * 1.5);
+  const end = new THREE.Vector3(0, -radius * 2.1, -radius * 3.05);
+  const outward = end.clone().sub(start).normalize();
+  return { start, end, outward, inlet: end.clone().addScaledVector(outward, radius * 0.73) };
+}
+
+/** Port centre and inward axis after the connector's axial display scaling. */
+export function connectorPort(radius: number, length: number, side: boolean) {
+  if (!side) return { inlet: new THREE.Vector3(0, 0, -length), inward: new THREE.Vector3(0, 0, 1), junction: new THREE.Vector3(0, 0, -length * 0.3) };
+  const branch = triBranch(radius);
+  const scale = new THREE.Vector3(1, 1, length / (4.6 * radius));
+  return {
+    inlet: branch.inlet.multiply(scale),
+    inward: branch.outward.multiply(scale).normalize().negate(),
+    junction: branch.start.multiply(scale),
+  };
+}
+
 /** Axial length uses the catheter length scale, independently of diameter. */
 export function createYConnector(radius: number, lumenRadius: number, length: number, kind: ConnectorKind = 'y'): THREE.Group {
   const group = new THREE.Group();
@@ -59,20 +78,21 @@ export function createYConnector(radius: number, lumenRadius: number, length: nu
   }
   if (kind === 'tri') {
     // A second, valved catheter inlet opposite the narrow side port.
-    const start = new THREE.Vector3(0, -r * 0.55, -r * 1.5);
-    const end = new THREE.Vector3(0, -r * 2.1, -r * 3.05);
-    const axis = end.clone().sub(start).normalize();
-    sleeve(start, end, r * 0.67, r * 0.48, shell);
+    const { start, end, outward: axis } = triBranch(r);
+    const bore = lumen;
+    const bodyRadius = Math.max(r * 0.67, bore + r * 0.12);
+    const capRadius = Math.max(r * 1.03, bodyRadius + r * 0.15);
+    sleeve(start, end, bodyRadius, bore, shell);
     const capEnd = end.clone().addScaledVector(axis, r * 0.65);
-    sleeve(end, capEnd, r * 1.03, r * 0.48, collar);
-    sleeve(capEnd, capEnd.clone().addScaledVector(axis, r * 0.08), r * 0.78, r * 0.48, seal);
+    sleeve(end, capEnd, capRadius, bore, collar);
+    sleeve(capEnd, capEnd.clone().addScaledVector(axis, r * 0.08), Math.max(r * 0.78, bore + r * 0.06), bore, seal);
     const valveRibs = new THREE.Group();
     valveRibs.position.copy(end.clone().addScaledVector(axis, r * 0.325));
     valveRibs.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), axis);
     for (let i = 0; i < 12; i++) {
       const angle = i * Math.PI * 2 / 12;
       const rib = new THREE.Mesh(new THREE.BoxGeometry(r * 0.1, r * 0.15, r * 0.54), collar);
-      rib.position.set(Math.sin(angle) * r * 1.03, Math.cos(angle) * r * 1.03, 0);
+      rib.position.set(Math.sin(angle) * capRadius, Math.cos(angle) * capRadius, 0);
       rib.rotation.z = -angle;
       valveRibs.add(rib);
     }

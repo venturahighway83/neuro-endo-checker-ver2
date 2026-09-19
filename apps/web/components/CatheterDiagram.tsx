@@ -188,6 +188,7 @@ export function CatheterDiagram({
       totalLen={totalLen}
       maxR3={maxR3}
       camPos={camPos}
+      proximalExposure={l3(5)}
     />
   );
 }
