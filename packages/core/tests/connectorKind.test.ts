@@ -11,8 +11,10 @@ describe('connector selection for direct catheter children', () => {
       expect(connectorKind(category, [null, device])).toBe('y');
     });
   }
-  it('does not attach connectors to microcatheters or absent parent devices', () => {
-    expect(connectorKind('マイクロ', [{}, {}])).toBeUndefined();
+  it('attaches a Y connector to microcatheters', () => {
+    expect(connectorKind('マイクロ', [])).toBe('y');
+  });
+  it('does not attach connectors to absent devices', () => {
     expect(connectorKind(undefined, [{}, {}])).toBeUndefined();
   });
 });

@@ -159,7 +159,10 @@ export function CatheterDiagram({
   });
 
   // Reserve 5 cm of exposed shaft before each parent's connector inlet.
-  const deviceByTube: Record<string, Device | null> = { g: guiding, i1: inner1, i2: inner2 };
+  const deviceByTube: Record<string, Device | null> = {
+    g: guiding, i1: inner1, i2: inner2,
+    m1a: micro1a, m1b: micro1b, m2a: micro2a, m2b: micro2b,
+  };
   const childrenByTube: Record<string, (Device | null)[]> = {
     g: [inner1, inner2], i1: [micro1a, micro1b], i2: [micro2a, micro2b],
   };
