@@ -12,6 +12,7 @@ export interface TubeSpec extends TubeRadii {
   length: number;
   y:      number;
   proximalZ?: number;
+  parentId?: string;
   connector?: ConnectorKind;
   connectorLength?: number;
   c: { fill: string; dark: string; lumen: string };
@@ -123,8 +124,8 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, overlayTop = 0 
       for (const { proximalOuterR, distalOuterR, proximalInnerR, distalInnerR, length, y, c, proximalZ = 0, connector, connectorLength = 0 } of tubes) {
         const group = new THREE.Group();
         group.position.y = y;
-        const z = showConnectors ? proximalZ : 0;
-        group.position.z = z;
+        // Hiding connector meshes must not change catheter insertion depths.
+        group.position.z = proximalZ;
         const drawnLength = length;
 
         const outerG = tubeSurface(proximalOuterR, distalOuterR, drawnLength);
@@ -261,6 +262,7 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, overlayTop = 0 
           ドラッグ: 回転 &nbsp;|&nbsp; スクロール: ズーム
           <br />
           近位（根元）→遠位（先端）。両端径を直線的に補間した模式図です。
+          {tubes.some((tube) => tube.parentId && tubes.some((parent) => parent.id === tube.parentId)) && <><br />内側カテーテル：コネクター入口から手前に5cm露出。残りを先端側へ配置。</>}
           {showConnectors && tubes.some((tube) => tube.connector) && <><br />Yコネクタ：約5cm。トリコネクター：仮の表示長5cm。太さは拡大表示、適合性判定には含みません。</>}
         </div>
       )}

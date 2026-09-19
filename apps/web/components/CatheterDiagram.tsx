@@ -7,6 +7,7 @@ import { CatheterCanvas } from './CatheterCanvas';
 import type { TubeSpec } from './CatheterCanvas';
 import { Y_CONNECTOR_LENGTH_CM } from './yConnector';
 import { connectorKind } from './connectorKind';
+import { placeCatheters } from './catheterPlacement';
 
 // ── Props ─────────────────────────────────────────────────────────────────────
 
@@ -157,31 +158,21 @@ export function CatheterDiagram({
     c: col('micro', 2, result_i2_m2?.status),
   });
 
-  // Stagger external hubs while preserving each catheter's displayed length.
-  // Connector and spacing lengths use the same axial scale as the catheters.
+  // Reserve 5 cm of exposed shaft before each parent's connector inlet.
   const deviceByTube: Record<string, Device | null> = { g: guiding, i1: inner1, i2: inner2 };
   const childrenByTube: Record<string, (Device | null)[]> = {
     g: [inner1, inner2], i1: [micro1a, micro1b], i2: [micro2a, micro2b],
   };
-  let nextRoot = 0;
   for (const tube of tubes) {
     const device = deviceByTube[tube.id];
     tube.connector = connectorKind(device?.category, childrenByTube[tube.id] ?? []);
     if (tube.connector) {
       tube.connectorLength = l3(Y_CONNECTOR_LENGTH_CM);
-      tube.proximalZ = nextRoot;
-      nextRoot -= tube.connectorLength + l3(0.5);
     }
+    tube.parentId = tube.id === 'g' ? undefined
+      : tube.id.startsWith('m1') ? 'i1' : tube.id.startsWith('m2') ? 'i2' : 'g';
   }
-  const inlet = (id: string) => {
-    const parent = tubes.find((tube) => tube.id === id);
-    return parent?.connector ? (parent.proximalZ ?? 0) - (parent.connectorLength ?? 0) - l3(0.5) : 0;
-  };
-  for (const tube of tubes) {
-    if (tube.connector) continue;
-    const parentId = tube.id.startsWith('m1') ? 'i1' : tube.id.startsWith('m2') ? 'i2' : 'g';
-    tube.proximalZ = inlet(parentId);
-  }
+  const positionedTubes = placeCatheters(tubes, l3(5), true);
 
   const totalLen = maxLen * LS;
   const maxR3    = (maxOD / 2) * RS;
@@ -190,7 +181,7 @@ export function CatheterDiagram({
   return (
     <CatheterCanvas
       overlayTop={overlayTop}
-      tubes={tubes}
+      tubes={positionedTubes}
       totalLen={totalLen}
       maxR3={maxR3}
       camPos={camPos}
