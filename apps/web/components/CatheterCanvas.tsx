@@ -103,6 +103,8 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, proximalExposur
       renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
       renderer.setClearColor(0x111827, 1);   // Tailwind gray-900
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.1;
       // getBoundingClientRect gives the actual rendered size (reliable even when height:100% resolves to 0)
       const parent = canvas.parentElement ?? canvas;
       const rect   = parent.getBoundingClientRect();
@@ -115,14 +117,23 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, proximalExposur
       const camera = new THREE.PerspectiveCamera(42, w0 / (h0 || 1), 0.01, 10000);
       camera.position.set(...camPos);
 
-      // Lights
-      scene.add(new THREE.AmbientLight(0xffffff, 0.55));
-      const dl1 = new THREE.DirectionalLight(0xffffff, 1.1);
-      dl1.position.set(maxR3 * 3, maxR3 * 5, totalLen * 0.8);
-      scene.add(dl1);
-      const dl2 = new THREE.DirectionalLight(0xffffff, 0.2);
-      dl2.position.set(-maxR3 * 2, -maxR3 * 3, -totalLen * 0.3);
-      scene.add(dl2);
+      // Studio lighting: soft ambient fill, a bright key, and a cool edge light.
+      scene.add(new THREE.HemisphereLight(0xeaf3ff, 0x35445a, 1.1));
+      const lightTarget = new THREE.Object3D();
+      lightTarget.position.set(0, 0, totalLen * 0.45);
+      scene.add(lightTarget);
+      const keyLight = new THREE.DirectionalLight(0xfff5e9, 2.8);
+      keyLight.position.set(totalLen * 0.5, totalLen * 0.8, totalLen * 0.65);
+      keyLight.target = lightTarget;
+      scene.add(keyLight);
+      const fillLight = new THREE.DirectionalLight(0xdceaff, 0.8);
+      fillLight.position.set(-totalLen * 0.6, totalLen * 0.2, totalLen * 0.2);
+      fillLight.target = lightTarget;
+      scene.add(fillLight);
+      const rimLight = new THREE.DirectionalLight(0xc7e2ff, 1.8);
+      rimLight.position.set(totalLen * 0.1, -totalLen * 0.6, totalLen * 0.55);
+      rimLight.target = lightTarget;
+      scene.add(rimLight);
 
       // Tube meshes
       const routes = routeCatheters(tubes, proximalExposure);
@@ -133,7 +144,10 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, proximalExposur
 
         const outerG = routedSurface(path, proximalOuterR, distalOuterR);
         const outerM = new THREE.Mesh(outerG,
-          new THREE.MeshStandardMaterial({ color: c.fill, roughness: 0.32, metalness: 0.1 }));
+          new THREE.MeshPhysicalMaterial({
+            color: c.fill, roughness: 0.24, metalness: 0.08,
+            clearcoat: 0.65, clearcoatRoughness: 0.18,
+          }));
         group.add(outerM);
 
         const innerG = routedSurface(path, proximalInnerR, distalInnerR);

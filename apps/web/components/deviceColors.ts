@@ -12,8 +12,8 @@ const palette: Record<DeviceKind, readonly [DeviceColor, DeviceColor]> = {
     { fill: '#4EAB9D', dark: '#295E58', lumen: '#102826' },
   ],
   micro: [
-    { fill: '#B3A0DD', dark: '#665582', lumen: '#2B233C' },
-    { fill: '#9985C7', dark: '#564670', lumen: '#241D34' },
+    { fill: '#509CF0', dark: '#285C99', lumen: '#112B4B' },
+    { fill: '#3782D4', dark: '#214C82', lumen: '#10243F' },
   ],
 };
 
