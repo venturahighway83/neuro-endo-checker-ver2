@@ -88,7 +88,7 @@ export function DevicePanel({ title, devices, selected, onSelect, nodeId, parent
             <thead>
               <tr className="bg-gray-700/50 text-gray-300">
                 <th className="w-12 font-normal" scope="col">部位</th>
-                <th className="font-normal" scope="col">内径 (inch)</th>
+                <th className="w-20 font-normal" scope="col">内径 (inch)</th>
                 <th className="font-normal" scope="col">外径 (inch)</th>
               </tr>
             </thead>
@@ -96,12 +96,12 @@ export function DevicePanel({ title, devices, selected, onSelect, nodeId, parent
               <tr>
                 <th className="font-normal" scope="row">近位</th>
                 <td>{formatDiameter(selected.proximal_id_inch)}</td>
-                <td>{formatOuterDiameter(selected.proximal_od_inch)}</td>
+                <td className="whitespace-nowrap">{formatOuterDiameter(selected.proximal_od_inch)}</td>
               </tr>
               <tr>
                 <th className="font-normal" scope="row">遠位</th>
                 <td>{formatDiameter(selected.distal_id_inch)}</td>
-                <td>{formatOuterDiameter(selected.distal_od_inch)}</td>
+                <td className="whitespace-nowrap">{formatOuterDiameter(selected.distal_od_inch)}</td>
               </tr>
             </tbody>
           </table>
