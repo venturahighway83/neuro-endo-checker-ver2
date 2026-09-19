@@ -6,6 +6,7 @@ import { checkCompatibility, checkDualCompatibility } from '@neuro-endo/core';
 import { DevicePanel } from './DevicePanel';
 import { DeviceConnections } from './DeviceConnections';
 import { CatheterDiagram } from './CatheterDiagram';
+import { ProximalCrossSection } from './ProximalCrossSection';
 import { STATUS_LABEL, STATUS_BG, STATUS_TEXT, STATUS_BORDER } from './statusUtils';
 
 interface Props {
@@ -202,13 +203,13 @@ export function CheckerApp({ guidingDevices, intermediateDevices, microDevices }
 
   // ── Render ─────────────────────────────────────────────────────────────────
   return (
-    <div className="relative isolate flex flex-col h-full bg-gray-900">
+    <div className="relative isolate flex flex-col h-full overflow-y-auto bg-gray-900">
 
       {/* ── Device selection + results ── */}
       <div className="relative z-10 shrink-0 flex flex-wrap gap-x-4 gap-y-3 px-4 py-3 border-b border-gray-700/60 bg-gray-800/60">
 
         {/* Left: device dropdowns */}
-        <div className="flex-1 min-w-0 basis-[52rem] overflow-x-auto pb-2">
+        <div className="flex-1 min-w-0 overflow-x-auto pb-2">
 
           <DeviceConnections>
           <div className="flex flex-col gap-3">
@@ -294,10 +295,19 @@ export function CheckerApp({ guidingDevices, intermediateDevices, microDevices }
           </DeviceConnections>
         </div>
 
-        {/* Only incompatible results are shown. */}
+        <ProximalCrossSection
+          guiding={guiding} inner1={inner1} inner2={showInner2 ? inner2 : null}
+          micro1a={micro_i1_1} micro1b={showMicro2_i1 ? micro_i1_2 : null}
+          micro2a={showInner2 ? micro_i2_1 : null}
+          micro2b={showInner2 && showMicro2_i2 ? micro_i2_2 : null}
+        />
+      </div>
+
+        {/* Only incompatible results are shown, above the 3D view. */}
         {hasIncompatibleResult && (
-        <div className="w-[27rem] max-w-full shrink-0 flex flex-col gap-1.5">
+        <div className="relative z-10 shrink-0 border-b border-gray-700/60 bg-gray-900 px-4 py-2">
           <div className="text-sm font-semibold text-gray-400 mb-0.5">適合性チェック</div>
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-1.5">
           {result_g_i1?.status === 'incompatible' && (
             <ResultCard label="ガイディング → 内腔①" result={result_g_i1} />
           )}
@@ -325,14 +335,14 @@ export function CheckerApp({ guidingDevices, intermediateDevices, microDevices }
           {result_dual_i2?.status === 'incompatible' && (
             <DualResultCard label="内腔② → マイクロ①②同時" result={result_dual_i2} />
           )}
+          </div>
         </div>
         )}
-      </div>
 
       {/* ── Catheter diagram ── */}
-      <div className="relative z-0 -mt-24 min-h-0 flex-1">
+      <div className="relative z-0 min-h-[240px] flex-1">
         <CatheterDiagram
-          overlayTop={96}
+          overlayTop={0}
           guiding={guiding}
           inner1={inner1}
           inner2={showInner2 ? inner2 : null}
