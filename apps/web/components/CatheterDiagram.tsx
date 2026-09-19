@@ -86,7 +86,7 @@ export function CatheterDiagram({
   // All catheter/connector lengths still share one scale; diameter ratios also
   // remain consistent across the selected devices.
   const LS = 16 / maxLen;
-  const RS = (Y_CONNECTOR_LENGTH_CM * (22 / maxLen) * 4) / (2.3 * maxOD);
+  const RS = (Y_CONNECTOR_LENGTH_CM * LS * 3) / (2.3 * maxOD);
 
   const radii = (device: Device) => deviceTubeRadii(device, RS);
   const r3 = (device: Device) => maxOuterRadius(radii(device));
