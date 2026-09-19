@@ -79,11 +79,12 @@ function attachOrbit(
 // ── Component ─────────────────────────────────────────────────────────────────
 export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, proximalExposure, overlayTop = 0 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const annotationRef = useRef<HTMLDivElement>(null);
   const [error, setError]       = useState<string | null>(null);
   const [ready, setReady]       = useState(false);
   const [showConnectors, setShowConnectors] = useState(true);
 
-  const sceneKey = JSON.stringify({ tubes, camPos, totalLen, maxR3, showConnectors, proximalExposure });
+  const sceneKey = JSON.stringify({ tubes, camPos, totalLen, maxR3, showConnectors, proximalExposure, overlayTop });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -173,14 +174,56 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, proximalExposur
       camera.lookAt(target);
       detachOrbit = attachOrbit(canvas, camera, target, maxR3 * 2, Math.max(totalLen * 5, sphere.radius * 12));
 
+      // Project device labels onto the same camera as the model. Updating DOM
+      // coordinates avoids React re-renders during orbit and zoom.
+      let viewportWidth = w0, viewportHeight = h0;
+      const labelNodes = Array.from(annotationRef.current?.querySelectorAll<HTMLElement>('[data-device-label]') ?? []);
+      const lineNodes = Array.from(annotationRef.current?.querySelectorAll<SVGLineElement>('line') ?? []);
+      const anchors = tubes.map((tube) => routes.get(tube.id)!.path.getPointAt(1));
+      const projected = new THREE.Vector3();
+      const updateLabels = () => {
+        const labelWidth = Math.min(300, viewportWidth * 0.42);
+        const top = Math.min(overlayTop + 46, viewportHeight * 0.35);
+        const bottom = Math.max(top + 28, viewportHeight - 72);
+        const items = anchors.map((anchor, index) => {
+          projected.copy(anchor).project(camera);
+          const visible = projected.z >= -1 && projected.z <= 1 && Math.abs(projected.x) <= 1.2 && Math.abs(projected.y) <= 1.2;
+          const x = (projected.x + 1) * viewportWidth / 2;
+          const y = (1 - projected.y) * viewportHeight / 2;
+          const left = x < viewportWidth / 2;
+          labelNodes[index].style.visibility = visible ? 'visible' : 'hidden';
+          lineNodes[index].style.visibility = visible ? 'visible' : 'hidden';
+          return { index, x, y, left, visible, labelY: Math.max(top, Math.min(bottom - 28, y - 14)) };
+        });
+        for (const left of [true, false]) {
+          const column = items.filter((item) => item.visible && item.left === left).sort((a, b) => a.labelY - b.labelY);
+          for (let i = 1; i < column.length; i++) column[i].labelY = Math.max(column[i].labelY, column[i - 1].labelY + 32);
+          const overflow = column.length ? Math.max(0, column[column.length - 1].labelY + 28 - bottom) : 0;
+          for (const item of column) item.labelY -= overflow;
+        }
+        for (const item of items) {
+          if (!item.visible) continue;
+          const x = Math.max(8, Math.min(viewportWidth - labelWidth - 8, item.left ? item.x - labelWidth - 24 : item.x + 24));
+          const node = labelNodes[item.index];
+          node.style.width = `${labelWidth}px`;
+          node.style.transform = `translate(${x}px, ${item.labelY}px)`;
+          const line = lineNodes[item.index];
+          line.setAttribute('x1', String(item.x));
+          line.setAttribute('y1', String(item.y));
+          line.setAttribute('x2', String(item.left ? x + labelWidth : x));
+          line.setAttribute('y2', String(item.labelY + 14));
+        }
+      };
       // Render loop
-      const tick = () => { raf = requestAnimationFrame(tick); renderer!.render(scene, camera); };
+      const tick = () => { raf = requestAnimationFrame(tick); renderer!.render(scene, camera); updateLabels(); };
       tick();
 
       // Resize observer — use contentRect for accurate dimensions
       const ro = new ResizeObserver((entries) => {
         const { width, height } = entries[0].contentRect;
         if (!width || !height) return;
+        viewportWidth = width;
+        viewportHeight = height;
         renderer!.setSize(Math.round(width), Math.round(height), false);
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
@@ -235,24 +278,26 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, proximalExposur
         </div>
       )}
 
-      {/* Legend */}
-      {ready && (
-        <div style={{
-          position: 'absolute', top: overlayTop + 12, left: 12,
-          display: 'flex', flexDirection: 'column', gap: 6,
-          pointerEvents: 'none',
+      {/* Device names follow their distal ends, with colour-matched leaders. */}
+        <div ref={annotationRef} style={{
+          position: 'absolute', inset: 0, overflow: 'hidden',
+          pointerEvents: 'none', opacity: ready ? 1 : 0,
         }}>
+          <svg aria-hidden="true" width="100%" height="100%" style={{ position: 'absolute', inset: 0 }}>
+            {tubes.map(({ id, c }) => <line key={id} stroke={c.fill} strokeWidth="1.5" strokeOpacity="0.85" />)}
+          </svg>
           {tubes.map(({ id, label, c, connector }) => (
-            <div key={id} style={{
-              display: 'flex', alignItems: 'center', gap: 8,
-              background: 'rgba(17,24,39,0.88)',
+            <div key={id} data-device-label={id} title={label} style={{
+              position: 'absolute', top: 0, left: 0, height: 28,
+              display: 'flex', alignItems: 'center', gap: 6,
+              background: 'rgba(17,24,39,0.94)',
               border: `1px solid ${c.fill}`,
-              borderRadius: 6, padding: '4px 12px',
-              fontSize: 13, color: '#f3f4f6',
-              whiteSpace: 'nowrap',
+              borderRadius: 6, padding: '3px 8px',
+              fontSize: 12, color: '#f3f4f6',
+              whiteSpace: 'nowrap', overflow: 'hidden',
             }}>
               <span style={{ width: 10, height: 10, borderRadius: '50%', background: c.fill, flexShrink: 0 }} />
-              {label}
+              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', flexShrink: 1 }}>{label}</span>
               {(() => {
                 const tube = tubes.find((item) => item.id === id)!;
                 const parent = tubes.find((item) => item.id === tube.parentId);
@@ -264,7 +309,6 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, proximalExposur
             </div>
           ))}
         </div>
-      )}
 
       {/* Hint */}
       {ready && (
