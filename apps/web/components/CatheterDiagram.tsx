@@ -6,6 +6,7 @@ import { deviceTubeRadii, maxOuterRadius } from './tubeGeometry';
 import { CatheterCanvas } from './CatheterCanvas';
 import type { TubeSpec } from './CatheterCanvas';
 import { Y_CONNECTOR_LENGTH_CM } from './yConnector';
+import { connectorKind } from './connectorKind';
 
 // ── Props ─────────────────────────────────────────────────────────────────────
 
@@ -158,10 +159,13 @@ export function CatheterDiagram({
   // Stagger external hubs while preserving each catheter's displayed length.
   // Connector and spacing lengths use the same axial scale as the catheters.
   const deviceByTube: Record<string, Device | null> = { g: guiding, i1: inner1, i2: inner2 };
+  const childrenByTube: Record<string, (Device | null)[]> = {
+    g: [inner1, inner2], i1: [micro1a, micro1b], i2: [micro2a, micro2b],
+  };
   let nextRoot = 0;
   for (const tube of tubes) {
     const device = deviceByTube[tube.id];
-    tube.connector = device?.category === 'ガイディング' || device?.category === '中間';
+    tube.connector = connectorKind(device?.category, childrenByTube[tube.id] ?? []);
     if (tube.connector) {
       tube.connectorLength = l3(Y_CONNECTOR_LENGTH_CM);
       tube.proximalZ = nextRoot;

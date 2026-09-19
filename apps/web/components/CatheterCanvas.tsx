@@ -4,6 +4,7 @@ import { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { tubeSurface, type TubeRadii } from './tubeGeometry';
 import { createYConnector } from './yConnector';
+import type { ConnectorKind } from './connectorKind';
 
 export interface TubeSpec extends TubeRadii {
   id:     string;
@@ -11,7 +12,7 @@ export interface TubeSpec extends TubeRadii {
   length: number;
   y:      number;
   proximalZ?: number;
-  connector?: boolean;
+  connector?: ConnectorKind;
   connectorLength?: number;
   c: { fill: string; dark: string; lumen: string };
 }
@@ -143,7 +144,7 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, overlayTop = 0 
         const rCap   = new THREE.Mesh(new THREE.RingGeometry(distalInnerR, distalOuterR, 48), capMat);
         rCap.position.z = drawnLength;
         group.add(rCap);
-        if (showConnectors && connector) group.add(createYConnector(proximalOuterR, proximalInnerR, connectorLength));
+        if (showConnectors && connector) group.add(createYConnector(proximalOuterR, proximalInnerR, connectorLength, connector));
 
         scene.add(group);
       }
@@ -203,7 +204,7 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, overlayTop = 0 
     <div style={{ position: 'absolute', inset: 0, minHeight: 200, pointerEvents: 'none' }}>
       <canvas
         ref={canvasRef}
-        aria-label="カテーテルとYコネクタの3D模式図"
+        aria-label="カテーテルとコネクターの3D模式図"
         style={{ display: 'block', width: '100%', height: '100%', minHeight: 200, pointerEvents: 'auto' }}
       />
       {ready && tubes.some((tube) => tube.connector) && (
@@ -211,7 +212,7 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, overlayTop = 0 
           display: 'flex', alignItems: 'center', gap: 8, padding: '7px 10px',
           borderRadius: 6, background: 'rgba(17,24,39,0.92)', color: '#e2e8f0', fontSize: 12, pointerEvents: 'auto' }}>
           <input type="checkbox" checked={showConnectors} onChange={(event) => setShowConnectors(event.target.checked)} />
-          Yコネクタを表示
+          コネクターを表示
         </label>
       )}
 
@@ -233,7 +234,7 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, overlayTop = 0 
           display: 'flex', flexDirection: 'column', gap: 6,
           pointerEvents: 'none',
         }}>
-          {tubes.map(({ id, label, c }) => (
+          {tubes.map(({ id, label, c, connector }) => (
             <div key={id} style={{
               display: 'flex', alignItems: 'center', gap: 8,
               background: 'rgba(17,24,39,0.88)',
@@ -244,6 +245,7 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, overlayTop = 0 
             }}>
               <span style={{ width: 10, height: 10, borderRadius: '50%', background: c.fill, flexShrink: 0 }} />
               {label}
+              {showConnectors && connector && <span style={{ fontSize: 11, color: '#cbd5e1' }}> · {connector === 'tri' ? 'トリコネクター' : 'Yコネクタ'}</span>}
             </div>
           ))}
         </div>
@@ -259,7 +261,7 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, overlayTop = 0 
           ドラッグ: 回転 &nbsp;|&nbsp; スクロール: ズーム
           <br />
           近位（根元）→遠位（先端）。両端径を直線的に補間した模式図です。
-          {showConnectors && tubes.some((tube) => tube.connector) && <><br />Yコネクタ：長さ約5cm（カテーテルと同じ長さ縮尺）。太さは拡大表示、適合性判定には含みません。</>}
+          {showConnectors && tubes.some((tube) => tube.connector) && <><br />Yコネクタ：約5cm。トリコネクター：仮の表示長5cm。太さは拡大表示、適合性判定には含みません。</>}
         </div>
       )}
 

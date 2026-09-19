@@ -1,12 +1,13 @@
 import * as THREE from 'three';
+import type { ConnectorKind } from './connectorKind';
 
 // User-specified approximate axial length; width remains schematic.
 export const Y_CONNECTOR_LENGTH_CM = 5;
 
 /** Axial length uses the catheter length scale, independently of diameter. */
-export function createYConnector(radius: number, lumenRadius: number, length: number): THREE.Group {
+export function createYConnector(radius: number, lumenRadius: number, length: number, kind: ConnectorKind = 'y'): THREE.Group {
   const group = new THREE.Group();
-  group.name = 'Y connector (schematic)';
+  group.name = kind === 'tri' ? 'Tri connector (schematic)' : 'Y connector (schematic)';
   const shell = new THREE.MeshStandardMaterial({
     color: '#dbeafe', transparent: true, opacity: 0.36,
     roughness: 0.22, metalness: 0.12, depthWrite: false, side: THREE.DoubleSide,
@@ -55,6 +56,29 @@ export function createYConnector(radius: number, lumenRadius: number, length: nu
     rib.position.set(Math.sin(angle) * r * 1.42, Math.cos(angle) * r * 1.42, -r * 4.15);
     rib.rotation.z = -angle;
     group.add(rib);
+  }
+  if (kind === 'tri') {
+    // A second, valved catheter inlet opposite the narrow side port.
+    const start = new THREE.Vector3(0, -r * 0.55, -r * 1.5);
+    const end = new THREE.Vector3(0, -r * 2.1, -r * 3.05);
+    const axis = end.clone().sub(start).normalize();
+    sleeve(start, end, r * 0.67, r * 0.48, shell);
+    const capEnd = end.clone().addScaledVector(axis, r * 0.65);
+    sleeve(end, capEnd, r * 1.03, r * 0.48, collar);
+    sleeve(capEnd, capEnd.clone().addScaledVector(axis, r * 0.08), r * 0.78, r * 0.48, seal);
+    const valveRibs = new THREE.Group();
+    valveRibs.position.copy(end.clone().addScaledVector(axis, r * 0.325));
+    valveRibs.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), axis);
+    for (let i = 0; i < 12; i++) {
+      const angle = i * Math.PI * 2 / 12;
+      const rib = new THREE.Mesh(new THREE.BoxGeometry(r * 0.1, r * 0.15, r * 0.54), collar);
+      rib.position.set(Math.sin(angle) * r * 1.03, Math.cos(angle) * r * 1.03, 0);
+      rib.rotation.z = -angle;
+      valveRibs.add(rib);
+    }
+    group.add(valveRibs);
+    const marker = new THREE.MeshStandardMaterial({ color: '#f472b6', roughness: 0.4 });
+    sleeve(point(-0.42), point(-0.31), r * 1.1, lumen, marker);
   }
   group.scale.z = length / (4.6 * r);
   return group;
