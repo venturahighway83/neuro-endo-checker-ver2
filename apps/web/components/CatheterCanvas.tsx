@@ -3,12 +3,15 @@
 import { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { tubeSurface, type TubeRadii } from './tubeGeometry';
+import { createYConnector } from './yConnector';
 
 export interface TubeSpec extends TubeRadii {
   id:     string;
   label:  string;
   length: number;
   y:      number;
+  proximalZ?: number;
+  connector?: boolean;
   c: { fill: string; dark: string; lumen: string };
 }
 
@@ -73,8 +76,9 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, overlayTop = 0 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [error, setError]       = useState<string | null>(null);
   const [ready, setReady]       = useState(false);
+  const [showConnectors, setShowConnectors] = useState(true);
 
-  const sceneKey = JSON.stringify({ tubes, camPos, totalLen, maxR3 });
+  const sceneKey = JSON.stringify({ tubes, camPos, totalLen, maxR3, showConnectors });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -114,16 +118,19 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, overlayTop = 0 
       scene.add(dl2);
 
       // Tube meshes
-      for (const { proximalOuterR, distalOuterR, proximalInnerR, distalInnerR, length, y, c } of tubes) {
+      for (const { proximalOuterR, distalOuterR, proximalInnerR, distalInnerR, length, y, c, proximalZ = 0, connector } of tubes) {
         const group = new THREE.Group();
         group.position.y = y;
+        const z = showConnectors ? proximalZ : 0;
+        group.position.z = z;
+        const drawnLength = length - z;
 
-        const outerG = tubeSurface(proximalOuterR, distalOuterR, length);
+        const outerG = tubeSurface(proximalOuterR, distalOuterR, drawnLength);
         const outerM = new THREE.Mesh(outerG,
           new THREE.MeshStandardMaterial({ color: c.fill, roughness: 0.32, metalness: 0.1 }));
         group.add(outerM);
 
-        const innerG = tubeSurface(proximalInnerR, distalInnerR, length);
+        const innerG = tubeSurface(proximalInnerR, distalInnerR, drawnLength);
         const innerM = new THREE.Mesh(innerG,
           new THREE.MeshStandardMaterial({ color: c.lumen, roughness: 0.65, side: THREE.BackSide }));
         group.add(innerM);
@@ -133,16 +140,28 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, overlayTop = 0 
         lCap.position.z = 0;
         group.add(lCap);
         const rCap   = new THREE.Mesh(new THREE.RingGeometry(distalInnerR, distalOuterR, 48), capMat);
-        rCap.position.z = length;
+        rCap.position.z = drawnLength;
         group.add(rCap);
+        if (showConnectors && connector) group.add(createYConnector(proximalOuterR, proximalInnerR));
 
         scene.add(group);
       }
 
       // Camera look-at + orbit
-      const target = new THREE.Vector3(0, 0, totalLen * 0.45);
+      const bounds = new THREE.Box3().setFromObject(scene);
+      const sphere = bounds.getBoundingSphere(new THREE.Sphere());
+      const target = sphere.center;
+      const viewDirection = new THREE.Vector3(...camPos).sub(new THREE.Vector3(0, 0, totalLen * 0.45)).normalize();
+      const fitCamera = () => {
+        const verticalFov = THREE.MathUtils.degToRad(camera.fov / 2);
+        const halfFov = Math.min(verticalFov, Math.atan(Math.tan(verticalFov) * camera.aspect));
+        const distance = sphere.radius / Math.sin(halfFov) * 1.12;
+        camera.position.copy(target).addScaledVector(viewDirection, distance);
+        camera.lookAt(target);
+      };
+      fitCamera();
       camera.lookAt(target);
-      detachOrbit = attachOrbit(canvas, camera, target, maxR3 * 2, totalLen * 5);
+      detachOrbit = attachOrbit(canvas, camera, target, maxR3 * 2, Math.max(totalLen * 5, sphere.radius * 12));
 
       // Render loop
       const tick = () => { raf = requestAnimationFrame(tick); renderer!.render(scene, camera); };
@@ -183,8 +202,17 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, overlayTop = 0 
     <div style={{ position: 'absolute', inset: 0, minHeight: 200, pointerEvents: 'none' }}>
       <canvas
         ref={canvasRef}
+        aria-label="カテーテルとYコネクタの3D模式図"
         style={{ display: 'block', width: '100%', height: '100%', minHeight: 200, pointerEvents: 'auto' }}
       />
+      {ready && tubes.some((tube) => tube.connector) && (
+        <label style={{ position: 'absolute', top: overlayTop + 12, right: 12,
+          display: 'flex', alignItems: 'center', gap: 8, padding: '7px 10px',
+          borderRadius: 6, background: 'rgba(17,24,39,0.92)', color: '#e2e8f0', fontSize: 12, pointerEvents: 'auto' }}>
+          <input type="checkbox" checked={showConnectors} onChange={(event) => setShowConnectors(event.target.checked)} />
+          Yコネクタを表示
+        </label>
+      )}
 
       {/* Error display */}
       {error && (
@@ -230,6 +258,7 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, overlayTop = 0 
           ドラッグ: 回転 &nbsp;|&nbsp; スクロール: ズーム
           <br />
           近位（根元）→遠位（先端）。両端径を直線的に補間した模式図です。
+          {showConnectors && tubes.some((tube) => tube.connector) && <><br />Yコネクタ・根元の配置は模式表示（実寸・有効長計算の対象外）。</>}
         </div>
       )}
 

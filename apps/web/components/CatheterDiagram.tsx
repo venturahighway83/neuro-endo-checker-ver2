@@ -152,6 +152,28 @@ export function CatheterDiagram({
     c: col('micro', 2, result_i2_m2?.status),
   });
 
+  // Stagger external hubs for readability; distal endpoints and compatibility
+  // calculations remain based on the selected catheter data.
+  const deviceByTube: Record<string, Device | null> = { g: guiding, i1: inner1, i2: inner2 };
+  let nextRoot = 0;
+  for (const tube of tubes) {
+    const device = deviceByTube[tube.id];
+    tube.connector = device?.category === 'ガイディング' || device?.category === '中間';
+    if (tube.connector) {
+      tube.proximalZ = nextRoot;
+      nextRoot -= tube.proximalOuterR * 4.6 + 3;
+    }
+  }
+  const inlet = (id: string) => {
+    const parent = tubes.find((tube) => tube.id === id);
+    return parent?.connector ? (parent.proximalZ ?? 0) - parent.proximalOuterR * 4.6 - 2 : 0;
+  };
+  for (const tube of tubes) {
+    if (tube.connector) continue;
+    const parentId = tube.id.startsWith('m1') ? 'i1' : tube.id.startsWith('m2') ? 'i2' : 'g';
+    tube.proximalZ = inlet(parentId);
+  }
+
   const totalLen = maxLen * LS;
   const maxR3    = (maxOD / 2) * RS;
   const camPos: [number, number, number] = [maxR3 * 4, maxR3 * 6, totalLen * 1.5];
