@@ -194,7 +194,11 @@ export function CheckerApp({ guidingDevices, intermediateDevices, microDevices }
     setShowMicro2_i2(false);
   }
 
-  const hasAnyResult = !!(result_g_i1 || result_g_i2);
+  const hasIncompatibleResult = [
+    result_g_i1, result_g_i2, result_dual_g,
+    result_i1_m1, result_i1_m2, result_dual_i1,
+    result_i2_m1, result_i2_m2, result_dual_i2,
+  ].some((result) => result?.status === 'incompatible');
 
   // ── Render ─────────────────────────────────────────────────────────────────
   return (
@@ -290,42 +294,39 @@ export function CheckerApp({ guidingDevices, intermediateDevices, microDevices }
           </DeviceConnections>
         </div>
 
-        {/* Right: compatibility results */}
+        {/* Only incompatible results are shown. */}
+        {hasIncompatibleResult && (
         <div className="w-[27rem] max-w-full shrink-0 flex flex-col gap-1.5">
           <div className="text-sm font-semibold text-gray-400 mb-0.5">適合性チェック</div>
-          {!hasAnyResult && (
-            <div className="text-sm text-gray-500 text-center py-6">
-              デバイスを選択すると<br />結果が表示されます
-            </div>
-          )}
-          {result_g_i1 && (
+          {result_g_i1?.status === 'incompatible' && (
             <ResultCard label="ガイディング → 内腔①" result={result_g_i1} />
           )}
-          {result_g_i2 && (
+          {result_g_i2?.status === 'incompatible' && (
             <ResultCard label="ガイディング → 内腔②" result={result_g_i2} />
           )}
-          {result_dual_g && (
+          {result_dual_g?.status === 'incompatible' && (
             <DualResultCard label="ガイディング → 内腔①②同時" result={result_dual_g} />
           )}
-          {result_i1_m1 && (
+          {result_i1_m1?.status === 'incompatible' && (
             <ResultCard label="内腔① → マイクロ①" result={result_i1_m1} />
           )}
-          {result_i1_m2 && (
+          {result_i1_m2?.status === 'incompatible' && (
             <ResultCard label="内腔① → マイクロ②" result={result_i1_m2} />
           )}
-          {result_dual_i1 && (
+          {result_dual_i1?.status === 'incompatible' && (
             <DualResultCard label="内腔① → マイクロ①②同時" result={result_dual_i1} />
           )}
-          {result_i2_m1 && (
+          {result_i2_m1?.status === 'incompatible' && (
             <ResultCard label="内腔② → マイクロ①" result={result_i2_m1} />
           )}
-          {result_i2_m2 && (
+          {result_i2_m2?.status === 'incompatible' && (
             <ResultCard label="内腔② → マイクロ②" result={result_i2_m2} />
           )}
-          {result_dual_i2 && (
+          {result_dual_i2?.status === 'incompatible' && (
             <DualResultCard label="内腔② → マイクロ①②同時" result={result_dual_i2} />
           )}
         </div>
+        )}
       </div>
 
       {/* ── Catheter diagram ── */}
