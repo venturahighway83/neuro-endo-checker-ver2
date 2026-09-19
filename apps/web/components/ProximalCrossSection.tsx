@@ -1,5 +1,6 @@
 import type { Device } from '@neuro-endo/core';
 import { frToMm, inchToMm } from '@neuro-endo/core';
+import { deviceColor } from './deviceColors';
 
 interface Props {
   guiding: Device | null;
@@ -15,7 +16,7 @@ const valid = (n: number | null | undefined): n is number =>
   typeof n === 'number' && Number.isFinite(n) && n > 0;
 
 export function ProximalCrossSection(props: Props) {
-  function make(device: Device | null, label: string) {
+  function make(device: Device | null, label: string, variant: 1 | 2 = 1) {
     if (!device) return null;
     const outerKnown = valid(device.proximal_od_inch);
     const innerKnown = valid(device.proximal_id_inch);
@@ -24,18 +25,18 @@ export function ProximalCrossSection(props: Props) {
       outer: (outerKnown ? inchToMm(device.proximal_od_inch!) : frToMm(device.od_fr)) / 2,
       inner: (innerKnown ? inchToMm(device.proximal_id_inch!) : inchToMm(device.id_inch)) / 2,
       outerKnown, innerKnown,
-      color: device.category === 'ガイディング' ? '#f97316'
-        : device.category === '中間' ? '#22c55e' : '#3b82f6',
+      color: deviceColor(device.category === 'ガイディング' ? 'guiding'
+        : device.category === '中間' ? 'intermediate' : 'micro', variant).fill,
     };
   }
   type Section = NonNullable<ReturnType<typeof make>>;
   const g = make(props.guiding, 'G');
   const i1 = make(props.inner1, '①');
-  const i2 = make(props.inner2, '②');
+  const i2 = make(props.inner2, '②', 2);
   const m1a = make(props.inner1?.category === '中間' ? props.micro1a : null, '①a');
-  const m1b = make(props.inner1?.category === '中間' ? props.micro1b : null, '①b');
+  const m1b = make(props.inner1?.category === '中間' ? props.micro1b : null, '①b', 2);
   const m2a = make(props.inner2?.category === '中間' ? props.micro2a : null, '②a');
-  const m2b = make(props.inner2?.category === '中間' ? props.micro2b : null, '②b');
+  const m2b = make(props.inner2?.category === '中間' ? props.micro2b : null, '②b', 2);
   function place(a: Section | null, b: Section | null, center: number) {
     if (a) a.x = center - (b?.outer ?? 0);
     if (b) b.x = center + (a?.outer ?? 0);

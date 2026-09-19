@@ -8,6 +8,7 @@ import type { TubeSpec } from './CatheterCanvas';
 import { Y_CONNECTOR_LENGTH_CM } from './yConnector';
 import { connectorKind } from './connectorKind';
 import { placeCatheters } from './catheterPlacement';
+import { deviceColor, type DeviceKind } from './deviceColors';
 
 // ── Props ─────────────────────────────────────────────────────────────────────
 
@@ -31,22 +32,11 @@ interface Props {
 // ── Colour palette ────────────────────────────────────────────────────────────
 
 type C = { fill: string; dark: string; lumen: string };
-type DeviceKind = 'guiding' | 'intermediate' | 'micro';
 
 function col(kind: DeviceKind, variant: 1 | 2 = 1, status?: CompatibilityResult['status']): C {
   if (status === 'incompatible') return { fill: '#ef4444', dark: '#7f1d1d', lumen: '#3b0000' };
   if (status === 'warning')     return { fill: '#f97316', dark: '#7c2d12', lumen: '#431407' };
-  switch (kind) {
-    case 'guiding':      return { fill: '#f97316', dark: '#7c2d12', lumen: '#431407' };
-    case 'intermediate':
-      return variant === 1
-        ? { fill: '#22c55e', dark: '#14532d', lumen: '#052e16' }
-        : { fill: '#10b981', dark: '#065f46', lumen: '#022c22' };
-    case 'micro':
-      return variant === 1
-        ? { fill: '#3b82f6', dark: '#1e3a8a', lumen: '#0f172a' }
-        : { fill: '#2563eb', dark: '#1e40af', lumen: '#0c1633' };
-  }
+  return deviceColor(kind, variant);
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
