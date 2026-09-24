@@ -16,7 +16,7 @@ export const FR_TO_MM: number = 1 / 3;
 /**
  * 1 French (Fr) = FR_TO_MM / INCH_TO_MM inch = 1/76.2 inch.
  * Derivation: 1 Fr = (1/3) mm, 1 mm = 1/25.4 inch → 1 Fr = 1/(3×25.4) = 1/76.2 inch.
- * Used by the compatibility engine to compare OD (French) against ID (inch) in a common unit.
+ * Used for conversion of legacy outer-diameter values; regional checks use inches directly.
  */
 export const FR_TO_INCH: number = FR_TO_MM / INCH_TO_MM;
 
@@ -42,7 +42,7 @@ export function mmToFr(mm: number): number {
 
 /**
  * Convert French (Fr) to inches.
- * Used internally by the compatibility engine for diameter comparison.
+ * Regional compatibility checks already receive diameters in inches.
  */
 export function frToInch(fr: number): number {
   return fr * FR_TO_INCH;

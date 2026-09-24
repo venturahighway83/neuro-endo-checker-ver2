@@ -1,10 +1,12 @@
 /**
  * Compatibility engine.
  *
- * Confirmed decisions (Phase 1, updated 2026-03-21):
+ * Diameter rules updated 2026-09-24:
  *   - Comparison is performed in INCH units (not mm)
  *   - Inequality is strict: inner_od_inch < effective_outer_id_inch
- *   - Margin: MARGIN_INCH = 0.001 inch subtracted from outer.id_inch before comparison
+ *   - Compare proximal to proximal and distal to distal; both must pass
+ *   - Margin: MARGIN_INCH = 0.001 inch subtracted from each outer regional ID
+ *   - Missing regional measurements are unknown; never fall back to legacy diameters
  *   - No additional tolerance beyond the margin
  *   - Category check is performed by the engine (not the caller)
  *   - Two-device pairs are valid inputs (e.g. guiding → micro with no intermediate)
@@ -17,7 +19,7 @@
  */
 
 import type { Device, CompatibilityPair } from './types';
-import { inchToMm, frToMm, frToInch, FR_TO_INCH } from './units';
+import { inchToMm, FR_TO_INCH } from './units';
 
 // ============================================================================
 // Public constants
@@ -35,6 +37,7 @@ export const MARGIN_INCH = 0.001 as const;
 // ============================================================================
 
 export type CheckStatus = 'ok' | 'warning' | 'incompatible' | 'unknown';
+export type DiameterRegion = 'proximal' | 'distal';
 
 /**
  * Stable string codes — safe to switch on in UI and tests.
@@ -42,11 +45,11 @@ export type CheckStatus = 'ok' | 'warning' | 'incompatible' | 'unknown';
  */
 export type ReasonCode =
   // --- Diameter (1-in-1) ---
-  /** inner_od_inch < outer.id_inch − MARGIN_INCH (strict) */
+  /** Regional inner OD < regional outer ID − MARGIN_INCH (strict). */
   | 'DIAMETER_OK'
-  /** inner_od_inch ≥ outer.id_inch − MARGIN_INCH — inner cannot pass through outer */
+  /** Regional inner OD ≥ regional outer ID − MARGIN_INCH. */
   | 'DIAMETER_INCOMPATIBLE'
-  /** outer.id_inch or inner.od_fr is absent / not a positive finite number */
+  /** A required regional diameter is absent / not a positive finite number. */
   | 'DIAMETER_UNKNOWN'
   // --- Diameter (2-in-1) ---
   /**
@@ -64,7 +67,7 @@ export type ReasonCode =
    */
   | 'DIAMETER_DUAL_INCOMPATIBLE'
   /**
-   * outer.id_inch or one/both inner.od_fr values are absent / not a positive finite number.
+   * A required regional diameter is absent / not a positive finite number.
    */
   | 'DIAMETER_DUAL_UNKNOWN'
   // --- Category ---
@@ -91,6 +94,8 @@ export type ReasonCode =
  */
 export interface CheckOutcome {
   check: 'diameter' | 'diameter_dual' | 'category' | 'length';
+  /** Present on diameter checks; identifies the measurements being compared. */
+  region?: DiameterRegion;
   status: CheckStatus;
   code: ReasonCode;
   /**
@@ -104,11 +109,12 @@ export interface CheckOutcome {
  * Pre-computed values derived from the two devices.
  * null means a required source field was absent.
  */
-export interface DerivedMetrics {
+export interface RegionalDiameterMetrics {
+  outer_id_inch: number | null;
   // --- Inch-based: the values used for the actual comparison ---
-  /** inner.od_fr × (1/76.2) — null if inner.od_fr is missing */
+  /** Inner device's OD at this region, in inches. */
   inner_od_inch: number | null;
-  /** outer.id_inch − MARGIN_INCH (0.001) — null if outer.id_inch is missing */
+  /** Regional outer ID − MARGIN_INCH (0.001). */
   effective_outer_id_inch: number | null;
   /**
    * effective_outer_id_inch − inner_od_inch (inch).
@@ -117,16 +123,26 @@ export interface DerivedMetrics {
    */
   clearance_inch: number | null;
   // --- mm: reference values for display ---
-  /** outer.id_inch × 25.4 (mm). null if outer.id_inch is missing. */
+  /** Regional outer ID × 25.4 (mm). */
   outer_id_mm: number | null;
-  /** inner.od_fr × (1/3) (mm). null if inner.od_fr is missing. */
+  /** Regional inner OD × 25.4 (mm). */
   inner_od_mm: number | null;
   /**
-   * (outer.id_inch − MARGIN_INCH) × 25.4 − inner_od_mm (mm).
+   * Regional margin-adjusted clearance × 25.4 (mm).
    * Reflects the margin-adjusted clearance in mm.
    * null if either diameter is missing.
    */
   clearance_mm: number | null;
+}
+
+/**
+ * Flat diameter metrics describe the region with the smaller clearance.
+ * They are null if either region cannot be evaluated; per-region values remain available.
+ */
+export interface DerivedMetrics extends RegionalDiameterMetrics {
+  proximal: RegionalDiameterMetrics;
+  distal: RegionalDiameterMetrics;
+  limiting_region: DiameterRegion | null;
   // --- Other ---
   /**
    * inner.length_cm − outer.length_cm (cm).
@@ -147,10 +163,10 @@ export interface DerivedMetrics {
  * Only tracks fields that are actually consumed by one of the three checks.
  */
 export interface EvidenceState {
-  /** outer.id_inch — used for diameter check */
-  outer_id_inch: 'present' | 'missing';
-  /** inner.od_fr — used for diameter check */
-  inner_od_fr: 'present' | 'missing';
+  outer_proximal_id_inch: 'present' | 'missing';
+  outer_distal_id_inch: 'present' | 'missing';
+  inner_proximal_od_inch: 'present' | 'missing';
+  inner_distal_od_inch: 'present' | 'missing';
   /** outer.length_cm — used for length check */
   outer_length_cm: 'present' | 'missing';
   /** inner.length_cm — used for length check */
@@ -163,7 +179,7 @@ export interface EvidenceState {
 export interface CompatibilityResult {
   /**
    * true  — status is 'ok' or 'warning' (inner can physically pass through outer)
-   * false — status is 'incompatible' (blocked by diameter or category)
+   * false — status is 'incompatible' (blocked by diameter, category or length)
    * null  — status is 'unknown' (missing data prevents determination)
    *
    * true does NOT mean "clinically recommended".
@@ -176,7 +192,7 @@ export interface CompatibilityResult {
    */
   status: CheckStatus;
 
-  /** One CheckOutcome per check performed (category, diameter, length). */
+  /** Four outcomes: category, proximal diameter, distal diameter, length. */
   reasons: CheckOutcome[];
 
   /**
@@ -227,43 +243,42 @@ function statusToCompatible(status: CheckStatus): boolean | null {
 // Individual checks
 // ============================================================================
 
-function runDiameterCheck(outer: Device, inner: Device): CheckOutcome {
-  const outerPresent = isPositiveFinite(outer.id_inch);
-  const innerPresent = isPositiveFinite(inner.od_fr);
+function diameterMetrics(outerId: unknown, innerOd: unknown): RegionalDiameterMetrics {
+  const outer_id_inch = isPositiveFinite(outerId) ? outerId : null;
+  const inner_od_inch = isPositiveFinite(innerOd) ? innerOd : null;
+  const effective_outer_id_inch = outer_id_inch === null ? null : outer_id_inch - MARGIN_INCH;
+  const clearance_inch = effective_outer_id_inch !== null && inner_od_inch !== null
+    ? effective_outer_id_inch - inner_od_inch : null;
+  return {
+    outer_id_inch,
+    inner_od_inch,
+    effective_outer_id_inch,
+    clearance_inch,
+    outer_id_mm: outer_id_inch === null ? null : inchToMm(outer_id_inch),
+    inner_od_mm: inner_od_inch === null ? null : inchToMm(inner_od_inch),
+    clearance_mm: clearance_inch === null ? null : inchToMm(clearance_inch),
+  };
+}
 
-  if (!outerPresent || !innerPresent) {
-    return {
-      check: 'diameter',
-      status: 'unknown',
-      code: 'DIAMETER_UNKNOWN',
-      evidence: {
-        outer_id_inch: outerPresent ? outer.id_inch : null,
-        inner_od_fr: innerPresent ? inner.od_fr : null,
-        inner_od_inch: null,
-        effective_outer_id_inch: null,
-        clearance_inch: null,
-      },
-    };
-  }
+function limitingRegion(
+  proximal: { clearance_inch: number | null },
+  distal: { clearance_inch: number | null },
+): DiameterRegion | null {
+  if (proximal.clearance_inch === null || distal.clearance_inch === null) return null;
+  return proximal.clearance_inch <= distal.clearance_inch ? 'proximal' : 'distal';
+}
 
-  // Comparison is performed in inch units (confirmed 2026-03-21).
-  const inner_od_inch = frToInch(inner.od_fr); // inner.od_fr / 76.2
-  const effective_outer_id_inch = outer.id_inch - MARGIN_INCH;
-
-  // Strict less-than (confirmed). Equal values count as INCOMPATIBLE.
-  const fits = inner_od_inch < effective_outer_id_inch;
+function runDiameterCheck(region: DiameterRegion, metrics: RegionalDiameterMetrics): CheckOutcome {
+  const clearance = metrics.clearance_inch;
+  const status = clearance === null ? 'unknown' : clearance > 0 ? 'ok' : 'incompatible';
 
   return {
     check: 'diameter',
-    status: fits ? 'ok' : 'incompatible',
-    code: fits ? 'DIAMETER_OK' : 'DIAMETER_INCOMPATIBLE',
-    evidence: {
-      outer_id_inch: outer.id_inch,
-      inner_od_fr: inner.od_fr,
-      inner_od_inch,
-      effective_outer_id_inch,
-      clearance_inch: effective_outer_id_inch - inner_od_inch,
-    },
+    region,
+    status,
+    code: status === 'unknown' ? 'DIAMETER_UNKNOWN'
+      : status === 'ok' ? 'DIAMETER_OK' : 'DIAMETER_INCOMPATIBLE',
+    evidence: { ...metrics },
   };
 }
 
@@ -362,7 +377,7 @@ function runLengthCheck(outer: Device, inner: Device): CheckOutcome {
  *
  * Performs three independent checks and aggregates:
  *   1. Category check (adjacency / ordering)
- *   2. Diameter check — inch-based, with MARGIN_INCH applied to outer's effective ID
+ *   2. Diameter checks — proximal/proximal and distal/distal, each with MARGIN_INCH
  *   3. Length check (inner length vs outer length)
  *
  * Status priority: incompatible > unknown > warning > ok
@@ -370,43 +385,31 @@ function runLengthCheck(outer: Device, inner: Device): CheckOutcome {
 export function checkCompatibility(pair: CompatibilityPair): CompatibilityResult {
   const { outer, inner } = pair;
 
+  const proximal = diameterMetrics(outer.proximal_id_inch, inner.proximal_od_inch);
+  const distal = diameterMetrics(outer.distal_id_inch, inner.distal_od_inch);
   const categoryOutcome = runCategoryCheck(outer, inner);
-  const diameterOutcome = runDiameterCheck(outer, inner);
   const lengthOutcome = runLengthCheck(outer, inner);
 
-  const reasons: CheckOutcome[] = [categoryOutcome, diameterOutcome, lengthOutcome];
+  const reasons: CheckOutcome[] = [
+    categoryOutcome,
+    runDiameterCheck('proximal', proximal),
+    runDiameterCheck('distal', distal),
+    lengthOutcome,
+  ];
   const status = aggregateStatus(reasons);
   const warnings = reasons.filter((r) => r.status === 'warning');
 
-  // Pre-compute field availability
-  const outerIdPresent = isPositiveFinite(outer.id_inch);
-  const innerOdPresent = isPositiveFinite(inner.od_fr);
   const outerLevel = CATEGORY_LEVEL[outer.category] ?? null;
   const innerLevel = CATEGORY_LEVEL[inner.category] ?? null;
-
-  // Inch-based values (used in the comparison)
-  const inner_od_inch = innerOdPresent ? frToInch(inner.od_fr) : null;
-  const effective_outer_id_inch = outerIdPresent ? outer.id_inch - MARGIN_INCH : null;
-
-  // mm values (for display reference)
-  const outer_id_mm = outerIdPresent ? inchToMm(outer.id_inch) : null;
-  const inner_od_mm = innerOdPresent ? frToMm(inner.od_fr) : null;
+  const limiting_region = limitingRegion(proximal, distal);
+  const summary = limiting_region === null
+    ? diameterMetrics(null, null) : { proximal, distal }[limiting_region];
 
   const derived_metrics: DerivedMetrics = {
-    // Inch (comparison values)
-    inner_od_inch,
-    effective_outer_id_inch,
-    clearance_inch:
-      inner_od_inch !== null && effective_outer_id_inch !== null
-        ? effective_outer_id_inch - inner_od_inch
-        : null,
-    // mm (display reference)
-    outer_id_mm,
-    inner_od_mm,
-    clearance_mm:
-      effective_outer_id_inch !== null && inner_od_mm !== null
-        ? inchToMm(effective_outer_id_inch) - inner_od_mm
-        : null,
+    ...summary,
+    proximal,
+    distal,
+    limiting_region,
     // Other
     length_delta_cm:
       isPositiveFinite(outer.length_cm) && isPositiveFinite(inner.length_cm)
@@ -417,8 +420,10 @@ export function checkCompatibility(pair: CompatibilityPair): CompatibilityResult
   };
 
   const evidence_state: EvidenceState = {
-    outer_id_inch: outerIdPresent ? 'present' : 'missing',
-    inner_od_fr: innerOdPresent ? 'present' : 'missing',
+    outer_proximal_id_inch: isPositiveFinite(outer.proximal_id_inch) ? 'present' : 'missing',
+    outer_distal_id_inch: isPositiveFinite(outer.distal_id_inch) ? 'present' : 'missing',
+    inner_proximal_od_inch: isPositiveFinite(inner.proximal_od_inch) ? 'present' : 'missing',
+    inner_distal_od_inch: isPositiveFinite(inner.distal_od_inch) ? 'present' : 'missing',
     outer_length_cm: isPositiveFinite(outer.length_cm) ? 'present' : 'missing',
     inner_length_cm: isPositiveFinite(inner.length_cm) ? 'present' : 'missing',
   };
@@ -463,13 +468,14 @@ export function checkThreeWay(devices: {
  * Pre-computed values for a 2-in-1 check.
  * All inch values are used for the actual comparison; mm values are for display.
  */
-export interface DualDerivedMetrics {
+export interface RegionalDualDiameterMetrics {
+  outer_id_inch: number | null;
   // --- Inch (comparison values) ---
   inner1_od_inch: number | null;
   inner2_od_inch: number | null;
   /** inner1_od_inch + inner2_od_inch */
   combined_od_inch: number | null;
-  /** outer.id_inch − MARGIN_INCH */
+  /** Regional outer ID − MARGIN_INCH */
   effective_outer_id_inch: number | null;
   /**
    * effective_outer_id_inch − combined_od_inch.
@@ -484,17 +490,27 @@ export interface DualDerivedMetrics {
   clearance_mm: number | null;
 }
 
+/** Flat diameter metrics use the smaller-clearance region, or null if either is unknown. */
+export interface DualDerivedMetrics extends RegionalDualDiameterMetrics {
+  proximal: RegionalDualDiameterMetrics;
+  distal: RegionalDualDiameterMetrics;
+  limiting_region: DiameterRegion | null;
+}
+
 /** Records which source fields were present at dual check time. */
 export interface DualEvidenceState {
-  outer_id_inch: 'present' | 'missing';
-  inner1_od_fr: 'present' | 'missing';
-  inner2_od_fr: 'present' | 'missing';
+  outer_proximal_id_inch: 'present' | 'missing';
+  outer_distal_id_inch: 'present' | 'missing';
+  inner1_proximal_od_inch: 'present' | 'missing';
+  inner1_distal_od_inch: 'present' | 'missing';
+  inner2_proximal_od_inch: 'present' | 'missing';
+  inner2_distal_od_inch: 'present' | 'missing';
 }
 
 /**
  * Full result of a 2-in-1 compatibility check (one outer, two inner devices).
  *
- * Only a single diameter check is performed — no category or length checks.
+ * Two regional diameter checks are performed — no category or length checks.
  * Category constraints for 2-in-1 are enforced by the UI (caller), not this function.
  */
 export interface DualCompatibilityResult {
@@ -506,7 +522,7 @@ export interface DualCompatibilityResult {
   compatible: boolean | null;
   /** Aggregate status. */
   status: CheckStatus;
-  /** Single-element array containing the diameter_dual CheckOutcome. */
+  /** Two diameter_dual outcomes, one per region. */
   reasons: CheckOutcome[];
   /** Subset of reasons where status === 'warning'. */
   warnings: CheckOutcome[];
@@ -522,7 +538,8 @@ export interface DualCompatibilityResult {
  * is d₁ + d₂ (exact result for 2-circle packing in a circle).
  *
  * Rules (confirmed by clinical team 2026-03-22):
- *   - Margin: MARGIN_INCH (0.001) subtracted from outer.id_inch (same as 1-in-1)
+ *   - Compare proximal to proximal and distal to distal; both must pass
+ *   - Margin: MARGIN_INCH (0.001) subtracted from each regional outer ID
  *   - Comparison: strict — clearance_inch must be > 0
  *   - Warning zone: 0 < clearance_inch ≤ MARGIN_INCH
  *   - Same device twice (inner1 === inner2 by reference or same values): allowed
@@ -535,64 +552,62 @@ export function checkDualCompatibility(pair: {
 }): DualCompatibilityResult {
   const { outer, inner1, inner2 } = pair;
 
-  const outerPresent = isPositiveFinite(outer.id_inch);
-  const inner1Present = isPositiveFinite(inner1.od_fr);
-  const inner2Present = isPositiveFinite(inner2.od_fr);
+  const proximal = dualDiameterMetrics(outer.proximal_id_inch, inner1.proximal_od_inch, inner2.proximal_od_inch);
+  const distal = dualDiameterMetrics(outer.distal_id_inch, inner1.distal_od_inch, inner2.distal_od_inch);
+  const reasons = [runDualDiameterCheck('proximal', proximal), runDualDiameterCheck('distal', distal)];
+  const status = aggregateStatus(reasons);
+  const limiting_region = limitingRegion(proximal, distal);
+  const summary = limiting_region === null
+    ? dualDiameterMetrics(null, null, null) : { proximal, distal }[limiting_region];
 
   const evidence_state: DualEvidenceState = {
-    outer_id_inch: outerPresent ? 'present' : 'missing',
-    inner1_od_fr: inner1Present ? 'present' : 'missing',
-    inner2_od_fr: inner2Present ? 'present' : 'missing',
+    outer_proximal_id_inch: isPositiveFinite(outer.proximal_id_inch) ? 'present' : 'missing',
+    outer_distal_id_inch: isPositiveFinite(outer.distal_id_inch) ? 'present' : 'missing',
+    inner1_proximal_od_inch: isPositiveFinite(inner1.proximal_od_inch) ? 'present' : 'missing',
+    inner1_distal_od_inch: isPositiveFinite(inner1.distal_od_inch) ? 'present' : 'missing',
+    inner2_proximal_od_inch: isPositiveFinite(inner2.proximal_od_inch) ? 'present' : 'missing',
+    inner2_distal_od_inch: isPositiveFinite(inner2.distal_od_inch) ? 'present' : 'missing',
   };
 
-  if (!outerPresent || !inner1Present || !inner2Present) {
-    const outcome: CheckOutcome = {
-      check: 'diameter_dual',
-      status: 'unknown',
-      code: 'DIAMETER_DUAL_UNKNOWN',
-      evidence: {
-        outer_id_inch: outerPresent ? outer.id_inch : null,
-        inner1_od_fr: inner1Present ? inner1.od_fr : null,
-        inner2_od_fr: inner2Present ? inner2.od_fr : null,
-        combined_od_inch: null,
-        effective_outer_id_inch: null,
-        clearance_inch: null,
-      },
-    };
-    return {
-      compatible: null,
-      status: 'unknown',
-      reasons: [outcome],
-      warnings: [],
-      derived_metrics: {
-        inner1_od_inch: null,
-        inner2_od_inch: null,
-        combined_od_inch: null,
-        effective_outer_id_inch: null,
-        clearance_inch: null,
-        outer_id_mm: null,
-        inner1_od_mm: null,
-        inner2_od_mm: null,
-        combined_od_mm: null,
-        clearance_mm: null,
-      },
-      evidence_state,
-    };
-  }
+  return {
+    compatible: statusToCompatible(status),
+    status,
+    reasons,
+    warnings: reasons.filter((reason) => reason.status === 'warning'),
+    derived_metrics: { ...summary, proximal, distal, limiting_region },
+    evidence_state,
+  };
+}
 
-  const inner1_od_inch = frToInch(inner1.od_fr);
-  const inner2_od_inch = frToInch(inner2.od_fr);
-  const combined_od_inch = inner1_od_inch + inner2_od_inch;
-  const effective_outer_id_inch = outer.id_inch - MARGIN_INCH;
-  const clearance_inch = effective_outer_id_inch - combined_od_inch;
+function dualDiameterMetrics(outerId: unknown, inner1Od: unknown, inner2Od: unknown): RegionalDualDiameterMetrics {
+  const inner1_od_inch = isPositiveFinite(inner1Od) ? inner1Od : null;
+  const inner2_od_inch = isPositiveFinite(inner2Od) ? inner2Od : null;
+  const combined_od_inch = inner1_od_inch !== null && inner2_od_inch !== null
+    ? inner1_od_inch + inner2_od_inch : null;
+  const metrics = diameterMetrics(outerId, combined_od_inch);
+  return {
+    outer_id_inch: metrics.outer_id_inch,
+    inner1_od_inch,
+    inner2_od_inch,
+    combined_od_inch,
+    effective_outer_id_inch: metrics.effective_outer_id_inch,
+    clearance_inch: metrics.clearance_inch,
+    outer_id_mm: metrics.outer_id_mm,
+    inner1_od_mm: inner1_od_inch === null ? null : inchToMm(inner1_od_inch),
+    inner2_od_mm: inner2_od_inch === null ? null : inchToMm(inner2_od_inch),
+    combined_od_mm: metrics.inner_od_mm,
+    clearance_mm: metrics.clearance_mm,
+  };
+}
 
-  // Status determination:
-  //   clearance_inch ≤ 0              → incompatible
-  //   0 < clearance_inch ≤ MARGIN_INCH → warning (tight fit)
-  //   clearance_inch > MARGIN_INCH     → ok
+function runDualDiameterCheck(region: DiameterRegion, metrics: RegionalDualDiameterMetrics): CheckOutcome {
+  const clearance_inch = metrics.clearance_inch;
   let status: CheckStatus;
   let code: ReasonCode;
-  if (clearance_inch <= 0) {
+  if (clearance_inch === null) {
+    status = 'unknown';
+    code = 'DIAMETER_DUAL_UNKNOWN';
+  } else if (clearance_inch <= 0) {
     status = 'incompatible';
     code = 'DIAMETER_DUAL_INCOMPATIBLE';
   } else if (clearance_inch <= MARGIN_INCH) {
@@ -603,45 +618,12 @@ export function checkDualCompatibility(pair: {
     code = 'DIAMETER_DUAL_OK';
   }
 
-  const outcome: CheckOutcome = {
+  return {
     check: 'diameter_dual',
+    region,
     status,
     code,
-    evidence: {
-      outer_id_inch: outer.id_inch,
-      inner1_od_fr: inner1.od_fr,
-      inner2_od_fr: inner2.od_fr,
-      inner1_od_inch,
-      inner2_od_inch,
-      combined_od_inch,
-      effective_outer_id_inch,
-      clearance_inch,
-    },
-  };
-
-  const inner1_od_mm = frToMm(inner1.od_fr);
-  const inner2_od_mm = frToMm(inner2.od_fr);
-
-  const derived_metrics: DualDerivedMetrics = {
-    inner1_od_inch,
-    inner2_od_inch,
-    combined_od_inch,
-    effective_outer_id_inch,
-    clearance_inch,
-    outer_id_mm: inchToMm(outer.id_inch),
-    inner1_od_mm,
-    inner2_od_mm,
-    combined_od_mm: inner1_od_mm + inner2_od_mm,
-    clearance_mm: inchToMm(effective_outer_id_inch) - (inner1_od_mm + inner2_od_mm),
-  };
-
-  return {
-    compatible: statusToCompatible(status),
-    status,
-    reasons: [outcome],
-    warnings: status === 'warning' ? [outcome] : [],
-    derived_metrics,
-    evidence_state,
+    evidence: { ...metrics },
   };
 }
 

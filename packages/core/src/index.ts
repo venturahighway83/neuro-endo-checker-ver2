@@ -16,6 +16,8 @@ export {
 // Compatibility engine — types (1-in-1)
 export type {
   CheckStatus,
+  DiameterRegion,
+  RegionalDiameterMetrics,
   ReasonCode,
   CheckOutcome,
   DerivedMetrics,
@@ -26,6 +28,7 @@ export type {
 // Compatibility engine — types (2-in-1)
 export type {
   DualDerivedMetrics,
+  RegionalDualDiameterMetrics,
   DualEvidenceState,
   DualCompatibilityResult,
 } from './engine';

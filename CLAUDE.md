@@ -88,15 +88,14 @@ The existing `device_import_template_utf8.csv` at the repo root is the original 
 
 ## Compatibility Engine Status
 
-`packages/core/src/engine.ts` is **intentionally not implemented** (throws at runtime).
+`packages/core/src/engine.ts` is implemented. As requested on 2026-09-24:
+- Compare proximal OD to proximal ID minus 0.001 inch, and distal OD to distal ID minus 0.001 inch, with strict `<`.
+- Both regions must pass. Missing regional values are unknown; never substitute legacy `id_inch` / `od_fr` or the opposite endpoint.
+- Two simultaneous inner catheters use summed ODs separately at each region, retaining the existing tight-clearance warning.
+- Category and length checks remain in place. Guiding → micro is allowed (`ok`).
+- Results carry per-region evidence; summary clearance is the smaller of the two regional clearances, or null if either is unknown.
 
-Four open questions must be answered by the clinical team before implementing:
-1. Strict `<` vs. non-strict `≤` comparison
-2. Whether a dimensional tolerance/margin applies
-3. Whether to enforce category hierarchy in the engine
-4. Which two-device pair combinations are valid
-
-See `docs/specs/compatibility-engine.md` for full details.
+See `docs/specs/compatibility-engine.md` for full details and aggregation priority.
 
 ---
 

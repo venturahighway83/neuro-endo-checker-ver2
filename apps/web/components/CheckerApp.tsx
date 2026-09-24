@@ -7,7 +7,7 @@ import { DevicePanel } from './DevicePanel';
 import { DeviceConnections } from './DeviceConnections';
 import { CatheterDiagram } from './CatheterDiagram';
 import { ProximalCrossSection } from './ProximalCrossSection';
-import { STATUS_LABEL, STATUS_BG, STATUS_TEXT, STATUS_BORDER } from './statusUtils';
+import { checkLabel, STATUS_LABEL, STATUS_BG, STATUS_TEXT, STATUS_BORDER } from './statusUtils';
 
 interface Props {
   guidingDevices: Device[];
@@ -20,19 +20,19 @@ interface Props {
 function ResultCard({ label, result }: { label: string; result: CompatibilityResult }) {
   const { status, reasons, derived_metrics: dm } = result;
   const checks = reasons.map((r) => {
-    const name = r.check === 'diameter' ? '径' : r.check === 'length' ? '長さ' : r.check === 'category' ? 'カテゴリ' : r.check;
+    const name = checkLabel(r);
     const icon = r.status === 'ok' ? '✓' : r.status === 'warning' ? '⚠' : r.status === 'incompatible' ? '✕' : '–';
     return `${name}${icon}`;
   }).join('　');
   return (
-    <div className={`flex items-center gap-2 rounded border px-2.5 py-1.5 ${STATUS_BORDER[status]}`}>
+    <div className={`flex flex-wrap items-center gap-2 rounded border px-2.5 py-1.5 ${STATUS_BORDER[status]}`}>
       <span className={`text-sm font-bold px-1.5 py-0.5 rounded-full text-white shrink-0 ${STATUS_BG[status]}`}>
         {STATUS_LABEL[status]}
       </span>
       <span className="text-sm text-gray-300 truncate flex-1 min-w-0">{label}</span>
       <span className={`text-xs font-mono shrink-0 ${STATUS_TEXT[status]}`}>{checks}</span>
       {dm.clearance_mm !== null && (
-        <span className={`text-xs font-mono font-semibold shrink-0 ${STATUS_TEXT[status]}`}>
+        <span title="近位・遠位のうち小さい方の余裕（マージン適用後）" className={`text-xs font-mono font-semibold shrink-0 ${STATUS_TEXT[status]}`}>
           {dm.clearance_mm >= 0 ? '+' : ''}{dm.clearance_mm.toFixed(2)}mm
         </span>
       )}
@@ -41,15 +41,18 @@ function ResultCard({ label, result }: { label: string; result: CompatibilityRes
 }
 
 function DualResultCard({ label, result }: { label: string; result: DualCompatibilityResult }) {
-  const { status, derived_metrics: dm } = result;
+  const { status, reasons, derived_metrics: dm } = result;
   return (
-    <div className={`flex items-center gap-2 rounded border px-2.5 py-1.5 ${STATUS_BORDER[status]}`}>
+    <div className={`flex flex-wrap items-center gap-2 rounded border px-2.5 py-1.5 ${STATUS_BORDER[status]}`}>
       <span className={`text-sm font-bold px-1.5 py-0.5 rounded-full text-white shrink-0 ${STATUS_BG[status]}`}>
         2本&nbsp;{STATUS_LABEL[status]}
       </span>
       <span className="text-sm text-gray-300 truncate flex-1 min-w-0">{label}</span>
+      <span className={`text-xs font-mono shrink-0 ${STATUS_TEXT[status]}`}>
+        {reasons.map((r) => `${checkLabel(r)}${r.status === 'ok' ? '✓' : r.status === 'warning' ? '⚠' : r.status === 'incompatible' ? '✕' : '–'}`).join('　')}
+      </span>
       {dm.clearance_mm !== null && (
-        <span className={`text-xs font-mono font-semibold shrink-0 ${STATUS_TEXT[status]}`}>
+        <span title="近位・遠位のうち小さい方の余裕（マージン適用後）" className={`text-xs font-mono font-semibold shrink-0 ${STATUS_TEXT[status]}`}>
           {dm.clearance_mm >= 0 ? '+' : ''}{dm.clearance_mm.toFixed(2)}mm
         </span>
       )}

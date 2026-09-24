@@ -1,19 +1,12 @@
 'use client';
 
 import type { CompatibilityResult, CheckOutcome } from '@neuro-endo/core';
-import { STATUS_LABEL, STATUS_BG, STATUS_TEXT, STATUS_BORDER } from './statusUtils';
+import { checkLabel, STATUS_LABEL, STATUS_BG, STATUS_TEXT, STATUS_BORDER } from './statusUtils';
 
 interface Props {
   result: CompatibilityResult;
   label: string;
 }
-
-const CHECK_LABEL: Record<string, string> = {
-  diameter: '径チェック',
-  diameter_dual: '径チェック(2本)',
-  length: '長さチェック',
-  category: 'カテゴリチェック',
-};
 
 const CODE_LABEL: Record<string, string> = {
   DIAMETER_OK: '通過可能',
@@ -40,7 +33,7 @@ function CheckRow({ outcome }: { outcome: CheckOutcome }) {
   return (
     <div className={`rounded border px-3 py-2 ${STATUS_BORDER[outcome.status]}`}>
       <div className="flex items-center justify-between mb-1">
-        <span className="text-xs font-semibold text-gray-600">{CHECK_LABEL[outcome.check]}</span>
+        <span className="text-xs font-semibold text-gray-600">{checkLabel(outcome)}チェック</span>
         <span className={`text-xs font-bold flex items-center gap-1 ${STATUS_TEXT[outcome.status]}`}>
           <span>{STATUS_ICON[outcome.status]}</span>
           <span>{STATUS_LABEL[outcome.status]}</span>
@@ -67,13 +60,15 @@ export function ResultDetail({ result, label }: Props) {
       {/* Check results */}
       <div className="space-y-2 mb-4">
         {reasons.map((r) => (
-          <CheckRow key={r.check} outcome={r} />
+          <CheckRow key={`${r.check}-${r.region ?? ''}`} outcome={r} />
         ))}
       </div>
 
       {/* Derived metrics */}
       <div className="rounded border border-gray-200 bg-gray-50 px-3 py-2">
-        <div className="text-xs font-semibold text-gray-500 mb-2">計測値</div>
+        <div className="text-xs font-semibold text-gray-500 mb-2">
+          計測値{dm.limiting_region && `（余裕が小さい${dm.limiting_region === 'proximal' ? '近位' : '遠位'}）`}
+        </div>
         <div className="grid grid-cols-2 gap-x-4 gap-y-1">
           {dm.outer_id_mm !== null && (
             <>

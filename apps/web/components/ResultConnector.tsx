@@ -1,20 +1,13 @@
 'use client';
 
 import type { CompatibilityResult } from '@neuro-endo/core';
-import { STATUS_LABEL, STATUS_BG, STATUS_TEXT, STATUS_BORDER } from './statusUtils';
+import { checkLabel, STATUS_LABEL, STATUS_BG, STATUS_TEXT, STATUS_BORDER } from './statusUtils';
 
 interface Props {
   result: CompatibilityResult | null;
   outerLabel: string;
   innerLabel: string;
 }
-
-const CHECK_LABEL: Record<string, string> = {
-  diameter: '径',
-  diameter_dual: '径(2本)',
-  length: '長さ',
-  category: 'カテゴリ',
-};
 
 const CHECK_STATUS_ICON: Record<string, string> = {
   ok: '✓',
@@ -49,8 +42,8 @@ export function ResultConnector({ result, outerLabel, innerLabel }: Props) {
       {/* Individual checks */}
       <div className="w-full space-y-0.5">
         {reasons.map((r) => (
-          <div key={r.check} className="flex items-center justify-between text-xs">
-            <span className="text-gray-500">{CHECK_LABEL[r.check]}</span>
+          <div key={`${r.check}-${r.region ?? ''}`} className="flex items-center justify-between text-xs">
+            <span className="text-gray-500">{checkLabel(r)}</span>
             <span className={STATUS_TEXT[r.status]}>
               {CHECK_STATUS_ICON[r.status]}
             </span>
@@ -61,7 +54,7 @@ export function ResultConnector({ result, outerLabel, innerLabel }: Props) {
       {/* Clearance */}
       {dm.clearance_mm !== null && (
         <div className="w-full border-t border-current border-opacity-20 pt-1 mt-0.5">
-          <div className="text-xs text-gray-500 text-center">隙間</div>
+          <div className="text-xs text-gray-500 text-center">最小余裕</div>
           <div className={`text-xs font-mono text-center font-semibold ${STATUS_TEXT[status]}`}>
             {dm.clearance_mm >= 0 ? '+' : ''}{(dm.clearance_mm).toFixed(3)}mm
           </div>

@@ -1,4 +1,11 @@
-import type { CheckStatus } from '@neuro-endo/core';
+import type { CheckOutcome, CheckStatus } from '@neuro-endo/core';
+
+export function checkLabel(outcome: CheckOutcome): string {
+  if (outcome.region) return outcome.region === 'proximal' ? '近位径' : '遠位径';
+  if (outcome.check === 'category') return 'カテゴリ';
+  if (outcome.check === 'length') return '長さ';
+  return '径';
+}
 
 export const STATUS_LABEL: Record<CheckStatus, string> = {
   ok: '適合',

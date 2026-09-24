@@ -1,14 +1,14 @@
 import { describe, it, expect } from 'vitest';
 import { checkCompatibility, checkThreeWay } from '../engine';
 import type { Device } from '../types';
-import { inchToMm, frToMm } from '../units';
+import { inchToMm, frToMm, frToInch } from '../units';
 
 // ============================================================================
 // Device factories
 // ============================================================================
 
 function makeDevice(overrides: Partial<Device> & { category: Device['category'] }): Device {
-  return {
+  const base = {
     id: 'test-device',
     name: 'Test Device',
     maker: 'Test Maker',
@@ -18,10 +18,20 @@ function makeDevice(overrides: Partial<Device> & { category: Device['category'] 
     notes: '',
     ...overrides,
   };
+  // Synthetic uniform-end fixtures preserve the original regression cases.
+  // This is test setup only, not a fallback or a claim about real regional measurements.
+  return {
+    ...base,
+    proximal_id_inch: base.id_inch,
+    distal_id_inch: base.id_inch,
+    proximal_od_inch: frToInch(base.od_fr),
+    distal_od_inch: frToInch(base.od_fr),
+    ...overrides,
+  };
 }
 
 // ---------------------------------------------------------------------------
-// Concrete test fixtures (values from actual CSV devices)
+// Synthetic uniform-end fixtures based on historical CSV values
 // ---------------------------------------------------------------------------
 
 /** 6F Roadmaster — outer catheter in many test pairs */
@@ -102,7 +112,6 @@ describe('diameter: DIAMETER_OK', () => {
     const result = checkCompatibility({ outer: guiding8F, inner: navien072 });
     const dc = result.reasons.find((r) => r.check === 'diameter')!;
     expect(dc.evidence['outer_id_inch']).toBeCloseTo(0.09, 10);
-    expect(dc.evidence['inner_od_fr']).toBeCloseTo(6.5, 10);
     expect(dc.evidence['inner_od_inch']).toBeCloseTo(6.5 / 76.2, 10);
     expect(dc.evidence['effective_outer_id_inch']).toBeCloseTo(0.09 - 0.001, 10);
   });
@@ -159,12 +168,12 @@ describe('diameter: DIAMETER_UNKNOWN', () => {
     expect(dc.status).toBe('unknown');
   });
 
-  it('evidence inch values are null when unknown', () => {
+  it('retains measured OD while clearance is null when ID is unknown', () => {
     const outer = makeDevice({ category: 'ガイディング', id_inch: 0 });
     const result = checkCompatibility({ outer, inner: intermediate });
     const dc = result.reasons.find((r) => r.check === 'diameter')!;
     expect(dc.evidence['clearance_inch']).toBeNull();
-    expect(dc.evidence['inner_od_inch']).toBeNull();
+    expect(dc.evidence['inner_od_inch']).toBeCloseTo(5.4 / 76.2, 10);
     expect(dc.evidence['effective_outer_id_inch']).toBeNull();
   });
 });
@@ -191,11 +200,11 @@ describe('category: CATEGORY_ADJACENT', () => {
 });
 
 describe('category: CATEGORY_SKIP', () => {
-  it('ガイディング → マイクロ is a skip → warning', () => {
+  it('ガイディング → マイクロ is a skip → ok', () => {
     const result = checkCompatibility({ outer: guiding6F, inner: micro });
     const cc = result.reasons.find((r) => r.check === 'category')!;
     expect(cc.code).toBe('CATEGORY_SKIP');
-    expect(cc.status).toBe('warning');
+    expect(cc.status).toBe('ok');
     expect(cc.evidence['delta']).toBe(2);
   });
 });
@@ -320,13 +329,13 @@ describe('aggregate status', () => {
     expect(result.reasons.some((r) => r.code === 'LENGTH_INSUFFICIENT')).toBe(true);
   });
 
-  it('category skip (warning) + diameter ok + length ok → status warning, compatible true', () => {
+  it('category skip + diameter ok + length ok → status ok, compatible true', () => {
     // guiding6F (length 90cm) → micro (length 150cm): length sufficient
     // diameter: micro od_fr=2.4 → inner_od_inch=0.0315 < effective 0.070 → ok
     const result = checkCompatibility({ outer: guiding6F, inner: micro });
     expect(result.compatible).toBe(true);
-    expect(result.status).toBe('warning');
-    expect(result.warnings.some((w) => w.code === 'CATEGORY_SKIP')).toBe(true);
+    expect(result.status).toBe('ok');
+    expect(result.warnings).toHaveLength(0);
   });
 
   it('diameter incompatible → status incompatible, compatible false', () => {
@@ -472,7 +481,8 @@ describe('derived_metrics', () => {
     const inner = makeDevice({ category: '中間', od_fr: 5.4 }); // present
     const { derived_metrics: dm } = checkCompatibility({ outer, inner });
     expect(dm.outer_id_mm).toBeNull();
-    expect(dm.inner_od_mm).toBeCloseTo(5.4 / 3, 6);
+    expect(dm.inner_od_mm).toBeNull();
+    expect(dm.proximal.inner_od_mm).toBeCloseTo(5.4 / 3, 6);
     expect(dm.clearance_mm).toBeNull();
   });
 });
@@ -485,8 +495,10 @@ describe('evidence_state', () => {
   it('marks all fields present for complete devices', () => {
     const result = checkCompatibility({ outer: guiding6F, inner: intermediate });
     const { evidence_state: es } = result;
-    expect(es.outer_id_inch).toBe('present');
-    expect(es.inner_od_fr).toBe('present');
+    expect(es.outer_proximal_id_inch).toBe('present');
+    expect(es.outer_distal_id_inch).toBe('present');
+    expect(es.inner_proximal_od_inch).toBe('present');
+    expect(es.inner_distal_od_inch).toBe('present');
     expect(es.outer_length_cm).toBe('present');
     expect(es.inner_length_cm).toBe('present');
   });
@@ -494,13 +506,15 @@ describe('evidence_state', () => {
   it('outer_id_inch = missing when outer.id_inch = 0', () => {
     const outer = makeDevice({ category: 'ガイディング', id_inch: 0 });
     const result = checkCompatibility({ outer, inner: intermediate });
-    expect(result.evidence_state.outer_id_inch).toBe('missing');
+    expect(result.evidence_state.outer_proximal_id_inch).toBe('missing');
+    expect(result.evidence_state.outer_distal_id_inch).toBe('missing');
   });
 
   it('inner_od_fr = missing when inner.od_fr = 0', () => {
     const inner = makeDevice({ category: '中間', od_fr: 0 });
     const result = checkCompatibility({ outer: guiding6F, inner });
-    expect(result.evidence_state.inner_od_fr).toBe('missing');
+    expect(result.evidence_state.inner_proximal_od_inch).toBe('missing');
+    expect(result.evidence_state.inner_distal_od_inch).toBe('missing');
   });
 
   it('outer_length_cm = missing when outer.length_cm = 0', () => {
@@ -521,9 +535,11 @@ describe('evidence_state', () => {
 // ============================================================================
 
 describe('reasons structure', () => {
-  it('always returns exactly 3 reasons (one per check)', () => {
+  it('returns category, two regional diameters and length', () => {
     const result = checkCompatibility({ outer: guiding6F, inner: intermediate });
-    expect(result.reasons).toHaveLength(3);
+    expect(result.reasons).toHaveLength(4);
+    expect(result.reasons.filter((r) => r.check === 'diameter').map((r) => r.region))
+      .toEqual(['proximal', 'distal']);
     const checks = result.reasons.map((r) => r.check);
     expect(checks).toContain('category');
     expect(checks).toContain('diameter');
@@ -578,10 +594,10 @@ describe('checkThreeWay', () => {
 });
 
 // ============================================================================
-// Real device pairings from CSV
+// Regression pairings with synthetic uniform-end measurements
 // ============================================================================
 
-describe('real device pairings', () => {
+describe('synthetic uniform-end regression pairings', () => {
   it('6F Roadmaster + Navien058: margin makes this pair INCOMPATIBLE', () => {
     // inner_od_inch = 5.4/76.2 = 0.07087, effective_outer_id = 0.071−0.001 = 0.070
     // 0.07087 > 0.070 → DIAMETER_INCOMPATIBLE (clinical finding: 0.001 inch margin blocks this pair)

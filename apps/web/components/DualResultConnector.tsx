@@ -54,7 +54,7 @@ export function DualResultConnector({ dualResult, result1, result2, outerLabel }
       {/* Combined clearance */}
       {dm?.clearance_mm != null && (
         <div className="w-full border-t border-current border-opacity-20 pt-1">
-          <div className="text-xs text-gray-500 text-center">合計隙間</div>
+          <div className="text-xs text-gray-500 text-center">最小余裕</div>
           <div className={`text-xs font-mono text-center font-semibold ${STATUS_TEXT[dualStatus]}`}>
             {dm.clearance_mm >= 0 ? '+' : ''}{dm.clearance_mm.toFixed(3)}mm
           </div>
