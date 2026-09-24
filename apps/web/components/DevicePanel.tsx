@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useLayoutEffect, useId } from 'react';
+import { createPortal } from 'react-dom';
 import type { Device } from '@neuro-endo/core';
 import { inchToMm, mmToFr } from '@neuro-endo/core';
 
@@ -11,6 +12,14 @@ interface Props {
   onSelect: (device: Device | null) => void;
   nodeId?: string;
   parentId?: string;
+}
+
+interface DropdownPosition {
+  top: number;
+  left: number;
+  width: number;
+  maxHeight: number;
+  opensUpwards: boolean;
 }
 
 function formatDiameter(value: number | null | undefined): string {
@@ -28,18 +37,82 @@ function formatOuterDiameter(value: number | null | undefined): string {
 export function DevicePanel({ title, devices, selected, onSelect, nodeId, parentId }: Props) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
+  const [position, setPosition] = useState<DropdownPosition | null>(null);
   const ref = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownId = useId();
+
+  useLayoutEffect(() => {
+    if (!open) return;
+
+    function updatePosition() {
+      const trigger = triggerRef.current;
+      if (!trigger) return;
+      const rect = trigger.getBoundingClientRect();
+      const viewport = window.visualViewport;
+      const viewportTop = viewport?.offsetTop ?? 0;
+      const viewportLeft = viewport?.offsetLeft ?? 0;
+      const viewportHeight = viewport?.height ?? window.innerHeight;
+      const viewportWidth = viewport?.width ?? window.innerWidth;
+      const gap = 4;
+      const edge = 8;
+      const below = Math.max(0, viewportTop + viewportHeight - rect.bottom - gap - edge);
+      const above = Math.max(0, rect.top - viewportTop - gap - edge);
+      const opensUpwards = below < 200 && above > below;
+      const width = Math.min(Math.max(rect.width, 280), Math.max(0, viewportWidth - edge * 2));
+      const next = {
+        top: opensUpwards ? rect.top - gap : rect.bottom + gap,
+        left: Math.max(viewportLeft + edge, Math.min(rect.left, viewportLeft + viewportWidth - width - edge)),
+        width,
+        maxHeight: Math.min(480, opensUpwards ? above : below),
+        opensUpwards,
+      };
+      setPosition((previous) => previous
+        && previous.top === next.top && previous.left === next.left
+        && previous.width === next.width && previous.maxHeight === next.maxHeight
+        && previous.opensUpwards === next.opensUpwards ? previous : next);
+    }
+
+    updatePosition();
+    // Capture scroll events from the horizontal device panel and the page, too.
+    window.addEventListener('scroll', updatePosition, true);
+    window.addEventListener('resize', updatePosition);
+    window.visualViewport?.addEventListener('resize', updatePosition);
+    window.visualViewport?.addEventListener('scroll', updatePosition);
+    const observer = new ResizeObserver(updatePosition);
+    if (ref.current) observer.observe(ref.current);
+    return () => {
+      window.removeEventListener('scroll', updatePosition, true);
+      window.removeEventListener('resize', updatePosition);
+      window.visualViewport?.removeEventListener('resize', updatePosition);
+      window.visualViewport?.removeEventListener('scroll', updatePosition);
+      observer.disconnect();
+    };
+  }, [open]);
 
   useEffect(() => {
-    function onOutside(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
+    if (!open) return;
+    function onOutside(e: PointerEvent) {
+      if (!ref.current?.contains(e.target as Node) && !dropdownRef.current?.contains(e.target as Node)) {
         setOpen(false);
         setQuery('');
       }
     }
-    document.addEventListener('mousedown', onOutside);
-    return () => document.removeEventListener('mousedown', onOutside);
-  }, []);
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') {
+        setOpen(false);
+        setQuery('');
+        triggerRef.current?.focus({ preventScroll: true });
+      }
+    }
+    document.addEventListener('pointerdown', onOutside);
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('pointerdown', onOutside);
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [open]);
 
   const filtered = query.trim()
     ? devices.filter(
@@ -53,6 +126,7 @@ export function DevicePanel({ title, devices, selected, onSelect, nodeId, parent
     onSelect(device);
     setOpen(false);
     setQuery('');
+    triggerRef.current?.focus({ preventScroll: true });
   }
 
   return (
@@ -62,7 +136,11 @@ export function DevicePanel({ title, devices, selected, onSelect, nodeId, parent
 
       {/* Trigger */}
       <button
+        ref={triggerRef}
         type="button"
+        aria-expanded={open}
+        aria-controls={open ? dropdownId : undefined}
+        aria-haspopup="dialog"
         data-device-node={nodeId}
         data-device-parent={parentId}
         data-device-selected={!!selected}
@@ -82,7 +160,7 @@ export function DevicePanel({ title, devices, selected, onSelect, nodeId, parent
       </button>
 
       {/* Selected specs */}
-      {selected && !open && (
+      {selected && (
         <div className="mt-1 text-xs text-gray-400 leading-4">
           <table className="w-full table-fixed border-collapse border border-gray-600 text-left [&_th]:border [&_th]:border-gray-600 [&_th]:px-1.5 [&_th]:py-0.5 [&_td]:border [&_td]:border-gray-600 [&_td]:px-1.5 [&_td]:py-0.5" aria-label={`${selected.name}の径（inch、外径はFr併記）`}>
             <thead>
@@ -113,16 +191,27 @@ export function DevicePanel({ title, devices, selected, onSelect, nodeId, parent
       )}
 
       {/* Dropdown list */}
-      {open && (
+      {open && position && createPortal(
         <div
-          className="absolute z-50 top-full left-0 mt-1 bg-gray-800 border border-gray-600 rounded shadow-xl"
-          style={{ minWidth: '280px' }}
+          ref={dropdownRef}
+          id={dropdownId}
+          role="dialog"
+          aria-label={`${title}を選択`}
+          className="fixed z-[100] flex flex-col overflow-hidden bg-gray-800 border border-gray-600 rounded shadow-xl"
+          style={{
+            top: position.top,
+            left: position.left,
+            width: position.width,
+            maxHeight: position.maxHeight,
+            transform: position.opensUpwards ? 'translateY(-100%)' : undefined,
+          }}
         >
           {/* Search box */}
-          <div className="p-2 border-b border-gray-700">
+          <div className="shrink-0 p-2 border-b border-gray-700">
             <input
               autoFocus
               type="text"
+              aria-label="名称・メーカーで検索"
               placeholder="名称・メーカーで検索…"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -131,7 +220,7 @@ export function DevicePanel({ title, devices, selected, onSelect, nodeId, parent
           </div>
 
           {/* Options */}
-          <div className="max-h-60 overflow-y-auto">
+          <div className="min-h-0 overflow-y-auto overscroll-contain">
             {selected && (
               <button
                 onClick={() => handleSelect(null)}
@@ -163,7 +252,8 @@ export function DevicePanel({ title, devices, selected, onSelect, nodeId, parent
               );
             })}
           </div>
-        </div>
+        </div>,
+        document.body,
       )}
     </div>
   );
