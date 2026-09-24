@@ -1,6 +1,6 @@
 {
   "schema_version": "0.2.0",
-  "generated_at": "2026-09-18T23:33:44.080Z",
+  "generated_at": "2026-09-24T09:58:55.987Z",
   "source_url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSgVsdmTcaWlepz42z8pHGNGn5VjT9FADDr-Tl4Nm7dEw7IxoeBXJJ-TEMm1qXzCbntsa2-94h43fbF/pubhtml",
   "devices": [
     {
@@ -795,11 +795,11 @@
       "id_inch": 0.027,
       "od_fr": 2.8,
       "length_cm": 105,
-      "notes": "",
+      "notes": "2026-09-24ユーザー指定: 部位別径を125/135 cmに合わせて補完。近位内径は未登録。",
       "proximal_id_inch": null,
-      "proximal_od_inch": null,
-      "distal_id_inch": null,
-      "distal_od_inch": null
+      "proximal_od_inch": 0.03674541,
+      "distal_id_inch": 0.027,
+      "distal_od_inch": 0.03412073
     },
     {
       "id": "carnelian-hf-s-125cm",

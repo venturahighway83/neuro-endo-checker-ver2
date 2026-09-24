@@ -9,7 +9,8 @@
     "literature": "original_studyは論文由来でありメーカー確認済みを意味しない。製品系列での対応は各match_noteに明記。",
     "legacy": "既存id_inch/od_fr/length_cmは変更しない。source_urlは元の一覧の出典であり、追加4項目の出典はこのファイル。 ユーザー指定で新規追加した製品の基本寸法はdevice-additions-2026-09-18.json参照。od_frには公称サイズでなく採用外径の実寸換算値を保存。",
     "local_book": "ユーザー指定のローカル書籍も出典として採用。PDFファイル名・SHA-256・刊行日・書籍ページとPDFページを記録し、部位・長さが一致する未登録値のみ補完。メーカー資料による登録済み値は上書きしない。",
-    "generic_assignment": "2026-09-18ユーザー指定: 部位区別のない外径は近位外径、内径は遠位内径に割り当てる。明示部位の登録値を優先。割当値にはassignment=user_conventionを付け、部位確認済みの測定と区別する。既存一覧由来の一般径はlegacySheetを出典とし、メーカーでの再確認を意味しない。型式不一致・寸法種別不明の保留は維持。"
+    "generic_assignment": "2026-09-18ユーザー指定: 部位区別のない外径は近位外径、内径は遠位内径に割り当てる。明示部位の登録値を優先。割当値にはassignment=user_conventionを付け、部位確認済みの測定と区別する。既存一覧由来の一般径はlegacySheetを出典とし、メーカーでの再確認を意味しない。型式不一致・寸法種別不明の保留は維持。",
+    "variant_alignment": "2026-09-24ユーザー指定: Carnelian HF-S 105 cmの未登録3項目を125/135 cmに合わせる。このモデルに限る明示指定であり、一般的な長さ違いへの転用規則ではない。assignment=user_requested_variant_alignmentと参照モデルを記録。105 cmのメーカー・書籍仕様を確認した意味ではない。近位内径は未登録を維持。"
   },
   "sources": {
     "1018": {
@@ -1455,6 +1456,59 @@
             "book2018"
           ],
           "note": "書籍p.45「外径（先端Fr）」「外径（近位Fr）」を目視確認。換算はFr/76.2。"
+        }
+      }
+    },
+    {
+      "device_ids": [
+        "carnelian-hf-s-105cm"
+      ],
+      "match_note": "2026-09-24ユーザー指定により、105 cmだけ空欄だった3項目をCarnelian HF-S 125/135 cmの共通登録値に合わせた。長さ105 cmと旧一般径を維持し、近位内径は未登録。参照値の出典はbook2018だが、105 cmの書籍記載・メーカー仕様を確認したものではない。",
+      "values": {
+        "proximal_od_inch": {
+          "original_value": 2.8,
+          "original_unit": "Fr",
+          "value_inch": 0.03674541,
+          "source_ids": [
+            "book2018"
+          ],
+          "assignment": "user_requested_variant_alignment",
+          "assigned_on": "2026-09-24",
+          "reference_device_ids": [
+            "carnelian-hf-s-125cm",
+            "carnelian-hf-s-135cm"
+          ],
+          "note": "125/135 cmの書籍由来の部位別外径に合わせる（2026-09-24ユーザー指定）。書籍に105 cmの該当行はなく、105 cm仕様の独立確認ではない。"
+        },
+        "distal_id_inch": {
+          "original_value": 0.027,
+          "original_unit": "inch",
+          "value_inch": 0.027,
+          "source_ids": [
+            "book2018"
+          ],
+          "assignment": "user_requested_variant_alignment",
+          "assigned_on": "2026-09-24",
+          "reference_device_ids": [
+            "carnelian-hf-s-125cm",
+            "carnelian-hf-s-135cm"
+          ],
+          "note": "125/135 cmの登録値0.027 inchに合わせる。参照モデルの遠位内径は、書籍の一般内径を2026-09-18ユーザー指定で遠位に割り当てたもの。105 cmの部位別仕様の独立確認ではない。"
+        },
+        "distal_od_inch": {
+          "original_value": 2.6,
+          "original_unit": "Fr",
+          "value_inch": 0.03412073,
+          "source_ids": [
+            "book2018"
+          ],
+          "assignment": "user_requested_variant_alignment",
+          "assigned_on": "2026-09-24",
+          "reference_device_ids": [
+            "carnelian-hf-s-125cm",
+            "carnelian-hf-s-135cm"
+          ],
+          "note": "125/135 cmの書籍由来の部位別外径に合わせる（2026-09-24ユーザー指定）。書籍に105 cmの該当行はなく、105 cm仕様の独立確認ではない。"
         }
       }
     },
@@ -4773,7 +4827,7 @@
       "device_ids": [
         "carnelian-hf-s-105cm"
       ],
-      "reason": "書籍のHF-Sは有効長125/135 cmのみ。105 cm品に部位別外径を転用しない。",
+      "reason": "書籍のHF-Sは有効長125/135 cmのみのため、105 cm品への転用を当初保留した。",
       "source_ids": [
         "book2018"
       ],
@@ -4782,7 +4836,9 @@
           125,
           135
         ]
-      }
+      },
+      "status": "resolved_by_user_assignment",
+      "resolution": "2026-09-24ユーザー指定で125/135 cmの登録値に合わせた。105 cmの仕様確認とは区別してassignment=user_requested_variant_alignmentを記録。近位内径は引き続き未登録。"
     }
   ],
   "coverage": [
@@ -5672,11 +5728,18 @@
     {
       "device_id": "carnelian-hf-s-105cm",
       "name": "Carnelian HF-S (105 cm)",
-      "populated_fields": 0,
-      "status": "unresolved",
-      "remaining_reason": "公開資料から既存モデルに対応する近位/遠位の区別を確定できていない。",
+      "populated_fields": 3,
+      "status": "partial",
+      "remaining_reason": "未確認: proximal_id_inch。他3項目は2026-09-24ユーザー指定による125/135 cmからの補完であり、105 cm仕様の独立確認ではない。",
       "additional_source_ids": [
-        "hf"
+        "hf",
+        "book2018"
+      ],
+      "previous_remaining_reason": "公開資料から既存モデルに対応する近位/遠位の区別を確定できていない。",
+      "assigned_fields": [
+        "proximal_od_inch",
+        "distal_id_inch",
+        "distal_od_inch"
       ]
     },
     {
@@ -6779,5 +6842,6 @@
         "distal_id_inch"
       ]
     }
-  ]
+  ],
+  "updated_on": "2026-09-24"
 }

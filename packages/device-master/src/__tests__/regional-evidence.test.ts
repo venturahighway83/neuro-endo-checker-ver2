@@ -9,6 +9,8 @@ interface Measurement {
   original_unit: 'inch' | 'mm' | 'Fr';
   value_inch: number;
   source_ids: string[];
+  assignment?: string;
+  reference_device_ids?: string[];
 }
 interface Evidence {
   sources: Record<string, { url?: string; type: string; local_path?: string; sha256?: string }>;
@@ -92,7 +94,24 @@ describe('researched regional dimensions', () => {
         proximal_id_inch: null, distal_id_inch: id.startsWith('carnelian-hf-s') ? 0.027 : 0.017,
       });
     }
-    for (const field of REGIONAL_DIAMETER_COLUMNS) expect(byId.get('carnelian-hf-s-105cm')?.[field]).toBeNull();
+  });
+
+  it('aligns HF-S 105 cm with 125/135 cm by user request while retaining its length and assignment provenance', () => {
+    const device = byId.get('carnelian-hf-s-105cm')!;
+    expect(device.length_cm).toBe(105);
+    expect(device.proximal_id_inch).toBeNull();
+    for (const referenceId of ['carnelian-hf-s-125cm', 'carnelian-hf-s-135cm']) {
+      const reference = byId.get(referenceId)!;
+      for (const field of REGIONAL_DIAMETER_COLUMNS) expect(device[field]).toBe(reference[field]);
+    }
+    const records = evidence.records.filter((record) => record.device_ids.includes(device.id));
+    expect(records).toHaveLength(1);
+    for (const field of ['proximal_od_inch', 'distal_id_inch', 'distal_od_inch'] as const) {
+      expect(records[0]?.values[field]).toMatchObject({
+        assignment: 'user_requested_variant_alignment',
+        reference_device_ids: ['carnelian-hf-s-125cm', 'carnelian-hf-s-135cm'],
+      });
+    }
   });
 
   it('uses the user convention without copying wire diameters or overwriting explicit measurements', () => {
