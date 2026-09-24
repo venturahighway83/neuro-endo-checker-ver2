@@ -43,12 +43,15 @@ describe('device dropdown candidates', () => {
     expect(filterDeviceCandidates([fits, wide], guiding)).toEqual([fits, wide]);
   });
 
-  it('includes proximal equality but excludes excess OD and distal equality', () => {
+  it('includes equality at either or both regions but excludes excess OD', () => {
     const outer = { ...guiding, proximal_id_inch: 0.03, distal_id_inch: 0.0635 };
     const equality = device('proximal-equality', { proximal_od_inch: 0.029 });
     const proximalExcess = device('proximal-excess', { proximal_od_inch: 0.02900001 });
-    const distalEquality = device('distal-equality', { proximal_od_inch: 0.029, distal_od_inch: 0.0625 });
-    expect(filterDeviceCandidates([equality, proximalExcess, distalEquality], outer)).toEqual([equality]);
+    const distalEquality = device('distal-equality', { proximal_od_inch: 0.028, distal_od_inch: 0.0625 });
+    const bothEqual = device('both-equal', { proximal_od_inch: 0.029, distal_od_inch: 0.0625 });
+    const distalExcess = device('distal-excess', { proximal_od_inch: 0.029, distal_od_inch: 0.06250001 });
+    expect(filterDeviceCandidates([equality, proximalExcess, distalEquality, bothEqual, distalExcess], outer))
+      .toEqual([equality, distalEquality, bothEqual]);
   });
 
   it.each(['proximal', 'distal'] as const)('excludes a candidate that only fails the %s simultaneous check', (region) => {

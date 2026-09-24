@@ -48,7 +48,7 @@ describe('matching regional diameters', () => {
 
   describe.each(regions)('%s boundary', (region) => {
     it.each([
-      [0.062499, 'ok'], [0.0625, region === 'proximal' ? 'ok' : 'incompatible'],
+      [0.062499, 'ok'], [0.0625, 'ok'],
       [0.062501, 'incompatible'], [0.0635, 'incompatible'],
     ])('OD %s vs ID 0.0635 gives %s', (od, status) => {
       const result = checkCompatibility({
@@ -61,36 +61,51 @@ describe('matching regional diameters', () => {
     });
   });
 
-  it.each([
-    [0.03, 0.02899999, 'ok'],
-    [0.03, 0.029, 'ok'],
-    [0.03, 0.02900001, 'incompatible'],
-    [0.03, 0.029000000000000005, 'incompatible'],
-    [0.0010001, 1e-7, 'ok'],
-    [0.0010001, 1.0000001e-7, 'incompatible'],
-  ] as const)('proximal ID %s and OD %s use the decimal boundary without tolerance: %s', (id, od, status) => {
-    const result = checkCompatibility({
-      outer: { ...outer, proximal_id_inch: id },
-      inner: { ...inner, proximal_od_inch: od },
+  describe.each(regions)('%s decimal boundary', (region) => {
+    it.each([
+      [0.03, 0.02899999, 'ok'],
+      [0.03, 0.029, 'ok'],
+      [0.03, 0.02900001, 'incompatible'],
+      [0.03, 0.029000000000000005, 'incompatible'],
+      [0.0010001, 1e-7, 'ok'],
+      [0.0010001, 1.0000001e-7, 'incompatible'],
+    ] as const)('ID %s and OD %s use the decimal boundary without tolerance: %s', (id, od, status) => {
+      const result = checkCompatibility({
+        outer: { ...outer, [`${region}_id_inch`]: id },
+        inner: { ...inner, [`${region}_od_inch`]: od },
+      });
+      expect(result.status).toBe(status);
+      expect(result.compatible).toBe(status === 'ok');
+      if (od === 0.029 || od === 1e-7) {
+        expect(result.derived_metrics[region].clearance_inch).toBe(0);
+        expect(result.derived_metrics[region].clearance_mm).toBe(0);
+        expect(result.derived_metrics[region].effective_outer_id_inch).toBe(od);
+      }
     });
-    expect(result.status).toBe(status);
-    expect(result.compatible).toBe(status === 'ok');
-    if (od === 0.029 || od === 1e-7) {
-      expect(result.derived_metrics.proximal.clearance_inch).toBe(0);
-      expect(result.derived_metrics.proximal.clearance_mm).toBe(0);
-      expect(result.derived_metrics.proximal.effective_outer_id_inch).toBe(od);
-    }
   });
 
-  it.each([
-    [null, 'unknown'], [0.0635, 'incompatible'],
-  ] as const)('proximal equality does not override distal ID %s: %s', (distalId, status) => {
+  it('accepts simultaneous equality at both regions with zero margin-adjusted clearance', () => {
     const result = checkCompatibility({
-      outer: { ...outer, proximal_id_inch: 0.0635, distal_id_inch: distalId },
+      outer: { ...outer, proximal_id_inch: 0.0635, distal_id_inch: 0.0635 },
       inner: { ...inner, proximal_od_inch: 0.0625, distal_od_inch: 0.0625 },
     });
-    expect(result.reasons.find((r) => r.region === 'proximal')?.status).toBe('ok');
-    expect(result.status).toBe(status);
+    expect(result.status).toBe('ok');
+    expect(result.compatible).toBe(true);
+    expect(result.derived_metrics.clearance_inch).toBe(0);
+  });
+
+  describe.each(regions)('%s equality', (region) => {
+    it.each([
+      [null, 'unknown'], [0.063499, 'incompatible'],
+    ] as const)('does not override opposite ID %s: %s', (oppositeId, status) => {
+      const opposite = region === 'proximal' ? 'distal' : 'proximal';
+      const result = checkCompatibility({
+        outer: { ...outer, [`${region}_id_inch`]: 0.0635, [`${opposite}_id_inch`]: oppositeId },
+        inner: { ...inner, proximal_od_inch: 0.0625, distal_od_inch: 0.0625 },
+      });
+      expect(result.reasons.find((r) => r.region === region)?.status).toBe('ok');
+      expect(result.status).toBe(status);
+    });
   });
 
   describe.each([
