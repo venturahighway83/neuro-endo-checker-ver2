@@ -3,7 +3,8 @@
  *
  * Diameter rules updated 2026-09-24:
  *   - Comparison is performed in INCH units (not mm)
- *   - Inequality is strict: inner_od_inch < effective_outer_id_inch
+ *   - Single-device proximal comparison: inner_od_inch <= effective_outer_id_inch
+ *   - Single-device distal and simultaneous dual comparisons remain strict (<)
  *   - Compare proximal to proximal and distal to distal; both must pass
  *   - Margin: MARGIN_INCH = 0.001 inch subtracted from each outer regional ID
  *   - Missing regional measurements are unknown; never fall back to legacy diameters
@@ -45,9 +46,9 @@ export type DiameterRegion = 'proximal' | 'distal';
  */
 export type ReasonCode =
   // --- Diameter (1-in-1) ---
-  /** Regional inner OD < regional outer ID − MARGIN_INCH (strict). */
+  /** Inner OD ≤ outer ID − MARGIN_INCH at proximal; strict < at distal. */
   | 'DIAMETER_OK'
-  /** Regional inner OD ≥ regional outer ID − MARGIN_INCH. */
+  /** Inner OD > outer ID − MARGIN_INCH at proximal; ≥ at distal. */
   | 'DIAMETER_INCOMPATIBLE'
   /** A required regional diameter is absent / not a positive finite number. */
   | 'DIAMETER_UNKNOWN'
@@ -260,6 +261,35 @@ function diameterMetrics(outerId: unknown, innerOd: unknown): RegionalDiameterMe
   };
 }
 
+/** Subtract the input decimal values exactly before converting back to a number.
+ * This keeps e.g. 0.030 − 0.001 − 0.029 equal to zero without adding a tolerance.
+ */
+function decimalDifference(...values: number[]): number {
+  const terms = values.map((value) => {
+    const [coefficient = '0', exponent = '0'] = value.toString().split('e');
+    const [integer = '0', fraction = ''] = coefficient.split('.');
+    return { digits: integer + fraction, scale: fraction.length - Number(exponent) };
+  });
+  const scale = Math.max(...terms.map((term) => term.scale));
+  const difference = terms.reduce((total, term, index) => {
+    const scaled = BigInt(term.digits + '0'.repeat(scale - term.scale));
+    return index === 0 ? scaled : total - scaled;
+  }, BigInt(0));
+  return Number(`${difference}e${-scale}`);
+}
+
+/** Exact decimal arithmetic for the inclusive single-device proximal boundary. */
+function proximalDiameterMetrics(outerId: unknown, innerOd: unknown): RegionalDiameterMetrics {
+  const metrics = diameterMetrics(outerId, innerOd);
+  if (metrics.outer_id_inch === null) return metrics;
+  metrics.effective_outer_id_inch = decimalDifference(metrics.outer_id_inch, MARGIN_INCH);
+  if (metrics.inner_od_inch !== null) {
+    metrics.clearance_inch = decimalDifference(metrics.outer_id_inch, MARGIN_INCH, metrics.inner_od_inch);
+    metrics.clearance_mm = inchToMm(metrics.clearance_inch);
+  }
+  return metrics;
+}
+
 function limitingRegion(
   proximal: { clearance_inch: number | null },
   distal: { clearance_inch: number | null },
@@ -270,7 +300,8 @@ function limitingRegion(
 
 function runDiameterCheck(region: DiameterRegion, metrics: RegionalDiameterMetrics): CheckOutcome {
   const clearance = metrics.clearance_inch;
-  const status = clearance === null ? 'unknown' : clearance > 0 ? 'ok' : 'incompatible';
+  const passes = clearance !== null && (region === 'proximal' ? clearance >= 0 : clearance > 0);
+  const status = clearance === null ? 'unknown' : passes ? 'ok' : 'incompatible';
 
   return {
     check: 'diameter',
@@ -385,7 +416,7 @@ function runLengthCheck(outer: Device, inner: Device): CheckOutcome {
 export function checkCompatibility(pair: CompatibilityPair): CompatibilityResult {
   const { outer, inner } = pair;
 
-  const proximal = diameterMetrics(outer.proximal_id_inch, inner.proximal_od_inch);
+  const proximal = proximalDiameterMetrics(outer.proximal_id_inch, inner.proximal_od_inch);
   const distal = diameterMetrics(outer.distal_id_inch, inner.distal_od_inch);
   const categoryOutcome = runCategoryCheck(outer, inner);
   const lengthOutcome = runLengthCheck(outer, inner);

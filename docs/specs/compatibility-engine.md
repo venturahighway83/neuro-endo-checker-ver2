@@ -1,7 +1,7 @@
 # Compatibility Engine Specification
 
 **Package:** `packages/core/src/engine.ts`
-**Status:** 実装済み（2026-09-24：近位同士・遠位同士の径判定に更新）
+**Status:** 実装済み（2026-09-24：1本挿入の近位径条件を `≤` に更新）
 
 ---
 
@@ -9,7 +9,8 @@
 
 | 項目 | 決定内容 | 決定者 |
 |------|----------|--------|
-| 不等号 | **strict `<`** (equal は INCOMPATIBLE) | 医師確認済み |
+| 不等号（1本挿入） | **近位 `≤`、遠位 `<`**（マージン適用後の一致は近位のみ適合） | ユーザー指定（2026-09-24） |
+| 不等号（2本同時挿入） | 合計外径を **strict `<`** で比較（近位・遠位とも既存条件を維持） | 医師確認済み |
 | 比較単位 | **inch** (mm に変換せず inch のまま比較) | 医師確認済み |
 | margin | **0.001 inch** を outer の有効 ID から差し引いて比較 | 医師確認済み |
 | 比較部位 | **近位同士・遠位同士**で比較し、両方を満たす場合のみ径が適合 | ユーザー指定（2026-09-24） |
@@ -22,20 +23,20 @@
 
 ### 1. Diameter Check
 
-比較は **inch 単位** で、近位同士・遠位同士の2回行う。それぞれの outer 内径から **0.001 inch** の margin を差し引き、strict `<` で判定する。
+比較は **inch 単位** で、近位同士・遠位同士の2回行う。それぞれの outer 内径から **0.001 inch** の margin を差し引き、近位は `≤`、遠位は strict `<` で判定する。
 
 ```
 MARGIN = 0.001  (inch, fixed)
 
-近位: inner.proximal_od_inch < outer.proximal_id_inch − MARGIN
+近位: inner.proximal_od_inch ≤ outer.proximal_id_inch − MARGIN
 遠位: inner.distal_od_inch   < outer.distal_id_inch   − MARGIN
 
 各部位:
   inner_od_inch           = inner[region + '_od_inch']
   effective_outer_id_inch = outer[region + '_id_inch'] − MARGIN
 
-DIAMETER_OK:           inner_od_inch < effective_outer_id_inch   (strict <)
-DIAMETER_INCOMPATIBLE: inner_od_inch ≥ effective_outer_id_inch
+DIAMETER_OK:           近位 inner_od_inch ≤ effective_outer_id_inch / 遠位 inner_od_inch < effective_outer_id_inch
+DIAMETER_INCOMPATIBLE: 近位 inner_od_inch > effective_outer_id_inch / 遠位 inner_od_inch ≥ effective_outer_id_inch
 DIAMETER_UNKNOWN:      その部位の必要な内径・外径が正の有限数でない
 ```
 
@@ -43,10 +44,15 @@ DIAMETER_UNKNOWN:      その部位の必要な内径・外径が正の有限数
 不適合がなく片方でも `unknown` なら判定不明。従来の `id_inch`・`od_fr` や反対側の値による補完は行わない。
 近位外径と遠位内径など、異なる部位同士の比較は行わない。
 
+近位は入力数値の十進表記を整数化して差を計算し、追加の許容誤差は設けない。
+例: `0.030 − 0.001 − 0.029 = 0` は適合、外径 `0.02900001` は不適合。
+有効内径・余裕の表示用数値にも同じ十進計算を使用する。遠位・2本同時挿入の計算は従来どおり。
+
 **mm 換算での等価表現（参考）:**
 ```
 0.001 inch = 0.0254 mm
-inner_od_mm < outer_id_mm − 0.0254
+近位: inner_od_mm ≤ outer_id_mm − 0.0254
+遠位: inner_od_mm < outer_id_mm − 0.0254
 ```
 
 この基準は margin なし (v1) より **厳しい**。
@@ -186,8 +192,8 @@ UIは近位径・遠位径を区別して表示する。適合性チェック欄
 
 | コード | check | status | 条件 |
 |--------|-------|--------|------|
-| `DIAMETER_OK` | diameter | ok | 当該部位の内側外径 < 外側内径 − 0.001 |
-| `DIAMETER_INCOMPATIBLE` | diameter | incompatible | 当該部位の内側外径 ≥ 外側内径 − 0.001 |
+| `DIAMETER_OK` | diameter | ok | 近位：内側外径 ≤ 外側内径 − 0.001、遠位：内側外径 < 外側内径 − 0.001 |
+| `DIAMETER_INCOMPATIBLE` | diameter | incompatible | 近位：内側外径 > 外側内径 − 0.001、遠位：内側外径 ≥ 外側内径 − 0.001 |
 | `DIAMETER_UNKNOWN` | diameter | unknown | 当該部位の必要な内径・外径が欠損・無効 |
 | `CATEGORY_ADJACENT` | category | ok | delta = +1 |
 | `CATEGORY_SKIP` | category | ok | delta ≥ +2 |
@@ -218,6 +224,7 @@ UIは近位径・遠位径を区別して表示する。適合性チェック欄
 | 2026-03-21 | margin | 0.001 inch を outer の有効 ID から差し引く |
 | 2026-03-21 | LENGTH_INSUFFICIENT | incompatible (warning ではない) |
 | 2026-09-24 | 部位別径 | 近位同士・遠位同士を別々に比較し両方の通過を必須化。2本同時挿入にも適用 |
+| 2026-09-24 | 近位の境界 | 1本挿入の近位条件を `≤` に変更し、0.001 inchのすき間ちょうどを適合とする。遠位の `<`、2本同時挿入、欠損・カテゴリ・長さの扱いは維持 |
 
 ## Unresolved 論点
 

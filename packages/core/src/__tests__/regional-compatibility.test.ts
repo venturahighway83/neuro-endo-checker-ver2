@@ -46,9 +46,10 @@ describe('matching regional diameters', () => {
     expect(result.reasons.filter((r) => r.check === 'diameter').map((r) => r.status)).toEqual([pStatus, dStatus]);
   });
 
-  describe.each(regions)('%s strict boundary', (region) => {
+  describe.each(regions)('%s boundary', (region) => {
     it.each([
-      [0.062499, 'ok'], [0.0625, 'incompatible'], [0.062501, 'incompatible'], [0.0635, 'incompatible'],
+      [0.062499, 'ok'], [0.0625, region === 'proximal' ? 'ok' : 'incompatible'],
+      [0.062501, 'incompatible'], [0.0635, 'incompatible'],
     ])('OD %s vs ID 0.0635 gives %s', (od, status) => {
       const result = checkCompatibility({
         outer: { ...outer, [`${region}_id_inch`]: 0.0635 },
@@ -58,6 +59,38 @@ describe('matching regional diameters', () => {
       expect(result.reasons.find((r) => r.region === region)?.status).toBe(status);
       expect(result.warnings).toHaveLength(0);
     });
+  });
+
+  it.each([
+    [0.03, 0.02899999, 'ok'],
+    [0.03, 0.029, 'ok'],
+    [0.03, 0.02900001, 'incompatible'],
+    [0.03, 0.029000000000000005, 'incompatible'],
+    [0.0010001, 1e-7, 'ok'],
+    [0.0010001, 1.0000001e-7, 'incompatible'],
+  ] as const)('proximal ID %s and OD %s use the decimal boundary without tolerance: %s', (id, od, status) => {
+    const result = checkCompatibility({
+      outer: { ...outer, proximal_id_inch: id },
+      inner: { ...inner, proximal_od_inch: od },
+    });
+    expect(result.status).toBe(status);
+    expect(result.compatible).toBe(status === 'ok');
+    if (od === 0.029 || od === 1e-7) {
+      expect(result.derived_metrics.proximal.clearance_inch).toBe(0);
+      expect(result.derived_metrics.proximal.clearance_mm).toBe(0);
+      expect(result.derived_metrics.proximal.effective_outer_id_inch).toBe(od);
+    }
+  });
+
+  it.each([
+    [null, 'unknown'], [0.0635, 'incompatible'],
+  ] as const)('proximal equality does not override distal ID %s: %s', (distalId, status) => {
+    const result = checkCompatibility({
+      outer: { ...outer, proximal_id_inch: 0.0635, distal_id_inch: distalId },
+      inner: { ...inner, proximal_od_inch: 0.0625, distal_od_inch: 0.0625 },
+    });
+    expect(result.reasons.find((r) => r.region === 'proximal')?.status).toBe('ok');
+    expect(result.status).toBe(status);
   });
 
   describe.each([
