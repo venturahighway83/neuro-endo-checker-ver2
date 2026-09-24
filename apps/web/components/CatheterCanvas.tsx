@@ -180,15 +180,55 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, proximalExposur
       const sphere = bounds.getBoundingSphere(new THREE.Sphere());
       const target = sphere.center;
       const viewDirection = new THREE.Vector3(...camPos).sub(new THREE.Vector3(0, 0, totalLen * 0.45)).normalize();
-      const fitCamera = () => {
-        const verticalFov = THREE.MathUtils.degToRad(camera.fov / 2);
-        const halfFov = Math.min(verticalFov, Math.atan(Math.tan(verticalFov) * camera.aspect));
-        const distance = sphere.radius / Math.sin(halfFov) * 1.12;
-        camera.position.copy(target).addScaledVector(viewDirection, distance);
+      const framingPoints: THREE.Vector3[] = [];
+      scene.traverse((object) => {
+        if (!(object instanceof THREE.Mesh)) return;
+        object.geometry.computeBoundingBox();
+        const box = object.geometry.boundingBox!;
+        for (const x of [box.min.x, box.max.x]) for (const y of [box.min.y, box.max.y]) for (const z of [box.min.z, box.max.z]) {
+          framingPoints.push(new THREE.Vector3(x, y, z).applyMatrix4(object.matrixWorld));
+        }
+      });
+      const fitCamera = (width: number, height: number) => {
+        // Fit each part in perspective and centre its visible extent. A sphere
+        // wastes space around long shafts, especially when viewed from the hub.
+        camera.lookAt(target);
+        const rotation = camera.quaternion.clone().invert();
+        const points = framingPoints.map((point) => point.clone().sub(target).applyQuaternion(rotation));
+        const tanHalfFov = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
+        const top = Math.min(overlayTop + 44, height * 0.25);
+        const bottom = Math.min(72, height * 0.3);
+        const availableWidth = Math.max(width - 48, width * 0.5);
+        const availableHeight = height - top - bottom;
+        const projectedBounds = (distance: number) => {
+          const box = new THREE.Box2();
+          for (const point of points) {
+            const scale = height / (2 * tanHalfFov * (distance - point.z));
+            box.expandByPoint(new THREE.Vector2(point.x * scale, -point.y * scale));
+          }
+          return box;
+        };
+        const fits = (distance: number) => {
+          const size = projectedBounds(distance).getSize(new THREE.Vector2());
+          return size.x <= availableWidth && size.y <= availableHeight;
+        };
+        let near = Math.max(maxR3 * 2, ...points.map((point) => point.z + camera.near * 2));
+        let far = Math.max(near * 2, sphere.radius * 4);
+        while (!fits(far)) far *= 2;
+        for (let i = 0; i < 24; i++) {
+          const middle = (near + far) / 2;
+          if (fits(middle)) far = middle;
+          else near = middle;
+        }
+        const distance = far * 1.03;
+        const direction = camera.position.clone().sub(target).normalize();
+        camera.position.copy(target).addScaledVector(direction, distance);
+        const centre = projectedBounds(distance).getCenter(new THREE.Vector2());
+        camera.setViewOffset(width, height, centre.x, centre.y + (bottom - top) / 2, width, height);
         camera.lookAt(target);
       };
-      fitCamera();
-      camera.lookAt(target);
+      camera.position.copy(target).add(viewDirection);
+      fitCamera(w0, h0);
       detachOrbit = attachOrbit(canvas, camera, target, maxR3 * 2, Math.max(totalLen * 5, sphere.radius * 12));
 
       // Project device labels onto the same camera as the model. Updating DOM
@@ -251,6 +291,9 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, proximalExposur
         renderer!.setSize(Math.round(width), Math.round(height), false);
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
+        fitCamera(width, height);
+        detachOrbit?.();
+        detachOrbit = attachOrbit(canvas, camera, target, maxR3 * 2, Math.max(totalLen * 5, sphere.radius * 12));
       });
       ro.observe(parent);
 

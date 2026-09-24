@@ -169,7 +169,8 @@ export function CatheterDiagram({
 
   const totalLen = maxLen * LS;
   const maxR3    = (maxOD / 2) * RS;
-  const camPos: [number, number, number] = [totalLen * 0.9, totalLen * 0.6, totalLen * 0.8];
+  // View from the proximal (-Z) side so the hubs sit in the foreground.
+  const camPos: [number, number, number] = [totalLen * 0.9, totalLen * 0.45, -totalLen * 1.0];
 
   return (
     <CatheterCanvas
