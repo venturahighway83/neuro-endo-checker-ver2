@@ -12,6 +12,7 @@ interface Props {
   onSelect: (device: Device | null) => void;
   nodeId?: string;
   parentId?: string;
+  filteringActive?: boolean;
 }
 
 interface DropdownPosition {
@@ -34,7 +35,7 @@ function formatOuterDiameter(value: number | null | undefined): string {
     : '—';
 }
 
-export function DevicePanel({ title, devices, selected, onSelect, nodeId, parentId }: Props) {
+export function DevicePanel({ title, devices, selected, onSelect, nodeId, parentId, filteringActive = false }: Props) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [position, setPosition] = useState<DropdownPosition | null>(null);
@@ -217,6 +218,9 @@ export function DevicePanel({ title, devices, selected, onSelect, nodeId, parent
               onChange={(e) => setQuery(e.target.value)}
               className="w-full px-2 py-1 text-sm bg-gray-700 border border-gray-600 rounded text-gray-200 placeholder-gray-500 focus:outline-none focus:border-blue-500"
             />
+            {filteringActive && (
+              <p className="mt-1.5 text-xs text-gray-400">不適合の候補は非表示・判定不明は表示</p>
+            )}
           </div>
 
           {/* Options */}

@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react';
 import type { Device, CompatibilityResult, DualCompatibilityResult } from '@neuro-endo/core';
 import { checkCompatibility, checkDualCompatibility } from '@neuro-endo/core';
 import { DevicePanel } from './DevicePanel';
+import { filterDeviceCandidates } from './deviceCandidates';
 import { DeviceConnections } from './DeviceConnections';
 import { CatheterDiagram } from './CatheterDiagram';
 import { ProximalCrossSection } from './ProximalCrossSection';
@@ -63,11 +64,12 @@ function DualResultCard({ label, result }: { label: string; result: DualCompatib
 // ── Micro device dropdowns ─────────────────────────────────────
 
 function MicroColumn({
-  outerLabel, parentId, microDevices,
+  outer, outerLabel, parentId, microDevices,
   micro1, setMicro1,
   micro2, setMicro2,
   showMicro2, setShowMicro2,
 }: {
+  outer: Device | null;
   outerLabel: string;
   parentId: string;
   microDevices: Device[];
@@ -75,6 +77,14 @@ function MicroColumn({
   micro2: Device | null; setMicro2: (d: Device | null) => void;
   showMicro2: boolean;   setShowMicro2: (v: boolean) => void;
 }) {
+  const micro1Candidates = useMemo(
+    () => filterDeviceCandidates(microDevices, outer, showMicro2 ? micro2 : null),
+    [microDevices, outer, showMicro2, micro2],
+  );
+  const micro2Candidates = useMemo(
+    () => filterDeviceCandidates(microDevices, outer, micro1),
+    [microDevices, outer, micro1],
+  );
   function removeMicro2() { setShowMicro2(false); setMicro2(null); }
 
   return (
@@ -82,7 +92,8 @@ function MicroColumn({
       <DevicePanel
         nodeId={`${parentId}-m1`} parentId={parentId}
         title={`マイクロ（${outerLabel}内）①`}
-        devices={microDevices}
+        devices={micro1Candidates}
+        filteringActive={!!outer}
         selected={micro1}
         onSelect={setMicro1}
       />
@@ -92,7 +103,8 @@ function MicroColumn({
             <DevicePanel
               nodeId={`${parentId}-m2`} parentId={parentId}
               title={`マイクロ（${outerLabel}内）②`}
-              devices={microDevices}
+              devices={micro2Candidates}
+              filteringActive={!!outer}
               selected={micro2}
               onSelect={setMicro2}
             />
@@ -140,6 +152,15 @@ export function CheckerApp({ guidingDevices, intermediateDevices, microDevices }
   );
   const inner1IsIntermediate = inner1?.category === '中間';
   const inner2IsIntermediate = showInner2 && inner2?.category === '中間';
+
+  const inner1Candidates = useMemo(
+    () => filterDeviceCandidates(innerDevices, guiding, showInner2 ? inner2 : null),
+    [innerDevices, guiding, showInner2, inner2],
+  );
+  const inner2Candidates = useMemo(
+    () => filterDeviceCandidates(innerDevices, guiding, inner1),
+    [innerDevices, guiding, inner1],
+  );
 
   // ── Compatibility results ──────────────────────────────────────────────────
   const result_g_i1 = useMemo(
@@ -231,7 +252,8 @@ export function CheckerApp({ guidingDevices, intermediateDevices, microDevices }
               <DevicePanel
                 nodeId="inner1" parentId="guiding"
                 title="内腔カテーテル①"
-                devices={innerDevices}
+                devices={inner1Candidates}
+                filteringActive={!!guiding}
                 selected={inner1}
                 onSelect={setInner1}
               />
@@ -239,6 +261,7 @@ export function CheckerApp({ guidingDevices, intermediateDevices, microDevices }
             {inner1IsIntermediate && (
               <div className="w-64 shrink-0">
                 <MicroColumn
+                  outer={inner1}
                   outerLabel="内腔①" parentId="inner1"
                   microDevices={microDevices}
                   micro1={micro_i1_1} setMicro1={setMicro_i1_1}
@@ -259,7 +282,8 @@ export function CheckerApp({ guidingDevices, intermediateDevices, microDevices }
                   <DevicePanel
                     nodeId="inner2" parentId="guiding"
                     title="内腔カテーテル②"
-                    devices={innerDevices}
+                    devices={inner2Candidates}
+                    filteringActive={!!guiding}
                     selected={inner2}
                     onSelect={setInner2}
                   />
@@ -273,6 +297,7 @@ export function CheckerApp({ guidingDevices, intermediateDevices, microDevices }
               {inner2IsIntermediate && (
                 <div className="w-64 shrink-0">
                   <MicroColumn
+                    outer={inner2}
                     outerLabel="内腔②" parentId="inner2"
                     microDevices={microDevices}
                     micro1={micro_i2_1} setMicro1={setMicro_i2_1}
