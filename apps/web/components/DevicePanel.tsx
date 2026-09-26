@@ -42,6 +42,12 @@ export function DevicePanel({ title, devices, selected, onSelect, nodeId, parent
   const triggerRef = useRef<HTMLButtonElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const dropdownId = useId();
+  const hubLength = selected?.hub_length_cm ?? selected?.proximal_non_effective_length_cm;
+  // Prefer the sourced total-minus-effective span when reconstructing total length.
+  const proximalLength = selected?.proximal_non_effective_length_cm ?? hubLength;
+  const totalLength = selected && proximalLength != null
+    ? Number((selected.length_cm + proximalLength).toFixed(3))
+    : null;
 
   useLayoutEffect(() => {
     if (!open) return;
@@ -184,16 +190,11 @@ export function DevicePanel({ title, devices, selected, onSelect, nodeId, parent
             </tbody>
           </table>
           <div className="flex flex-wrap justify-between gap-x-2">
-            <span>有効長 {selected.length_cm} cm</span>
+            <span>全長 {totalLength != null ? `${totalLength} cm` : '—'}</span>
             <span className="text-gray-500">—：未登録</span>
           </div>
-          <div>ハブ長 {selected.hub_length_cm != null ? `${selected.hub_length_cm} cm` : '—'}</div>
-          {selected.proximal_non_effective_length_cm != null && (
-            <div>
-              ハブ側の非有効長 {selected.proximal_non_effective_length_cm} cm（算出）
-              <div className="text-gray-400">全長 − 有効長。ハブ以外の部分を含む場合があります。</div>
-            </div>
-          )}
+          <div>有効長 {selected.length_cm} cm</div>
+          <div>ハブ長 {hubLength != null ? `${hubLength} cm` : '—'}</div>
         </div>
       )}
 

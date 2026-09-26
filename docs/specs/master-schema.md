@@ -58,8 +58,10 @@ Y／トリコネクターの幅をハブ側に合わせ、接続部分の外径�
 汎用の正規化処理は入力済みの値を変換するだけで、未確認の製品や別型式を自動補完しない。
 旧CSVでは数値null、出典・注記は空文字に正規化する。Device型は省略も許容する。
 
-Webは「ハブ長」と「ハブ側の非有効長（算出）」を分けて表示する。
-上段のハブ長に「（資料記載）」は付けず、出典・算出根拠の詳細欄も表示しない。出典データは保持する。
+Web上段は「全長」「有効長」「ハブ長」の3行で表示する。
+全長は有効長に `proximal_non_effective_length_cm` を足し、この値がなければ資料記載の `hub_length_cm` を足して表示する。両方未登録なら「—」とし、3Dの5 cm想定値は使わない。
+ハブ長は資料記載値を優先し、未登録なら全長 − 有効長として記録した `proximal_non_effective_length_cm` を表示する。
+ユーザー指定により「（資料記載）」「（算出）」や算出方法のコメント、出典・算出根拠の詳細欄は表示しない。出典と寸法の定義は元データに保持する。
 Excelにも上記4列を追加する。双方とも既存の適合性計算には使用しない。
 公開資料の個別出典、SHA-256、照合記録は `evidence/hub-lengths.json` の
 `public_sources` / `derived_records` に保存。10件の算出値を登録（既存25件との重複8件）。
@@ -159,7 +161,7 @@ packages/device-master/master.json   ← アプリが読む唯一のファイル
 | `name` | ✅ | string | 確定 | デバイス表示名。サイズ・長さのバリアントを含む |
 | `category` | ✅ | string enum | 確定 | `ガイディング` / `中間` / `マイクロ` のいずれか |
 | `maker` | ✅ | string | 確定 | メーカー名 |
-| `length_cm` | ✅ | number (>0) | 確定 | 全長 (cm) |
+| `length_cm` | ✅ | number (>0) | 確定 | 有効長 (cm) |
 | `hub_length_cm` | — | number (>0) | 任意 | ハブ部分の長さ (cm)。空欄は未登録 |
 | `id_inch` | ✅ | number (>0) | 確定 | 内径 (inch) |
 | `od_fr` | ✅ | number (>0) | 確定 | 外径 (French) |
@@ -199,7 +201,7 @@ packages/device-master/master.json   ← アプリが読む唯一のファイル
 | `maker` | string | 非空 | メーカー名（空白トリム済み） |
 | `id_inch` | number | > 0 | 内径 (inch) |
 | `od_fr` | number | > 0 | 外径 (French) |
-| `length_cm` | number | > 0 | 全長 (cm) |
+| `length_cm` | number | > 0 | 有効長 (cm) |
 | `hub_length_cm` | number \| null | 有限かつ > 0、またはnull | ハブ部分の長さ (cm)。未登録はnull |
 | `notes` | string | — | 備考（空文字列可） |
 
