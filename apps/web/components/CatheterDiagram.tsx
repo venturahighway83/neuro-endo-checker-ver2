@@ -9,6 +9,7 @@ import { Y_CONNECTOR_LENGTH_CM } from './yConnector';
 import { connectorKind } from './connectorKind';
 import { placeCatheters } from './catheterPlacement';
 import { deviceColor, type DeviceKind } from './deviceColors';
+import { deviceHubDisplay } from './catheterHub';
 
 // ── Props ─────────────────────────────────────────────────────────────────────
 
@@ -158,6 +159,10 @@ export function CatheterDiagram({
   };
   for (const tube of tubes) {
     const device = deviceByTube[tube.id];
+    if (device) {
+      tube.hub = deviceHubDisplay(device);
+      tube.hubLength = l3(tube.hub.lengthCm);
+    }
     tube.connector = connectorKind(device?.category, childrenByTube[tube.id] ?? []);
     if (tube.connector) {
       tube.connectorLength = l3(Y_CONNECTOR_LENGTH_CM);
@@ -180,6 +185,7 @@ export function CatheterDiagram({
       maxR3={maxR3}
       camPos={camPos}
       proximalExposure={l3(5)}
+      lengthScale={LS}
     />
   );
 }

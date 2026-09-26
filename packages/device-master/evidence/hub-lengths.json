@@ -1,0 +1,543 @@
+{
+  "schema_version": "2.0.0",
+  "recorded_at": "2026-09-26",
+  "source": {
+    "type": "user_supplied_excel",
+    "local_path": "アクセス製品スペック一覧（Stryker）.xlsx",
+    "sha256": "e0ad4d426977385b39f6857079ab79cf879087e37f6d4de40c62cd067de3f07f",
+    "sheet": "スペック表",
+    "value_column": "N",
+    "header_cell": "N2",
+    "unit_cell": "N3",
+    "unit": "cm",
+    "notes": [
+      {
+        "cell": "D1",
+        "text": "※製品公差は必ずあります。特に長さに関する公差は留意ください。"
+      },
+      {
+        "cell": "K1",
+        "text": "※ハブ長は実測値を含む"
+      }
+    ]
+  },
+  "policy": "ハブ長の資料記載値と全長−有効長の算出値を別フィールドで管理。メーカー・PMDAを優先し、型式・有効長・寸法図を確認。算出値はハブ側の非有効長であり、ハブ単体の値に転用しない。未確認はnull。適合性計算には使用しない。",
+  "records": [
+    {
+      "device_ids": [
+        "5f-guider-softip-100cm"
+      ],
+      "source_cell": "N5",
+      "source_product": "Guider Softip 5F",
+      "source_maker": "Stryker",
+      "source_effective_lengths_cm": [
+        100.0
+      ],
+      "hub_length_cm": 2,
+      "match_note": "Fr表記の位置だけが異なる。"
+    },
+    {
+      "device_ids": [
+        "6f-guider-softip-90cm",
+        "6f-guider-softip-100cm"
+      ],
+      "source_cell": "N6",
+      "source_product": "Guider Softip 6F",
+      "source_maker": "Stryker",
+      "source_effective_lengths_cm": [
+        90.0,
+        100.0
+      ],
+      "hub_length_cm": 2,
+      "match_note": "Fr表記の位置だけが異なる。"
+    },
+    {
+      "device_ids": [
+        "7f-guider-softip-90cm",
+        "7f-guider-softip-100cm"
+      ],
+      "source_cell": "N7",
+      "source_product": "Guider Softip 7F",
+      "source_maker": "Stryker",
+      "source_effective_lengths_cm": [
+        90.0,
+        100.0
+      ],
+      "hub_length_cm": 2,
+      "match_note": "Fr表記の位置だけが異なる。"
+    },
+    {
+      "device_ids": [
+        "8f-guider-softip-90cm",
+        "8f-guider-softip-100cm"
+      ],
+      "source_cell": "N8",
+      "source_product": "Guider Softip 8F",
+      "source_maker": "Stryker",
+      "source_effective_lengths_cm": [
+        90.0,
+        100.0
+      ],
+      "hub_length_cm": 2,
+      "match_note": "Fr表記の位置だけが異なる。"
+    },
+    {
+      "device_ids": [
+        "acs-catalyst5"
+      ],
+      "source_cell": "N11",
+      "source_product": "Catalyst 5",
+      "source_maker": "Stryker",
+      "source_effective_lengths_cm": [
+        115.0
+      ],
+      "hub_length_cm": 5,
+      "match_note": "既存ACS接頭辞を除いた製品名・サイズ5・115 cmが一致。"
+    },
+    {
+      "device_ids": [
+        "acs-vecta71-115cm",
+        "acs-vecta71-125cm"
+      ],
+      "source_cell": "N12",
+      "source_product": "Vecta 71",
+      "source_maker": "Stryker",
+      "source_effective_lengths_cm": [
+        115.0,
+        125.0
+      ],
+      "hub_length_cm": 4,
+      "match_note": "既存ACS接頭辞を除いた製品名・サイズ71・有効長が一致。Vecta74には転用しない。"
+    },
+    {
+      "device_ids": [
+        "excelsior-sl-10"
+      ],
+      "source_cell": "N15",
+      "source_product": "SL-10",
+      "source_maker": "Stryker",
+      "source_effective_lengths_cm": [
+        150.0
+      ],
+      "hub_length_cm": 6.3,
+      "match_note": "Excelsiorシリーズ名の省略。SL-10・150 cmが一致。"
+    },
+    {
+      "device_ids": [
+        "excelsior-1018"
+      ],
+      "source_cell": "N16",
+      "source_product": "1018",
+      "source_maker": "Stryker",
+      "source_effective_lengths_cm": [
+        150.0
+      ],
+      "hub_length_cm": 6.3,
+      "match_note": "Excelsiorシリーズ名の省略。1018・150 cmが一致。"
+    },
+    {
+      "device_ids": [
+        "excelsior-xt-27"
+      ],
+      "source_cell": "N18",
+      "source_product": "XT-27",
+      "source_maker": "Stryker",
+      "source_effective_lengths_cm": [
+        150.0
+      ],
+      "hub_length_cm": 6.3,
+      "match_note": "Excelsiorシリーズ名の省略。XT-27・150 cmが一致。"
+    },
+    {
+      "device_ids": [
+        "tactics-120cm",
+        "tactics-130cm",
+        "tactics-150cm"
+      ],
+      "source_cell": "N62",
+      "source_product": "TACTICS",
+      "source_maker": "Technocrat",
+      "source_effective_lengths_cm": [
+        120.0,
+        130.0,
+        150.0
+      ],
+      "hub_length_cm": 8,
+      "match_note": "通常TACTICSの資料掲載長のみ。125/140 cmには転用しない。"
+    },
+    {
+      "device_ids": [
+        "tactics-plus-120cm",
+        "tactics-plus-125cm",
+        "tactics-plus-130cm",
+        "tactics-plus-140cm",
+        "tactics-plus-150cm"
+      ],
+      "source_cell": "N63",
+      "source_product": "TACTICS Plus",
+      "source_maker": "Technocrat",
+      "source_effective_lengths_cm": [
+        90.0,
+        120.0,
+        125.0,
+        130.0,
+        140.0,
+        150.0
+      ],
+      "hub_length_cm": 8,
+      "match_note": "Plusを区別し、資料掲載長と照合。"
+    },
+    {
+      "device_ids": [
+        "guidepost-120cm",
+        "guidepost-130cm"
+      ],
+      "source_cell": "N70",
+      "source_product": "Guidepost",
+      "source_maker": "Tokai",
+      "source_effective_lengths_cm": [
+        120.0,
+        130.0
+      ],
+      "hub_length_cm": 10,
+      "match_note": "メーカーTokaiは既存Tokai Medicalの略表記。製品名・有効長が一致。"
+    },
+    {
+      "device_ids": [
+        "defrictor-nano"
+      ],
+      "source_cell": "N77",
+      "source_product": "Defrictor Nano",
+      "source_maker": "Hirata",
+      "source_effective_lengths_cm": [
+        165.0
+      ],
+      "hub_length_cm": 7,
+      "match_note": "メーカーHirataは既存Medicos Hirataの略表記。Nano・165 cmが一致。"
+    },
+    {
+      "device_ids": [
+        "defrictor-bull"
+      ],
+      "source_cell": "N78",
+      "source_product": "Defrictor BULL",
+      "source_maker": "Hirata",
+      "source_effective_lengths_cm": [
+        165.0
+      ],
+      "hub_length_cm": 7,
+      "match_note": "メーカーHirataは既存Medicos Hirataの略表記。BULL・165 cmが一致。"
+    }
+  ],
+  "holds": [
+    {
+      "device_ids": [
+        "tactics-125cm",
+        "tactics-140cm"
+      ],
+      "source_cells": [
+        "N62"
+      ],
+      "reason": "通常TACTICSの資料掲載有効長に125/140 cmがない。"
+    },
+    {
+      "device_ids": [
+        "acs-vecta74-115cm",
+        "acs-vecta74-125cm"
+      ],
+      "source_cells": [
+        "N12"
+      ],
+      "reason": "資料はVecta71。Vecta74に転用しない。"
+    },
+    {
+      "device_ids": [
+        "cerulean-dd6-103cm",
+        "cerulean-dd6-113cm",
+        "4f-cerulean-105cm",
+        "4f-cerulean-113cm",
+        "4f-cerulean-118cm",
+        "4f-cerulean-123cm",
+        "4f-cerulean-133cm",
+        "5f-cerulean-113cm",
+        "5f-cerulean-118cm",
+        "5f-cerulean-123cm",
+        "5f-cerulean-133cm"
+      ],
+      "source_cells": [
+        "N79",
+        "N80",
+        "N81"
+      ],
+      "reason": "資料はCerulean G / DD6 PLUS。既存名はCerulean / DD6で、型式の同一性を確認できない。4F 133 cmも資料掲載長にない。"
+    },
+    {
+      "device_ids": [
+        "neuro-compass-80cm",
+        "neuro-compass-90cm"
+      ],
+      "source_cells": [
+        "N65",
+        "N66",
+        "N67"
+      ],
+      "reason": "資料は6F/7F/8F別でハブ長が異なる。既存名にはFrの明示がなく、80 cmは掲載なし。径から型式を推測しない。"
+    },
+    {
+      "device_ids": [
+        "6f-optimo-100cm",
+        "7f-optimo-95cm",
+        "8f-optimo-90cm",
+        "8f-optimo-95cm",
+        "9f-optimo-90cm",
+        "9f-optimo-95cm"
+      ],
+      "source_cells": [
+        "N71",
+        "N72",
+        "N73",
+        "N74"
+      ],
+      "reason": "資料はOPTIMO EPD、既存名はOptimo。EPDとの同一性未確認。7Fは資料90 cmと既存95 cmが不一致。"
+    },
+    {
+      "device_ids": [
+        "transform-c",
+        "transform-sc"
+      ],
+      "source_cells": [
+        "N20"
+      ],
+      "reason": "資料のTransFormはC/SCの区別がないため、各型式への適用を保留。"
+    },
+    {
+      "device_ids": [
+        "axcelguide-radix-5-5-88cm",
+        "axcelguide-radix-5-5-93cm",
+        "axcelguide-radix-5-5-98cm"
+      ],
+      "source_cells": [
+        "N83",
+        "N84",
+        "N85"
+      ],
+      "reason": "資料はAxcelguide 4F/5F/6F。既存Radix 5.5とは型式が一致しない。"
+    }
+  ],
+  "coverage": {
+    "total": 145,
+    "populated": 25,
+    "unavailable": 120,
+    "derived_proximal_populated": 10,
+    "any_hub_information": 27,
+    "no_hub_information": 118
+  },
+  "public_sources": {
+    "marathon-pmda": {
+      "title": "マラソン フローダイレクト マイクロカテーテル 電子添文",
+      "url": "https://www.info.pmda.go.jp/downfiles/md/PDF/530366/530366_21800BZY10005000_A_04_04.pdf",
+      "type": "regulatory_labeling",
+      "revision": "2021年4月 第3版 PI-NVA-0005CD",
+      "page": 1,
+      "accessed_on": "2026-09-26",
+      "sha256": "e39cf7dd29adde321b9ba4b1dab9907146b4557680700a96961f2755b34bdbd5"
+    },
+    "tactics": {
+      "title": "TACTICS メーカーカタログ",
+      "url": "https://www.technocrat-corp.com/wp/wp-content/uploads/2025/08/catalog-TACTICS.pdf",
+      "type": "manufacturer",
+      "revision": "PDF内に発行年月の記載なし（メーカー現行製品ページのリンクから取得）",
+      "page": 2,
+      "accessed_on": "2026-09-26",
+      "sha256": "48e253458bbfae1bae60799116d8f8829e7b764bbc03b17a3d64a61b05fd3e66"
+    },
+    "tactics-plus": {
+      "title": "TACTICS PLUS メーカーカタログ",
+      "url": "https://technocrat-corp.com/wp/wp-content/themes/technocrat/pdf/catalog-TACTICS-PLUS.pdf",
+      "type": "manufacturer",
+      "revision": "REF No.24050300",
+      "page": 2,
+      "accessed_on": "2026-09-26",
+      "sha256": "db2b7eb1d74bbd8e2a45aa1f4aa06da69c1f6ee7467123c5b9fc30a7cd5284c1"
+    },
+    "cerulean": {
+      "title": "Cerulean DD6 メディキットカタログ（学会サイト掲載）",
+      "url": "https://www.ec-pro.co.jp/23hokkaido-jsnet/exhibition/Medikit/CeruleanDD6.pdf",
+      "type": "manufacturer_document_mirror",
+      "revision": "2012年10月。現行販売仕様の保証ではない",
+      "page": 2,
+      "accessed_on": "2026-09-26",
+      "sha256": "86a42d124bd2fa38f33002444e453c74218ad290d1a9a8eb1d974ed2b8b9dfae"
+    }
+  },
+  "derived_records": [
+    {
+      "device_id": "marathon",
+      "source_id": "marathon-pmda",
+      "source_product": "Marathon",
+      "basis": "total_minus_effective",
+      "total_length_cm": 170,
+      "effective_length_cm": 165,
+      "proximal_non_effective_length_cm": 5,
+      "diagram_checked": true,
+      "measurement_scope": "有効長Bの手元端から全長Aの手元端まで。ストレインレリーフ、アウターストレインレリーフ、ハブを含む。",
+      "match_note": "マラソン、有効長165 cm。電子添文の寸法表と図A/Bを確認。"
+    },
+    {
+      "device_id": "tactics-120cm",
+      "source_id": "tactics",
+      "source_product": "TACTICS (120 cm)",
+      "basis": "total_minus_effective",
+      "total_length_cm": 128,
+      "effective_length_cm": 120,
+      "proximal_non_effective_length_cm": 8,
+      "diagram_checked": true,
+      "measurement_scope": "有効長の手元端からハブ接続端まで。ストレインリリーフとクリアハブを含む。",
+      "match_note": "通常TACTICS、カタログ550-1200。Plusとは別に照合。"
+    },
+    {
+      "device_id": "tactics-130cm",
+      "source_id": "tactics",
+      "source_product": "TACTICS (130 cm)",
+      "basis": "total_minus_effective",
+      "total_length_cm": 138,
+      "effective_length_cm": 130,
+      "proximal_non_effective_length_cm": 8,
+      "diagram_checked": true,
+      "measurement_scope": "有効長の手元端からハブ接続端まで。ストレインリリーフとクリアハブを含む。",
+      "match_note": "通常TACTICS、カタログ550-1300。Plusとは別に照合。"
+    },
+    {
+      "device_id": "tactics-150cm",
+      "source_id": "tactics",
+      "source_product": "TACTICS (150 cm)",
+      "basis": "total_minus_effective",
+      "total_length_cm": 158,
+      "effective_length_cm": 150,
+      "proximal_non_effective_length_cm": 8,
+      "diagram_checked": true,
+      "measurement_scope": "有効長の手元端からハブ接続端まで。ストレインリリーフとクリアハブを含む。",
+      "match_note": "通常TACTICS、カタログ550-1500。Plusとは別に照合。"
+    },
+    {
+      "device_id": "tactics-plus-120cm",
+      "source_id": "tactics-plus",
+      "source_product": "TACTICS Plus (120 cm)",
+      "basis": "total_minus_effective",
+      "total_length_cm": 128,
+      "effective_length_cm": 120,
+      "proximal_non_effective_length_cm": 8,
+      "diagram_checked": true,
+      "measurement_scope": "有効長の手元端からハブ接続端まで。ストレインリリーフとクリアハブを含む。",
+      "match_note": "TACTICS PLUS、カタログ550-2200。有効長と全長を同じ行で確認。"
+    },
+    {
+      "device_id": "tactics-plus-125cm",
+      "source_id": "tactics-plus",
+      "source_product": "TACTICS Plus (125 cm)",
+      "basis": "total_minus_effective",
+      "total_length_cm": 133,
+      "effective_length_cm": 125,
+      "proximal_non_effective_length_cm": 8,
+      "diagram_checked": true,
+      "measurement_scope": "有効長の手元端からハブ接続端まで。ストレインリリーフとクリアハブを含む。",
+      "match_note": "TACTICS PLUS、カタログ550-2250。有効長と全長を同じ行で確認。"
+    },
+    {
+      "device_id": "tactics-plus-130cm",
+      "source_id": "tactics-plus",
+      "source_product": "TACTICS Plus (130 cm)",
+      "basis": "total_minus_effective",
+      "total_length_cm": 138,
+      "effective_length_cm": 130,
+      "proximal_non_effective_length_cm": 8,
+      "diagram_checked": true,
+      "measurement_scope": "有効長の手元端からハブ接続端まで。ストレインリリーフとクリアハブを含む。",
+      "match_note": "TACTICS PLUS、カタログ550-2300。有効長と全長を同じ行で確認。"
+    },
+    {
+      "device_id": "tactics-plus-140cm",
+      "source_id": "tactics-plus",
+      "source_product": "TACTICS Plus (140 cm)",
+      "basis": "total_minus_effective",
+      "total_length_cm": 148,
+      "effective_length_cm": 140,
+      "proximal_non_effective_length_cm": 8,
+      "diagram_checked": true,
+      "measurement_scope": "有効長の手元端からハブ接続端まで。ストレインリリーフとクリアハブを含む。",
+      "match_note": "TACTICS PLUS、カタログ550-2400。有効長と全長を同じ行で確認。"
+    },
+    {
+      "device_id": "tactics-plus-150cm",
+      "source_id": "tactics-plus",
+      "source_product": "TACTICS Plus (150 cm)",
+      "basis": "total_minus_effective",
+      "total_length_cm": 158,
+      "effective_length_cm": 150,
+      "proximal_non_effective_length_cm": 8,
+      "diagram_checked": true,
+      "measurement_scope": "有効長の手元端からハブ接続端まで。ストレインリリーフとクリアハブを含む。",
+      "match_note": "TACTICS PLUS、カタログ550-2500。有効長と全長を同じ行で確認。"
+    },
+    {
+      "device_id": "cerulean-dd6-113cm",
+      "source_id": "cerulean",
+      "source_product": "Cerulean DD6 (113 cm)",
+      "basis": "total_minus_effective",
+      "total_length_cm": 118,
+      "effective_length_cm": 113,
+      "proximal_non_effective_length_cm": 5,
+      "diagram_checked": true,
+      "measurement_scope": "有効長の手元端からカテーテルの手元端までの非有効部。図では透明カテーテルハブ側に相当。ハブ単体寸法としての明記はない。",
+      "match_note": "DD6（PLUSではない）、6Fr、有効長113 cm、OB1108 / AO60BG0.17G (M)。103 cmには転用しない。"
+    }
+  ],
+  "public_review": [
+    {
+      "source_id": "tactics",
+      "device_ids": [
+        "tactics-125cm",
+        "tactics-140cm"
+      ],
+      "result": "標準長以外は受注生産との注記のみ。125/140 cmの全長数値がないため未登録。"
+    },
+    {
+      "source_id": "cerulean",
+      "device_ids": [
+        "cerulean-dd6-103cm",
+        "4f-cerulean-133cm"
+      ],
+      "result": "DD6は113 cmのみ掲載。4FrはDD6用として掲載され既存4F Ceruleanとの型式対応未確認。転用しない。"
+    },
+    {
+      "url": "https://www.medtronic.com/content/dam/medtronic-wide/public/asia-pacific/japan/products/neurological/neurovascular/phenom-family-brochure-ja.pdf",
+      "title": "Phenom Family NV-653_1.0",
+      "result": "図と仕様表に有効長のみ。ハブ・ストレインレリーフの数値寸法なし。MAUDEの単一返却品の実測寸法は一般仕様として採用しない。"
+    },
+    {
+      "url": "https://medical.terumo.co.jp/sites/default/files/assets/equipment/me361/pdf/25T028.pdf",
+      "title": "Terumo Neuro Access Products Portfolio 25T028 (2025年6月)",
+      "result": "SOFIA、Headway、Scepter、VIAの仕様表は有効長のみ。ハブ寸法の数値なし。"
+    },
+    {
+      "url": "https://www.biyotem.com.tr/stryker.pdf",
+      "title": "Stryker Neurovascular AP004069 v3 (2025)",
+      "result": "アクセス製品の仕様表でハブ長を確認できず。先端柔軟長・バルブ長をハブ長として採用しない。"
+    },
+    {
+      "url": "https://products.tokaimedpro.co.jp/product/micro02",
+      "title": "Carnelian HF カタログ TMP1404084-04",
+      "result": "105/125 cm品は全長112/132 cm。既存名HF-Sとの同一性未確認のため保留。135 cmは未掲載。"
+    },
+    {
+      "url": "https://products.tokaimedpro.co.jp/product/guide02",
+      "title": "OPTIMO EPD メーカー現行ページ・カタログ",
+      "result": "FLEXはストレインリリーフとコネクタ部を従来品より3 cm短縮との記載。既存Optimoの型式を同定できず、EPD・FLEX値を転用しない。"
+    },
+    {
+      "url": "https://www.medtronic.com/me-en/healthcare-professionals/products/neurological/access-delivery-nv/navien.html",
+      "title": "Navien メーカー仕様表",
+      "result": "Total Lengthと記載された105/115/125等の値からは、ハブを含む範囲を確定できない。ハブ長0などと推測しない。"
+    }
+  ]
+}

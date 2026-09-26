@@ -2,6 +2,7 @@ export interface PositionedTube {
   id: string;
   parentId?: string;
   connectorLength?: number;
+  hubLength?: number;
   proximalZ?: number;
   length: number;
 }
@@ -17,7 +18,7 @@ export function placeCatheters<T extends PositionedTube>(
     if (cached !== undefined) return cached;
     const parent = tube.parentId ? byId.get(tube.parentId) : undefined;
     const z = parent
-      ? root(parent) - (fromConnectorInlet ? parent.connectorLength ?? 0 : 0) - proximalExposure
+      ? root(parent) - (fromConnectorInlet ? (parent.hubLength ?? 0) + (parent.connectorLength ?? 0) : 0) - proximalExposure
       : 0;
     roots.set(tube.id, z);
     return z;

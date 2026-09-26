@@ -57,6 +57,11 @@ export const RawDeviceRowSchema = z.object({
     .min(1, 'od_fr は空にできません'),
 
   notes: z.string().default(''),
+  hub_length_cm: z.string().trim().default(''),
+  hub_length_source: z.string().trim().default(''),
+  proximal_non_effective_length_cm: z.string().trim().default(''),
+  proximal_length_source: z.string().trim().url().or(z.literal('')).default(''),
+  proximal_length_note: z.string().trim().default(''),
   proximal_id_inch: z.string().trim().default(''),
   proximal_od_inch: z.string().trim().default(''),
   distal_id_inch: z.string().trim().default(''),

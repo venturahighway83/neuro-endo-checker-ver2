@@ -131,7 +131,7 @@ export function validateRawRows(rows: unknown[]): ValidationReport {
     }
 
     // --- Step 3: Numeric fields ---
-    const numericFields = ['length_cm', 'id_inch', 'od_fr', ...REGIONAL_DIAMETER_COLUMNS] as const;
+    const numericFields = ['length_cm', 'id_inch', 'od_fr', 'hub_length_cm', 'proximal_non_effective_length_cm', ...REGIONAL_DIAMETER_COLUMNS] as const;
     for (const field of numericFields) {
       if (raw[field] === '') continue; // Optional measurements: blank means unknown.
       const result = parsePositiveNumber(raw[field]);
@@ -142,6 +142,16 @@ export function validateRawRows(rows: unknown[]): ValidationReport {
             ? `${field} "${raw[field]}" は数値として解釈できません`
             : `${field} "${raw[field]}" は正の数値でなければなりません`;
         issues.push(issue(rowNum, 'error', code, msg, field));
+      }
+    }
+
+    // A calculated proximal length needs its source and measurement definition.
+    if (raw.proximal_non_effective_length_cm !== '') {
+      for (const field of ['proximal_length_source', 'proximal_length_note'] as const) {
+        if (!raw[field]) {
+          issues.push(issue(rowNum, 'error', 'MISSING_REQUIRED',
+            `算出したハブ側の非有効長には ${field} が必要です`, field));
+        }
       }
     }
 

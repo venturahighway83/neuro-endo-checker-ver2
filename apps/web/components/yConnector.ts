@@ -1,8 +1,14 @@
 import * as THREE from 'three';
 import type { ConnectorKind } from './connectorKind';
+import { hubConnectorRadius } from './catheterHub';
 
 // User-specified approximate axial length; width remains schematic.
 export const Y_CONNECTOR_LENGTH_CM = 5;
+const LOCKING_COLLAR_RADIUS_FACTOR = 1.08;
+
+function connectorBodyRadius(shaftRadius: number): number {
+  return hubConnectorRadius(shaftRadius) / LOCKING_COLLAR_RADIUS_FACTOR;
+}
 
 export function triBranch(radius: number) {
   const start = new THREE.Vector3(0, -radius * 0.55, -radius * 1.5);
@@ -14,8 +20,9 @@ export function triBranch(radius: number) {
 /** Port centre and inward axis after the connector's axial display scaling. */
 export function connectorPort(radius: number, length: number, side: boolean) {
   if (!side) return { inlet: new THREE.Vector3(0, 0, -length), inward: new THREE.Vector3(0, 0, 1), junction: new THREE.Vector3(0, 0, -length * 0.3) };
-  const branch = triBranch(radius);
-  const scale = new THREE.Vector3(1, 1, length / (4.6 * radius));
+  const bodyRadius = connectorBodyRadius(radius);
+  const branch = triBranch(bodyRadius);
+  const scale = new THREE.Vector3(1, 1, length / (4.6 * bodyRadius));
   return {
     inlet: branch.inlet.multiply(scale),
     inward: branch.outward.multiply(scale).normalize().negate(),
@@ -33,7 +40,7 @@ export function createYConnector(radius: number, lumenRadius: number, length: nu
   });
   const collar = new THREE.MeshStandardMaterial({ color: '#cbd5e1', roughness: 0.3, metalness: 0.3 });
   const seal = new THREE.MeshStandardMaterial({ color: '#334155', roughness: 0.7 });
-  const r = radius;
+  const r = connectorBodyRadius(radius);
 
   function sleeve(start: THREE.Vector3, end: THREE.Vector3, outer: number, inner: number, material: THREE.Material) {
     const axis = end.clone().sub(start);
@@ -56,9 +63,9 @@ export function createYConnector(radius: number, lumenRadius: number, length: nu
     group.add(part);
   }
   const point = (z: number) => new THREE.Vector3(0, 0, z * r);
-  const lumen = Math.min(lumenRadius, r * 0.94);
-  // Distal locking collar connects directly to the catheter at z=0.
-  sleeve(point(-0.6), point(0), r * 1.08, lumen, collar);
+  const lumen = Math.min(lumenRadius, radius * 0.94);
+  // Widen the connector so its distal collar matches the hub at z=0.
+  sleeve(point(-0.6), point(0), r * LOCKING_COLLAR_RADIUS_FACTOR, lumen, collar);
   sleeve(point(-3.8), point(-0.6), r * 1.18, lumen, shell);
   sleeve(point(-4.5), point(-3.8), r * 1.42, lumen, collar);
   sleeve(point(-4.6), point(-4.5), r * 1.13, lumen, seal);

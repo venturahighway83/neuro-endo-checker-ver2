@@ -12,7 +12,6 @@ interface Props {
   onSelect: (device: Device | null) => void;
   nodeId?: string;
   parentId?: string;
-  filteringActive?: boolean;
 }
 
 interface DropdownPosition {
@@ -35,7 +34,7 @@ function formatOuterDiameter(value: number | null | undefined): string {
     : '—';
 }
 
-export function DevicePanel({ title, devices, selected, onSelect, nodeId, parentId, filteringActive = false }: Props) {
+export function DevicePanel({ title, devices, selected, onSelect, nodeId, parentId }: Props) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [position, setPosition] = useState<DropdownPosition | null>(null);
@@ -185,9 +184,16 @@ export function DevicePanel({ title, devices, selected, onSelect, nodeId, parent
             </tbody>
           </table>
           <div className="flex flex-wrap justify-between gap-x-2">
-            <span>長さ {selected.length_cm} cm</span>
+            <span>有効長 {selected.length_cm} cm</span>
             <span className="text-gray-500">—：未登録</span>
           </div>
+          <div>ハブ長 {selected.hub_length_cm != null ? `${selected.hub_length_cm} cm` : '—'}</div>
+          {selected.proximal_non_effective_length_cm != null && (
+            <div>
+              ハブ側の非有効長 {selected.proximal_non_effective_length_cm} cm（算出）
+              <div className="text-gray-400">全長 − 有効長。ハブ以外の部分を含む場合があります。</div>
+            </div>
+          )}
         </div>
       )}
 
@@ -218,9 +224,6 @@ export function DevicePanel({ title, devices, selected, onSelect, nodeId, parent
               onChange={(e) => setQuery(e.target.value)}
               className="w-full px-2 py-1 text-sm bg-gray-700 border border-gray-600 rounded text-gray-200 placeholder-gray-500 focus:outline-none focus:border-blue-500"
             />
-            {filteringActive && (
-              <p className="mt-1.5 text-xs text-gray-400">不適合の候補は非表示・判定不明は表示</p>
-            )}
           </div>
 
           {/* Options */}

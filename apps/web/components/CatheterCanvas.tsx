@@ -1,12 +1,12 @@
 'use client';
 
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useMemo } from 'react';
 import * as THREE from 'three';
 import { type TubeRadii } from './tubeGeometry';
-import { routeCatheters, routedSurface } from './catheterRouting';
+import { routeCatheters, routedSurface, tipExtensionLabel, tipExtensionNeedsCaution } from './catheterRouting';
 import { createYConnector } from './yConnector';
 import type { ConnectorKind } from './connectorKind';
-import { placeDeviceLabels } from './deviceLabelLayout';
+import { createCatheterHub, hubDisplayLabel, type HubDisplay } from './catheterHub';
 
 export interface TubeSpec extends TubeRadii {
   id:     string;
@@ -17,6 +17,8 @@ export interface TubeSpec extends TubeRadii {
   parentId?: string;
   connector?: ConnectorKind;
   connectorLength?: number;
+  hubLength?: number;
+  hub?: HubDisplay;
   c: { fill: string; dark: string; lumen: string };
 }
 
@@ -27,6 +29,7 @@ interface Props {
   maxR3:    number;
   camPos:   [number, number, number];
   proximalExposure: number;
+  lengthScale: number;
 }
 
 // ── Inline orbit controls ─────────────────────────────────────────────────────
@@ -78,12 +81,28 @@ function attachOrbit(
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
-export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, proximalExposure, overlayTop = 0 }: Props) {
+export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, proximalExposure, lengthScale, overlayTop = 0 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const annotationRef = useRef<HTMLDivElement>(null);
+  const legendRef = useRef<HTMLDivElement>(null);
+  const tipPanelRef = useRef<HTMLDivElement>(null);
   const [error, setError]       = useState<string | null>(null);
   const [ready, setReady]       = useState(false);
   const [showConnectors, setShowConnectors] = useState(true);
+  const footerHeight = 84;
+  const routes = useMemo(() => routeCatheters(tubes, proximalExposure), [tubes, proximalExposure]);
+  // The panel uses full insertion; the model retains its visible proximal shaft.
+  const maximumRoutes = useMemo(() => routeCatheters(tubes, 0), [tubes]);
+  const tipRows = tubes.flatMap((tube) => {
+    const parent = tubes.find((item) => item.id === tube.parentId);
+    const route = maximumRoutes.get(tube.id)!;
+    if (!parent || route.tipExtension == null) return [];
+    return [{ tube, parent, label: tipExtensionLabel(route.tipExtension / lengthScale), port: route.port,
+      needsCaution: tipExtensionNeedsCaution(route.tipExtension / lengthScale),
+      assumed: parent.hub?.basis === 'fallback',
+      connectorCm: Number(((parent.connectorLength ?? 0) / lengthScale).toFixed(1)),
+      hubCm: Number(((parent.hubLength ?? 0) / lengthScale).toFixed(1)),
+    }];
+  });
 
   const sceneKey = JSON.stringify({ tubes, camPos, totalLen, maxR3, showConnectors, proximalExposure, overlayTop });
 
@@ -136,9 +155,7 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, proximalExposur
       scene.add(rimLight);
 
       // Tube meshes
-      const routes = routeCatheters(tubes, proximalExposure);
-      const deviceBounds: THREE.Box3[] = [];
-      for (const { id, proximalOuterR, distalOuterR, proximalInnerR, distalInnerR, c, connector, connectorLength = 0 } of tubes) {
+      for (const { id, proximalOuterR, distalOuterR, proximalInnerR, distalInnerR, c, connector, connectorLength = 0, hubLength = 0 } of tubes) {
         const group = new THREE.Group();
         const { path, rootRotation } = routes.get(id)!;
 
@@ -164,15 +181,20 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, proximalExposur
         rCap.position.copy(path.getPointAt(1));
         rCap.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), path.getTangentAt(1));
         group.add(rCap);
+        if (hubLength > 0) {
+          const hub = createCatheterHub(proximalOuterR, proximalInnerR, hubLength, c.fill);
+          hub.position.copy(path.getPointAt(0));
+          hub.quaternion.copy(rootRotation);
+          group.add(hub);
+        }
         if (showConnectors && connector) {
           const mesh = createYConnector(proximalOuterR, proximalInnerR, connectorLength, connector);
-          mesh.position.copy(path.getPointAt(0));
+          mesh.position.set(0, 0, -hubLength).applyQuaternion(rootRotation).add(path.getPointAt(0));
           mesh.quaternion.copy(rootRotation);
           group.add(mesh);
         }
 
         scene.add(group);
-        deviceBounds.push(new THREE.Box3().setFromObject(group));
       }
 
       // Camera look-at + orbit
@@ -196,8 +218,12 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, proximalExposur
         const rotation = camera.quaternion.clone().invert();
         const points = framingPoints.map((point) => point.clone().sub(target).applyQuaternion(rotation));
         const tanHalfFov = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
-        const top = Math.min(overlayTop + 44, height * 0.25);
-        const bottom = Math.min(72, height * 0.3);
+        const tipPanel = tipPanelRef.current;
+        const legend = legendRef.current;
+        const top = Math.min(Math.max(overlayTop + 44,
+          tipPanel ? tipPanel.offsetTop + tipPanel.offsetHeight + 12 : 0,
+          legend ? legend.offsetTop + legend.offsetHeight + 12 : 0), height * 0.4);
+        const bottom = Math.min(footerHeight, height * 0.35);
         const availableWidth = Math.max(width - 48, width * 0.5);
         const availableHeight = height - top - bottom;
         const projectedBounds = (distance: number) => {
@@ -231,63 +257,14 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, proximalExposur
       fitCamera(w0, h0);
       detachOrbit = attachOrbit(canvas, camera, target, maxR3 * 2, Math.max(totalLen * 5, sphere.radius * 12));
 
-      // Project device labels onto the same camera as the model. Updating DOM
-      // coordinates avoids React re-renders during orbit and zoom.
-      let viewportWidth = w0, viewportHeight = h0;
-      const labelNodes = Array.from(annotationRef.current?.querySelectorAll<HTMLElement>('[data-device-label]') ?? []);
-      const lineNodes = Array.from(annotationRef.current?.querySelectorAll<SVGLineElement>('line') ?? []);
-      const anchors = tubes.map((tube) => routes.get(tube.id)!.path.getPointAt(1));
-      const projected = new THREE.Vector3();
-      const updateLabels = () => {
-        const top = overlayTop + 44;
-        const bottom = Math.max(top + 28, viewportHeight - 72);
-        const items = anchors.map((anchor, index) => {
-          projected.copy(anchor).project(camera);
-          const visible = projected.z >= -1 && projected.z <= 1 && Math.abs(projected.x) <= 1.2 && Math.abs(projected.y) <= 1.2;
-          const x = (projected.x + 1) * viewportWidth / 2;
-          const y = (1 - projected.y) * viewportHeight / 2;
-          return { index, x, y, visible };
-        });
-        const obstacles = deviceBounds.map((box) => {
-          let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
-          for (const x of [box.min.x, box.max.x]) for (const y of [box.min.y, box.max.y]) for (const z of [box.min.z, box.max.z]) {
-            projected.set(x, y, z).project(camera);
-            // A near-plane intersection has no reliable finite projected box.
-            if (projected.z < -1 || projected.z > 1) return { x: 0, y: 0, width: viewportWidth, height: viewportHeight };
-            const px = (projected.x + 1) * viewportWidth / 2;
-            const py = (1 - projected.y) * viewportHeight / 2;
-            minX = Math.min(minX, px); maxX = Math.max(maxX, px);
-            minY = Math.min(minY, py); maxY = Math.max(maxY, py);
-          }
-          return { x: minX, y: minY, width: maxX - minX, height: maxY - minY };
-        });
-        const placements = placeDeviceLabels(items, obstacles, { x: 8, y: top, width: viewportWidth - 16, height: bottom - top });
-        for (const item of items) {
-          const placement = placements[item.index];
-          labelNodes[item.index].style.visibility = placement ? 'visible' : 'hidden';
-          lineNodes[item.index].style.visibility = placement ? 'visible' : 'hidden';
-          if (!placement) continue;
-          const { x, y, width: labelWidth } = placement;
-          const node = labelNodes[item.index];
-          node.style.width = `${labelWidth}px`;
-          node.style.transform = `translate(${x}px, ${y}px)`;
-          const line = lineNodes[item.index];
-          line.setAttribute('x1', String(item.x));
-          line.setAttribute('y1', String(item.y));
-          line.setAttribute('x2', String(Math.max(x, Math.min(x + labelWidth, item.x))));
-          line.setAttribute('y2', String(Math.max(y, Math.min(y + 28, item.y))));
-        }
-      };
       // Render loop
-      const tick = () => { raf = requestAnimationFrame(tick); renderer!.render(scene, camera); updateLabels(); };
+      const tick = () => { raf = requestAnimationFrame(tick); renderer!.render(scene, camera); };
       tick();
 
       // Resize observer — use contentRect for accurate dimensions
       const ro = new ResizeObserver((entries) => {
         const { width, height } = entries[0].contentRect;
         if (!width || !height) return;
-        viewportWidth = width;
-        viewportHeight = height;
         renderer!.setSize(Math.round(width), Math.round(height), false);
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
@@ -322,9 +299,43 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, proximalExposur
     <div style={{ position: 'absolute', inset: 0, minHeight: 200, pointerEvents: 'none' }}>
       <canvas
         ref={canvasRef}
-        aria-label="カテーテルとコネクターの3D模式図"
+        aria-label="カテーテル・ハブ・コネクターの3D模式図"
         style={{ display: 'block', width: '100%', height: '100%', minHeight: 200, pointerEvents: 'auto' }}
       />
+      {tipRows.length > 0 && (
+        <div ref={tipPanelRef} role="region" aria-label="先端からどれくらい出るか" style={{
+          position: 'absolute', top: overlayTop + 12, left: 12, zIndex: 2,
+          width: 400, maxWidth: 'calc(55% - 18px)', maxHeight: '55%', overflowY: 'auto',
+          boxSizing: 'border-box', padding: '10px 12px', borderRadius: 8,
+          border: '1px solid #475569', background: 'rgba(17,24,39,0.94)',
+          color: '#e2e8f0', pointerEvents: 'auto', opacity: ready ? 1 : 0,
+        }}>
+          <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 6 }}>
+            先端からどれくらい出るか <span title="手元の露出を0 cmとした最大値" style={{ fontSize: 10, fontWeight: 400, color: '#94a3b8' }}>（最大挿入時）</span>
+          </div>
+          {tipRows.map(({ tube, parent, label, port, assumed, connectorCm, hubCm, needsCaution }) => (
+            <div key={tube.id} style={{ padding: '5px 0', borderTop: '1px solid #334155' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3px 10px', alignItems: 'baseline', justifyContent: 'space-between', fontSize: 12 }}>
+                <span style={{ minWidth: 0, overflowWrap: 'anywhere', color: tube.c.fill }}>{tube.label}{port ? `（${port === 'side' ? '側孔' : '中央'}）` : ''}</span>
+                <strong style={{ whiteSpace: 'nowrap', fontVariantNumeric: 'tabular-nums', color: needsCaution ? '#ff8080' : undefined }}>
+                  {label}{assumed && <span style={{ fontSize: 10, color: '#fcd34d', marginLeft: 4 }}>（想定値）</span>}
+                </strong>
+              </div>
+              <div style={{ fontSize: 10, color: '#94a3b8', overflowWrap: 'anywhere' }}>{parent.label} の先端から</div>
+              <div style={{ fontSize: 10, color: assumed ? '#fcd34d' : '#94a3b8', overflowWrap: 'anywhere' }}>
+                {parent.connector === 'tri' ? 'トリコネ' : 'Yコネ'} {connectorCm} cm・ハブ {hubCm} cm{assumed ? '（想定値）' : ''}
+              </div>
+              {needsCaution && (
+                <div role="status" style={{ marginTop: 6, padding: '6px 8px', border: '1px solid #ef4444',
+                  borderLeft: '4px solid #ef4444', borderRadius: 4, background: 'rgba(127,29,29,0.35)',
+                  color: '#ff8080', fontSize: 12, lineHeight: '18px', fontWeight: 700 }}>
+                  注意：最大でも5 cm以下です
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
       {ready && tubes.some((tube) => tube.connector) && (
         <label style={{ position: 'absolute', top: overlayTop + 12, right: 12,
           display: 'flex', alignItems: 'center', gap: 8, padding: '7px 10px',
@@ -345,26 +356,25 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, proximalExposur
         </div>
       )}
 
-      {/* Device names follow their distal ends, with colour-matched leaders. */}
-        <div ref={annotationRef} style={{
-          position: 'absolute', inset: 0, overflow: 'hidden',
-          pointerEvents: 'none', opacity: ready ? 1 : 0,
+      {/* Fixed legend stays readable while the model rotates or zooms. */}
+        <div ref={legendRef} role="region" aria-label="選択デバイス" style={{
+          position: 'absolute', top: overlayTop + 48, right: 12, zIndex: 2,
+          width: 300, maxWidth: tipRows.length > 0 ? 'calc(45% - 18px)' : 'calc(100% - 24px)',
+          maxHeight: 'calc(55% - 36px)', overflowY: 'auto',
+          display: 'flex', flexDirection: 'column', gap: 6,
+          pointerEvents: 'auto', opacity: ready ? 1 : 0,
         }}>
-          <svg aria-hidden="true" width="100%" height="100%" style={{ position: 'absolute', inset: 0 }}>
-            {tubes.map(({ id, c }) => <line key={id} stroke={c.fill} strokeWidth="1.5" strokeOpacity="0.85" />)}
-          </svg>
-          {tubes.map(({ id, label, c }) => (
-            <div key={id} data-device-label={id} title={label} style={{
-              position: 'absolute', top: 0, left: 0, height: 28,
-              display: 'flex', alignItems: 'center', gap: 6,
+          {tubes.map(({ id, label, c, hub }) => (
+            <div key={id} data-device-label={id} title={hub ? `${label}\n3Dハブ表示：${hubDisplayLabel(hub)}` : label} style={{
+              minHeight: 28, flexShrink: 0, boxSizing: 'border-box',
+              display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '2px 6px',
               background: 'rgba(17,24,39,0.94)',
               border: `1px solid ${c.fill}`,
               borderRadius: 6, padding: '3px 8px',
               fontSize: 12, color: '#f3f4f6',
-              whiteSpace: 'nowrap', overflow: 'hidden',
             }}>
               <span style={{ width: 10, height: 10, borderRadius: '50%', background: c.fill, flexShrink: 0 }} />
-              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', flexShrink: 1 }}>{label}</span>
+              <span style={{ minWidth: 0, flex: 1, overflowWrap: 'anywhere' }}>{label}</span>
               {(() => {
                 const tube = tubes.find((item) => item.id === id)!;
                 const parent = tubes.find((item) => item.id === tube.parentId);
@@ -380,12 +390,13 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, proximalExposur
       {ready && (
         <div style={{
           position: 'absolute', bottom: 12, right: 12,
-          fontSize: 10, color: 'rgba(156,163,175,0.6)',
+          fontSize: 10, lineHeight: '14px', maxWidth: 'calc(100% - 24px)', color: 'rgba(156,163,175,0.6)',
           pointerEvents: 'none',
         }}>
           ドラッグ: 回転 &nbsp;|&nbsp; スクロール: ズーム
           <br />
           近位（根元）→遠位（先端）。両端径を直線的に補間した模式図です。
+          <br />ハブ：登録値を使用、未登録は5cmの想定値。形状・太さは模式化しています。
           {tubes.some((tube) => tube.parentId && tubes.some((parent) => parent.id === tube.parentId)) && <><br />内側カテーテル：コネクター入口から手前に5cm露出。残りを先端側へ配置。</>}
           {showConnectors && tubes.some((tube) => tube.connector) && <><br />Yコネクタ：約5cm。トリコネクター：仮の表示長5cm。太さは拡大表示、適合性判定には含みません。</>}
         </div>

@@ -4,8 +4,8 @@ type DeviceColor = { fill: string; dark: string; lumen: string };
 // Muted accents stay distinct against the dark canvas and share a common tone.
 const palette: Record<DeviceKind, readonly [DeviceColor, DeviceColor]> = {
   guiding: [
-    { fill: '#D9B680', dark: '#86633C', lumen: '#3C2A18' },
-    { fill: '#D9B680', dark: '#86633C', lumen: '#3C2A18' },
+    { fill: '#D99688', dark: '#8B514A', lumen: '#402420' },
+    { fill: '#D99688', dark: '#8B514A', lumen: '#402420' },
   ],
   intermediate: [
     { fill: '#62C5B5', dark: '#326F68', lumen: '#142F2D' },

@@ -37,6 +37,11 @@ export const NormalizedDeviceSchema = z.object({
   proximal_od_inch: z.number().finite().positive().nullable(),
   distal_id_inch: z.number().finite().positive().nullable(),
   distal_od_inch: z.number().finite().positive().nullable(),
+  hub_length_cm: z.number().finite().positive().nullable(),
+  hub_length_source: z.string().default(''),
+  proximal_non_effective_length_cm: z.number().finite().positive().nullable().default(null),
+  proximal_length_source: z.string().url().or(z.literal('')).default(''),
+  proximal_length_note: z.string().default(''),
 });
 
 export type NormalizedDevice = z.infer<typeof NormalizedDeviceSchema>;

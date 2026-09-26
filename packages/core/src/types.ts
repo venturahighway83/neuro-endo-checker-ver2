@@ -30,6 +30,15 @@ export interface Device {
   distal_od_inch?: number | null;
   /** Length in cm */
   length_cm: number;
+  /** Hub length in cm, separate from length_cm. null or omitted means unavailable. */
+  hub_length_cm?: number | null;
+  /** Citation for the explicitly reported hub length; may include measured values. */
+  hub_length_source?: string;
+  /** Total minus effective length, including the hub-side assembly. NOT a hub-only measurement. */
+  proximal_non_effective_length_cm?: number | null;
+  /** Public document URL and explanation of the subtraction and measured endpoints. */
+  proximal_length_source?: string;
+  proximal_length_note?: string;
   /** Free-text notes from upstream CSV */
   notes: string;
 }

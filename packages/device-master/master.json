@@ -1,6 +1,6 @@
 {
-  "schema_version": "0.2.0",
-  "generated_at": "2026-09-24T09:58:55.987Z",
+  "schema_version": "0.4.0",
+  "generated_at": "2026-09-26T03:28:58.352Z",
   "source_url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSgVsdmTcaWlepz42z8pHGNGn5VjT9FADDr-Tl4Nm7dEw7IxoeBXJJ-TEMm1qXzCbntsa2-94h43fbF/pubhtml",
   "devices": [
     {
@@ -15,7 +15,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.07874016,
       "distal_id_inch": 0.071,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "6f-roadmaster-100cm",
@@ -29,7 +34,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.07874016,
       "distal_id_inch": 0.071,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "7f-roadmaster-90cm",
@@ -43,7 +53,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.09186352,
       "distal_id_inch": 0.08,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "7f-roadmaster-100cm",
@@ -57,7 +72,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.09186352,
       "distal_id_inch": 0.08,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "8f-roadmaster-80cm",
@@ -71,7 +91,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.10498688,
       "distal_id_inch": 0.09,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "8f-roadmaster-85cm",
@@ -85,7 +110,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.10498688,
       "distal_id_inch": 0.09,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "8f-roadmaster-90cm",
@@ -99,7 +129,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.10498688,
       "distal_id_inch": 0.09,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "5f-launcher-90cm",
@@ -113,7 +148,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.0656168,
       "distal_id_inch": 0.058,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "5f-launcher-100cm",
@@ -127,7 +167,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.0656168,
       "distal_id_inch": 0.058,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "6f-launcher-90cm",
@@ -141,7 +186,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.07874016,
       "distal_id_inch": 0.071,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "6f-launcher-100cm",
@@ -155,7 +205,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.07874016,
       "distal_id_inch": 0.071,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "7f-launcher-90cm",
@@ -169,7 +224,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.09186352,
       "distal_id_inch": 0.081,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "8f-launcher-90cm",
@@ -183,7 +243,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.10498688,
       "distal_id_inch": 0.09,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "5f-envoy-90cm",
@@ -197,7 +262,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.0656168,
       "distal_id_inch": 0.056,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "5f-envoy-100cm",
@@ -211,7 +281,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.0656168,
       "distal_id_inch": 0.056,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "6f-envoy-90cm",
@@ -225,7 +300,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.07874016,
       "distal_id_inch": 0.07,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "6f-envoy-100cm",
@@ -239,7 +319,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.07874016,
       "distal_id_inch": 0.07,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "7f-envoy-90cm",
@@ -253,7 +338,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.09186352,
       "distal_id_inch": 0.078,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "7f-envoy-100cm",
@@ -267,7 +357,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.09186352,
       "distal_id_inch": 0.078,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "envoy-xb-90cm",
@@ -281,7 +376,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.07874016,
       "distal_id_inch": 0.07,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "envoy-xb-100cm",
@@ -295,7 +395,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.07874016,
       "distal_id_inch": 0.07,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "6f-fubuki-80cm",
@@ -309,7 +414,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.07874016,
       "distal_id_inch": 0.071,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "6f-fubuki-90cm",
@@ -323,7 +433,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.07874016,
       "distal_id_inch": 0.071,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "6f-fubuki-100cm",
@@ -337,7 +452,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.07874016,
       "distal_id_inch": 0.071,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "6f-fubuki-110cm",
@@ -351,7 +471,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.07874016,
       "distal_id_inch": 0.071,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "7f-fubuki-80cm",
@@ -365,7 +490,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.09186352,
       "distal_id_inch": 0.081,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "7f-fubuki-90cm",
@@ -379,7 +509,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.09186352,
       "distal_id_inch": 0.081,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "7f-fubuki-100cm",
@@ -393,7 +528,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.09186352,
       "distal_id_inch": 0.081,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "7f-fubuki-110cm",
@@ -407,7 +547,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.09186352,
       "distal_id_inch": 0.081,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "8f-fubuki-80cm",
@@ -421,7 +566,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.10498688,
       "distal_id_inch": 0.09,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "8f-fubuki-90cm",
@@ -435,7 +585,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.10498688,
       "distal_id_inch": 0.09,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "8f-fubuki-100cm",
@@ -449,7 +604,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.10498688,
       "distal_id_inch": 0.09,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "8f-fubuki-110cm",
@@ -463,7 +623,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.10498688,
       "distal_id_inch": 0.09,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "fubuki-xf-80cm",
@@ -477,7 +642,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.10498688,
       "distal_id_inch": 0.09,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "fubuki-xf-90cm",
@@ -491,7 +661,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.10498688,
       "distal_id_inch": 0.09,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "fubuki-xf-100cm",
@@ -505,7 +680,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.10498688,
       "distal_id_inch": 0.09,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "fubuki-xf-110cm",
@@ -519,7 +699,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.10498688,
       "distal_id_inch": 0.09,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "6f-slim-guide-90cm",
@@ -533,7 +718,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.08005249,
       "distal_id_inch": 0.072,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "6f-slim-guide-100cm",
@@ -547,7 +737,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.08005249,
       "distal_id_inch": 0.072,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "7f-slim-guide-90cm",
@@ -561,7 +756,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.09448819,
       "distal_id_inch": 0.08,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "8f-slim-guide-78cm",
@@ -575,7 +775,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.10629921,
       "distal_id_inch": 0.089,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "8f-slim-guide-90cm",
@@ -589,7 +794,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.10629921,
       "distal_id_inch": 0.089,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "5f-guider-softip-100cm",
@@ -603,7 +813,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.0656168,
       "distal_id_inch": 0.053,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": 2,
+      "hub_length_source": "アクセス製品スペック一覧（Stryker）.xlsx / スペック表!N5（cm、実測値を含む）",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "6f-guider-softip-90cm",
@@ -617,7 +832,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.07874016,
       "distal_id_inch": 0.064,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": 2,
+      "hub_length_source": "アクセス製品スペック一覧（Stryker）.xlsx / スペック表!N6（cm、実測値を含む）",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "6f-guider-softip-100cm",
@@ -631,7 +851,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.07874016,
       "distal_id_inch": 0.064,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": 2,
+      "hub_length_source": "アクセス製品スペック一覧（Stryker）.xlsx / スペック表!N6（cm、実測値を含む）",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "7f-guider-softip-90cm",
@@ -645,7 +870,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.09186352,
       "distal_id_inch": 0.073,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": 2,
+      "hub_length_source": "アクセス製品スペック一覧（Stryker）.xlsx / スペック表!N7（cm、実測値を含む）",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "7f-guider-softip-100cm",
@@ -659,7 +889,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.09186352,
       "distal_id_inch": 0.073,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": 2,
+      "hub_length_source": "アクセス製品スペック一覧（Stryker）.xlsx / スペック表!N7（cm、実測値を含む）",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "8f-guider-softip-90cm",
@@ -673,7 +908,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.10498688,
       "distal_id_inch": 0.086,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": 2,
+      "hub_length_source": "アクセス製品スペック一覧（Stryker）.xlsx / スペック表!N8（cm、実測値を含む）",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "8f-guider-softip-100cm",
@@ -687,7 +927,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.10498688,
       "distal_id_inch": 0.086,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": 2,
+      "hub_length_source": "アクセス製品スペック一覧（Stryker）.xlsx / スペック表!N8（cm、実測値を含む）",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "neuro-ebu",
@@ -701,7 +946,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.10498688,
       "distal_id_inch": 0.09,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "rist071-95cm",
@@ -715,7 +965,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.08661417,
       "distal_id_inch": 0.071,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "rist071-100cm",
@@ -729,7 +984,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.08661417,
       "distal_id_inch": 0.071,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "rist071-105cm",
@@ -743,7 +1003,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.08661417,
       "distal_id_inch": 0.071,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "rist079-95cm",
@@ -757,7 +1022,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.09317585,
       "distal_id_inch": 0.079,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "rist079-100cm",
@@ -771,7 +1041,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.09317585,
       "distal_id_inch": 0.079,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "rist079-105cm",
@@ -785,7 +1060,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.09317585,
       "distal_id_inch": 0.079,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "carnelian-hf-s-105cm",
@@ -799,7 +1079,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.03674541,
       "distal_id_inch": 0.027,
-      "distal_od_inch": 0.03412073
+      "distal_od_inch": 0.03412073,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "carnelian-hf-s-125cm",
@@ -813,7 +1098,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.03674541,
       "distal_id_inch": 0.027,
-      "distal_od_inch": 0.03412073
+      "distal_od_inch": 0.03412073,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "carnelian-hf-s-135cm",
@@ -827,7 +1117,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.03674541,
       "distal_id_inch": 0.027,
-      "distal_od_inch": 0.03412073
+      "distal_od_inch": 0.03412073,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "guidepost-120cm",
@@ -841,7 +1136,12 @@
       "proximal_id_inch": 0.039,
       "proximal_od_inch": 0.04488189,
       "distal_id_inch": 0.035,
-      "distal_od_inch": 0.04251969
+      "distal_od_inch": 0.04251969,
+      "hub_length_cm": 10,
+      "hub_length_source": "アクセス製品スペック一覧（Stryker）.xlsx / スペック表!N70（cm、実測値を含む）",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "guidepost-130cm",
@@ -855,7 +1155,12 @@
       "proximal_id_inch": 0.039,
       "proximal_od_inch": 0.04488189,
       "distal_id_inch": 0.035,
-      "distal_od_inch": 0.04251969
+      "distal_od_inch": 0.04251969,
+      "hub_length_cm": 10,
+      "hub_length_source": "アクセス製品スペック一覧（Stryker）.xlsx / スペック表!N70（cm、実測値を含む）",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "tactics-120cm",
@@ -869,7 +1174,12 @@
       "proximal_id_inch": 0.035,
       "proximal_od_inch": 0.04488189,
       "distal_id_inch": 0.035,
-      "distal_od_inch": 0.04212598
+      "distal_od_inch": 0.04212598,
+      "hub_length_cm": 8,
+      "hub_length_source": "アクセス製品スペック一覧（Stryker）.xlsx / スペック表!N62（cm、実測値を含む）",
+      "proximal_non_effective_length_cm": 8,
+      "proximal_length_source": "https://www.technocrat-corp.com/wp/wp-content/uploads/2025/08/catalog-TACTICS.pdf",
+      "proximal_length_note": "TACTICS メーカーカタログ、p.2、PDF内に発行年月の記載なし（メーカー現行製品ページのリンクから取得）。全長128 cm − 有効長120 cm = 8 cm（算出）。有効長の手元端からハブ接続端まで。ストレインリリーフとクリアハブを含む。"
     },
     {
       "id": "tactics-125cm",
@@ -883,7 +1193,12 @@
       "proximal_id_inch": 0.035,
       "proximal_od_inch": 0.04488189,
       "distal_id_inch": 0.035,
-      "distal_od_inch": 0.04212598
+      "distal_od_inch": 0.04212598,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "tactics-130cm",
@@ -897,7 +1212,12 @@
       "proximal_id_inch": 0.035,
       "proximal_od_inch": 0.04488189,
       "distal_id_inch": 0.035,
-      "distal_od_inch": 0.04212598
+      "distal_od_inch": 0.04212598,
+      "hub_length_cm": 8,
+      "hub_length_source": "アクセス製品スペック一覧（Stryker）.xlsx / スペック表!N62（cm、実測値を含む）",
+      "proximal_non_effective_length_cm": 8,
+      "proximal_length_source": "https://www.technocrat-corp.com/wp/wp-content/uploads/2025/08/catalog-TACTICS.pdf",
+      "proximal_length_note": "TACTICS メーカーカタログ、p.2、PDF内に発行年月の記載なし（メーカー現行製品ページのリンクから取得）。全長138 cm − 有効長130 cm = 8 cm（算出）。有効長の手元端からハブ接続端まで。ストレインリリーフとクリアハブを含む。"
     },
     {
       "id": "tactics-140cm",
@@ -911,7 +1231,12 @@
       "proximal_id_inch": 0.035,
       "proximal_od_inch": 0.04488189,
       "distal_id_inch": 0.035,
-      "distal_od_inch": 0.04212598
+      "distal_od_inch": 0.04212598,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "tactics-150cm",
@@ -925,7 +1250,12 @@
       "proximal_id_inch": 0.035,
       "proximal_od_inch": 0.04488189,
       "distal_id_inch": 0.035,
-      "distal_od_inch": 0.04212598
+      "distal_od_inch": 0.04212598,
+      "hub_length_cm": 8,
+      "hub_length_source": "アクセス製品スペック一覧（Stryker）.xlsx / スペック表!N62（cm、実測値を含む）",
+      "proximal_non_effective_length_cm": 8,
+      "proximal_length_source": "https://www.technocrat-corp.com/wp/wp-content/uploads/2025/08/catalog-TACTICS.pdf",
+      "proximal_length_note": "TACTICS メーカーカタログ、p.2、PDF内に発行年月の記載なし（メーカー現行製品ページのリンクから取得）。全長158 cm − 有効長150 cm = 8 cm（算出）。有効長の手元端からハブ接続端まで。ストレインリリーフとクリアハブを含む。"
     },
     {
       "id": "tactics-plus-120cm",
@@ -939,7 +1269,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.045,
       "distal_id_inch": 0.04,
-      "distal_od_inch": 0.042
+      "distal_od_inch": 0.042,
+      "hub_length_cm": 8,
+      "hub_length_source": "アクセス製品スペック一覧（Stryker）.xlsx / スペック表!N63（cm、実測値を含む）",
+      "proximal_non_effective_length_cm": 8,
+      "proximal_length_source": "https://technocrat-corp.com/wp/wp-content/themes/technocrat/pdf/catalog-TACTICS-PLUS.pdf",
+      "proximal_length_note": "TACTICS PLUS メーカーカタログ、p.2、REF No.24050300。全長128 cm − 有効長120 cm = 8 cm（算出）。有効長の手元端からハブ接続端まで。ストレインリリーフとクリアハブを含む。"
     },
     {
       "id": "tactics-plus-125cm",
@@ -953,7 +1288,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.045,
       "distal_id_inch": 0.04,
-      "distal_od_inch": 0.042
+      "distal_od_inch": 0.042,
+      "hub_length_cm": 8,
+      "hub_length_source": "アクセス製品スペック一覧（Stryker）.xlsx / スペック表!N63（cm、実測値を含む）",
+      "proximal_non_effective_length_cm": 8,
+      "proximal_length_source": "https://technocrat-corp.com/wp/wp-content/themes/technocrat/pdf/catalog-TACTICS-PLUS.pdf",
+      "proximal_length_note": "TACTICS PLUS メーカーカタログ、p.2、REF No.24050300。全長133 cm − 有効長125 cm = 8 cm（算出）。有効長の手元端からハブ接続端まで。ストレインリリーフとクリアハブを含む。"
     },
     {
       "id": "tactics-plus-130cm",
@@ -967,7 +1307,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.045,
       "distal_id_inch": 0.04,
-      "distal_od_inch": 0.042
+      "distal_od_inch": 0.042,
+      "hub_length_cm": 8,
+      "hub_length_source": "アクセス製品スペック一覧（Stryker）.xlsx / スペック表!N63（cm、実測値を含む）",
+      "proximal_non_effective_length_cm": 8,
+      "proximal_length_source": "https://technocrat-corp.com/wp/wp-content/themes/technocrat/pdf/catalog-TACTICS-PLUS.pdf",
+      "proximal_length_note": "TACTICS PLUS メーカーカタログ、p.2、REF No.24050300。全長138 cm − 有効長130 cm = 8 cm（算出）。有効長の手元端からハブ接続端まで。ストレインリリーフとクリアハブを含む。"
     },
     {
       "id": "tactics-plus-140cm",
@@ -981,7 +1326,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.045,
       "distal_id_inch": 0.04,
-      "distal_od_inch": 0.042
+      "distal_od_inch": 0.042,
+      "hub_length_cm": 8,
+      "hub_length_source": "アクセス製品スペック一覧（Stryker）.xlsx / スペック表!N63（cm、実測値を含む）",
+      "proximal_non_effective_length_cm": 8,
+      "proximal_length_source": "https://technocrat-corp.com/wp/wp-content/themes/technocrat/pdf/catalog-TACTICS-PLUS.pdf",
+      "proximal_length_note": "TACTICS PLUS メーカーカタログ、p.2、REF No.24050300。全長148 cm − 有効長140 cm = 8 cm（算出）。有効長の手元端からハブ接続端まで。ストレインリリーフとクリアハブを含む。"
     },
     {
       "id": "tactics-plus-150cm",
@@ -995,7 +1345,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.045,
       "distal_id_inch": 0.04,
-      "distal_od_inch": 0.042
+      "distal_od_inch": 0.042,
+      "hub_length_cm": 8,
+      "hub_length_source": "アクセス製品スペック一覧（Stryker）.xlsx / スペック表!N63（cm、実測値を含む）",
+      "proximal_non_effective_length_cm": 8,
+      "proximal_length_source": "https://technocrat-corp.com/wp/wp-content/themes/technocrat/pdf/catalog-TACTICS-PLUS.pdf",
+      "proximal_length_note": "TACTICS PLUS メーカーカタログ、p.2、REF No.24050300。全長158 cm − 有効長150 cm = 8 cm（算出）。有効長の手元端からハブ接続端まで。ストレインリリーフとクリアハブを含む。"
     },
     {
       "id": "phenom-plus",
@@ -1009,7 +1364,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.061,
       "distal_id_inch": 0.0445,
-      "distal_od_inch": 0.055
+      "distal_od_inch": 0.055,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "4-2f-fubuki",
@@ -1023,7 +1383,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.05511811,
       "distal_id_inch": 0.043,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "navien058-115cm",
@@ -1037,7 +1402,12 @@
       "proximal_id_inch": 0.058,
       "proximal_od_inch": 0.07,
       "distal_id_inch": 0.058,
-      "distal_od_inch": 0.07
+      "distal_od_inch": 0.07,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "navien058-125cm",
@@ -1051,7 +1421,12 @@
       "proximal_id_inch": 0.058,
       "proximal_od_inch": 0.07,
       "distal_id_inch": 0.058,
-      "distal_od_inch": 0.07
+      "distal_od_inch": 0.07,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "navien072-115cm",
@@ -1065,7 +1440,12 @@
       "proximal_id_inch": 0.072,
       "proximal_od_inch": 0.084,
       "distal_id_inch": 0.072,
-      "distal_od_inch": 0.084
+      "distal_od_inch": 0.084,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "navien072-125cm",
@@ -1079,7 +1459,12 @@
       "proximal_id_inch": 0.072,
       "proximal_od_inch": 0.084,
       "distal_id_inch": 0.072,
-      "distal_od_inch": 0.084
+      "distal_od_inch": 0.084,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "5f-sofia-select-115cm",
@@ -1093,7 +1478,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.068,
       "distal_id_inch": 0.055,
-      "distal_od_inch": 0.067
+      "distal_od_inch": 0.067,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "5f-sofia-select-125cm",
@@ -1107,7 +1497,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.068,
       "distal_id_inch": 0.055,
-      "distal_od_inch": 0.067
+      "distal_od_inch": 0.067,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "6f-sofia-select-115cm",
@@ -1121,7 +1516,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.0825,
       "distal_id_inch": 0.07,
-      "distal_od_inch": 0.0815
+      "distal_od_inch": 0.0815,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "6f-sofia-select-125cm",
@@ -1135,7 +1535,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.0825,
       "distal_id_inch": 0.07,
-      "distal_od_inch": 0.0815
+      "distal_od_inch": 0.0815,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "sofia-ex",
@@ -1149,7 +1554,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.071,
       "distal_id_inch": 0.058,
-      "distal_od_inch": 0.068
+      "distal_od_inch": 0.068,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "acs-catalyst5",
@@ -1163,7 +1573,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.073,
       "distal_id_inch": 0.058,
-      "distal_od_inch": 0.069
+      "distal_od_inch": 0.069,
+      "hub_length_cm": 5,
+      "hub_length_source": "アクセス製品スペック一覧（Stryker）.xlsx / スペック表!N11（cm、実測値を含む）",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "acs-vecta71-115cm",
@@ -1177,7 +1592,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": null,
       "distal_id_inch": null,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": 4,
+      "hub_length_source": "アクセス製品スペック一覧（Stryker）.xlsx / スペック表!N12（cm、実測値を含む）",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "acs-vecta71-125cm",
@@ -1191,7 +1611,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": null,
       "distal_id_inch": null,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": 4,
+      "hub_length_source": "アクセス製品スペック一覧（Stryker）.xlsx / スペック表!N12（cm、実測値を含む）",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "acs-vecta74-115cm",
@@ -1205,7 +1630,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.087,
       "distal_id_inch": 0.074,
-      "distal_od_inch": 0.083
+      "distal_od_inch": 0.083,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "acs-vecta74-125cm",
@@ -1219,7 +1649,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.087,
       "distal_id_inch": 0.074,
-      "distal_od_inch": 0.083
+      "distal_od_inch": 0.083,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "cerulean-dd6-103cm",
@@ -1233,7 +1668,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.08136483,
       "distal_id_inch": 0.072,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "cerulean-dd6-113cm",
@@ -1247,7 +1687,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.08136483,
       "distal_id_inch": 0.072,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": 5,
+      "proximal_length_source": "https://www.ec-pro.co.jp/23hokkaido-jsnet/exhibition/Medikit/CeruleanDD6.pdf",
+      "proximal_length_note": "Cerulean DD6 メディキットカタログ（学会サイト掲載）、p.2、2012年10月。現行販売仕様の保証ではない。全長118 cm − 有効長113 cm = 5 cm（算出）。有効長の手元端からカテーテルの手元端までの非有効部。図では透明カテーテルハブ側に相当。ハブ単体寸法としての明記はない。"
     },
     {
       "id": "4f-cerulean-105cm",
@@ -1261,7 +1706,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.05511811,
       "distal_id_inch": 0.04,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "4f-cerulean-113cm",
@@ -1275,7 +1725,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.05511811,
       "distal_id_inch": 0.04,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "4f-cerulean-118cm",
@@ -1289,7 +1744,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.05511811,
       "distal_id_inch": 0.04,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "4f-cerulean-123cm",
@@ -1303,7 +1763,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.05511811,
       "distal_id_inch": 0.04,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "4f-cerulean-133cm",
@@ -1317,7 +1782,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.05511811,
       "distal_id_inch": 0.04,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "5f-cerulean-113cm",
@@ -1331,7 +1801,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.06692913,
       "distal_id_inch": 0.05,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "5f-cerulean-118cm",
@@ -1345,7 +1820,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.06692913,
       "distal_id_inch": 0.05,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "5f-cerulean-123cm",
@@ -1359,7 +1839,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.06692913,
       "distal_id_inch": 0.05,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "5f-cerulean-133cm",
@@ -1373,7 +1858,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.06692913,
       "distal_id_inch": 0.05,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "excelsior-sl-10",
@@ -1387,7 +1877,12 @@
       "proximal_id_inch": 0.0165,
       "proximal_od_inch": 0.03110236,
       "distal_id_inch": 0.0165,
-      "distal_od_inch": 0.02204724
+      "distal_od_inch": 0.02204724,
+      "hub_length_cm": 6.3,
+      "hub_length_source": "アクセス製品スペック一覧（Stryker）.xlsx / スペック表!N15（cm、実測値を含む）",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "excelsior-1018",
@@ -1401,7 +1896,12 @@
       "proximal_id_inch": 0.019,
       "proximal_od_inch": 0.03425197,
       "distal_id_inch": 0.019,
-      "distal_od_inch": 0.02637795
+      "distal_od_inch": 0.02637795,
+      "hub_length_cm": 6.3,
+      "hub_length_source": "アクセス製品スペック一覧（Stryker）.xlsx / スペック表!N16（cm、実測値を含む）",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "excelsior-xt-27",
@@ -1415,7 +1915,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.03805774,
       "distal_id_inch": 0.027,
-      "distal_od_inch": 0.036
+      "distal_od_inch": 0.036,
+      "hub_length_cm": 6.3,
+      "hub_length_source": "アクセス製品スペック一覧（Stryker）.xlsx / スペック表!N18（cm、実測値を含む）",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "echelon-10",
@@ -1429,7 +1934,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.02755906,
       "distal_id_inch": 0.017,
-      "distal_od_inch": 0.02230971
+      "distal_od_inch": 0.02230971,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "phenom-17",
@@ -1443,7 +1953,12 @@
       "proximal_id_inch": 0.017,
       "proximal_od_inch": 0.029,
       "distal_id_inch": 0.017,
-      "distal_od_inch": 0.024
+      "distal_od_inch": 0.024,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "phenom-21",
@@ -1457,7 +1972,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.034,
       "distal_id_inch": 0.021,
-      "distal_od_inch": 0.03
+      "distal_od_inch": 0.03,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "phenom-27-150cm",
@@ -1471,7 +1991,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.04,
       "distal_id_inch": 0.027,
-      "distal_od_inch": 0.036
+      "distal_od_inch": 0.036,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "phenom-27-160cm",
@@ -1485,7 +2010,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.04068241,
       "distal_id_inch": 0.027,
-      "distal_od_inch": 0.036
+      "distal_od_inch": 0.036,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "marathon",
@@ -1499,7 +2029,12 @@
       "proximal_id_inch": 0.015,
       "proximal_od_inch": 0.03543307,
       "distal_id_inch": 0.013,
-      "distal_od_inch": 0.01968504
+      "distal_od_inch": 0.01968504,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": 5,
+      "proximal_length_source": "https://www.info.pmda.go.jp/downfiles/md/PDF/530366/530366_21800BZY10005000_A_04_04.pdf",
+      "proximal_length_note": "マラソン フローダイレクト マイクロカテーテル 電子添文、p.1、2021年4月 第3版 PI-NVA-0005CD。全長170 cm − 有効長165 cm = 5 cm（算出）。有効長Bの手元端から全長Aの手元端まで。ストレインレリーフ、アウターストレインレリーフ、ハブを含む。"
     },
     {
       "id": "headway-duo",
@@ -1513,7 +2048,12 @@
       "proximal_id_inch": 0.0165,
       "proximal_od_inch": 0.02755906,
       "distal_id_inch": 0.0165,
-      "distal_od_inch": 0.02086614
+      "distal_od_inch": 0.02086614,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "headway-17",
@@ -1527,7 +2067,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.03149606,
       "distal_id_inch": 0.017,
-      "distal_od_inch": 0.02204724
+      "distal_od_inch": 0.02204724,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "headway-plus-21",
@@ -1541,7 +2086,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.03307087,
       "distal_id_inch": 0.021,
-      "distal_od_inch": 0.02637795
+      "distal_od_inch": 0.02637795,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "headway-plus-27",
@@ -1555,7 +2105,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.04055118,
       "distal_id_inch": 0.027,
-      "distal_od_inch": 0.03385827
+      "distal_od_inch": 0.03385827,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "scepter-c",
@@ -1569,7 +2124,12 @@
       "proximal_id_inch": 0.0165,
       "proximal_od_inch": 0.03700787,
       "distal_id_inch": 0.0165,
-      "distal_od_inch": 0.02795276
+      "distal_od_inch": 0.02795276,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "scepter-xc",
@@ -1583,7 +2143,12 @@
       "proximal_id_inch": 0.0165,
       "proximal_od_inch": 0.03700787,
       "distal_id_inch": 0.0165,
-      "distal_od_inch": 0.02795276
+      "distal_od_inch": 0.02795276,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "carnelian-marvel-non-taper",
@@ -1597,7 +2162,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.02493438,
       "distal_id_inch": 0.017,
-      "distal_od_inch": 0.02493438
+      "distal_od_inch": 0.02493438,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "prowler-select-plus-150cm",
@@ -1611,7 +2181,12 @@
       "proximal_id_inch": 0.021,
       "proximal_od_inch": 0.03674541,
       "distal_id_inch": 0.021,
-      "distal_od_inch": 0.03018373
+      "distal_od_inch": 0.03018373,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "prowler-select-plus-160cm",
@@ -1625,7 +2200,12 @@
       "proximal_id_inch": 0.021,
       "proximal_od_inch": 0.03674541,
       "distal_id_inch": 0.021,
-      "distal_od_inch": 0.03018373
+      "distal_od_inch": 0.03018373,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "shouryu",
@@ -1639,7 +2219,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.03543307,
       "distal_id_inch": null,
-      "distal_od_inch": 0.02874016
+      "distal_od_inch": 0.02874016,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "transform-c",
@@ -1653,7 +2238,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": null,
       "distal_id_inch": null,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "transform-sc",
@@ -1667,7 +2257,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": null,
       "distal_id_inch": null,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "axcelguide-radix-5-5-88cm",
@@ -1681,7 +2276,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.09973753,
       "distal_id_inch": 0.087,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "axcelguide-radix-5-5-93cm",
@@ -1695,7 +2295,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.09973753,
       "distal_id_inch": 0.087,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "axcelguide-radix-5-5-98cm",
@@ -1709,7 +2314,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.09973753,
       "distal_id_inch": 0.087,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "neuro-compass-80cm",
@@ -1723,7 +2333,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.10761155,
       "distal_id_inch": 0.095,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "neuro-compass-90cm",
@@ -1737,7 +2352,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.10761155,
       "distal_id_inch": 0.095,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "defrictor-nano",
@@ -1751,7 +2371,12 @@
       "proximal_id_inch": 0.014,
       "proximal_od_inch": 0.028,
       "distal_id_inch": 0.011,
-      "distal_od_inch": 0.017
+      "distal_od_inch": 0.017,
+      "hub_length_cm": 7,
+      "hub_length_source": "アクセス製品スペック一覧（Stryker）.xlsx / スペック表!N77（cm、実測値を含む）",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "defrictor-zero-120cm",
@@ -1765,7 +2390,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": null,
       "distal_id_inch": null,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "defrictor-zero-130cm",
@@ -1779,7 +2409,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": null,
       "distal_id_inch": null,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "defrictor-zero-165cm",
@@ -1793,7 +2428,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": null,
       "distal_id_inch": null,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "defrictor-bull",
@@ -1807,7 +2447,12 @@
       "proximal_id_inch": 0.015,
       "proximal_od_inch": 0.031,
       "distal_id_inch": 0.013,
-      "distal_od_inch": 0.02
+      "distal_od_inch": 0.02,
+      "hub_length_cm": 7,
+      "hub_length_source": "アクセス製品スペック一覧（Stryker）.xlsx / スペック表!N78（cm、実測値を含む）",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "via21",
@@ -1821,7 +2466,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.03582677,
       "distal_id_inch": 0.021,
-      "distal_od_inch": 0.03307087
+      "distal_od_inch": 0.03307087,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "via27",
@@ -1835,7 +2485,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.04212598,
       "distal_id_inch": 0.027,
-      "distal_od_inch": 0.03897638
+      "distal_od_inch": 0.03897638,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "via33",
@@ -1849,7 +2504,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": null,
       "distal_id_inch": null,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "6f-optimo-100cm",
@@ -1863,7 +2523,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.07874016,
       "distal_id_inch": 0.058,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "7f-optimo-95cm",
@@ -1877,7 +2542,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.09186352,
       "distal_id_inch": 0.071,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "8f-optimo-90cm",
@@ -1891,7 +2561,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.10498688,
       "distal_id_inch": 0.087,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "8f-optimo-95cm",
@@ -1905,7 +2580,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.10498688,
       "distal_id_inch": 0.087,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "9f-optimo-90cm",
@@ -1919,7 +2599,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.11811024,
       "distal_id_inch": 0.093,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "9f-optimo-95cm",
@@ -1933,7 +2618,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.11811024,
       "distal_id_inch": 0.093,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "via17",
@@ -1947,7 +2637,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.03188976,
       "distal_id_inch": 0.0175,
-      "distal_od_inch": 0.02913386
+      "distal_od_inch": 0.02913386,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "saya-86-80cm",
@@ -1961,7 +2656,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.097,
       "distal_id_inch": 0.086,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "saya-86-90cm",
@@ -1975,7 +2675,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.097,
       "distal_id_inch": 0.086,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "saya-86-95cm",
@@ -1989,7 +2694,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.097,
       "distal_id_inch": 0.086,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "saya-86-100cm",
@@ -2003,7 +2713,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.097,
       "distal_id_inch": 0.086,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "saya-86-105cm",
@@ -2017,7 +2732,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.097,
       "distal_id_inch": 0.086,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     },
     {
       "id": "saya-86-110cm",
@@ -2031,7 +2751,12 @@
       "proximal_id_inch": null,
       "proximal_od_inch": 0.097,
       "distal_id_inch": 0.086,
-      "distal_od_inch": null
+      "distal_od_inch": null,
+      "hub_length_cm": null,
+      "hub_length_source": "",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
     }
   ]
 }
