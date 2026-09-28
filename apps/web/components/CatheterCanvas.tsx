@@ -81,6 +81,10 @@ function attachOrbit(
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
+function compactDeviceLabel(label: string): string {
+  return label.replace(/\s*\(\d+(?:\.\d+)?\s*cm\)$/i, '');
+}
+
 export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, proximalExposure, lengthScale, overlayTop = 0 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const legendRef = useRef<HTMLDivElement>(null);
@@ -315,15 +319,16 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, proximalExposur
           </div>
           {tipRows.map(({ tube, parent, label, port, assumed, connectorCm, hubCm, needsCaution }) => (
             <div key={tube.id} style={{ padding: '5px 0', borderTop: '1px solid #334155' }}>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3px 10px', alignItems: 'baseline', justifyContent: 'space-between', fontSize: 12 }}>
-                <span style={{ minWidth: 0, overflowWrap: 'anywhere', color: tube.c.fill }}>{tube.label}{port ? `（${port === 'side' ? '側孔' : '中央'}）` : ''}</span>
+              <div style={{ fontSize: 12, whiteSpace: 'nowrap', overflowX: 'auto' }}>
+                <span title={parent.label}>{compactDeviceLabel(parent.label)}</span>の先端から
+                <span title={tube.label} style={{ color: tube.c.fill }}>{compactDeviceLabel(tube.label)}{port ? `（${port === 'side' ? '側孔' : '中央'}）` : ''}</span>は
                 <strong style={{ whiteSpace: 'nowrap', fontVariantNumeric: 'tabular-nums', color: needsCaution ? '#ff8080' : undefined }}>
-                  {label}{assumed && <span style={{ fontSize: 10, color: '#fcd34d', marginLeft: 4 }}>（想定値）</span>}
+                  {label.replace(/\.0(?= cm)/, '').replace(' cm ', 'cm')}{assumed && <span style={{ fontSize: 10, color: '#fcd34d', marginLeft: 4 }}>（想定値）</span>}
                 </strong>
               </div>
-              <div style={{ fontSize: 10, color: '#94a3b8', overflowWrap: 'anywhere' }}>{parent.label} の先端から</div>
-              <div style={{ fontSize: 10, color: assumed ? '#fcd34d' : '#94a3b8', overflowWrap: 'anywhere' }}>
-                {parent.connector === 'tri' ? 'トリコネ' : 'Yコネ'} {connectorCm} cm・ハブ {hubCm} cm{assumed ? '（想定値）' : ''}
+              <div style={{ fontSize: 10, color: '#94a3b8', whiteSpace: 'nowrap', overflowX: 'auto' }}>
+                {parent.id === 'g' ? 'ガイディング' : '中間カテーテル'}の{parent.connector === 'tri' ? 'トリコネ' : 'Yコネ'}{connectorCm}cm、
+                <span style={{ color: assumed ? '#fcd34d' : undefined }}>ハブ{hubCm}cm{assumed ? '（想定値）' : ''}</span>
               </div>
               {needsCaution && (
                 <div role="status" style={{ marginTop: 6, padding: '6px 8px', border: '1px solid #ef4444',
