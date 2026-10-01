@@ -232,6 +232,51 @@
   ],
   "manual_records": [
     {
+      "device_id": "5f-sofia-select-115cm",
+      "source_type": "user_provided_measurement",
+      "hub_length_cm": 5.5,
+      "hub_length_source": "順天堂大学実測値",
+      "unit": "cm",
+      "recorded_at": "2026-10-01",
+      "match_note": "ユーザーのSOFIAハブ長5.5 cm登録指定を5F Sofia Select (115 cm)（有効長115 cm）に適用。登録済みSOFIA系列全5件を対象とし、出典名は指定どおり記載。"
+    },
+    {
+      "device_id": "5f-sofia-select-125cm",
+      "source_type": "user_provided_measurement",
+      "hub_length_cm": 5.5,
+      "hub_length_source": "順天堂大学実測値",
+      "unit": "cm",
+      "recorded_at": "2026-10-01",
+      "match_note": "ユーザーのSOFIAハブ長5.5 cm登録指定を5F Sofia Select (125 cm)（有効長125 cm）に適用。登録済みSOFIA系列全5件を対象とし、出典名は指定どおり記載。"
+    },
+    {
+      "device_id": "6f-sofia-select-115cm",
+      "source_type": "user_provided_measurement",
+      "hub_length_cm": 5.5,
+      "hub_length_source": "順天堂大学実測値",
+      "unit": "cm",
+      "recorded_at": "2026-10-01",
+      "match_note": "ユーザーのSOFIAハブ長5.5 cm登録指定を6F Sofia Select (115 cm)（有効長115 cm）に適用。登録済みSOFIA系列全5件を対象とし、出典名は指定どおり記載。"
+    },
+    {
+      "device_id": "6f-sofia-select-125cm",
+      "source_type": "user_provided_measurement",
+      "hub_length_cm": 5.5,
+      "hub_length_source": "順天堂大学実測値",
+      "unit": "cm",
+      "recorded_at": "2026-10-01",
+      "match_note": "ユーザーのSOFIAハブ長5.5 cm登録指定を6F Sofia Select (125 cm)（有効長125 cm）に適用。登録済みSOFIA系列全5件を対象とし、出典名は指定どおり記載。"
+    },
+    {
+      "device_id": "sofia-ex",
+      "source_type": "user_provided_measurement",
+      "hub_length_cm": 5.5,
+      "hub_length_source": "順天堂大学実測値",
+      "unit": "cm",
+      "recorded_at": "2026-10-01",
+      "match_note": "ユーザーのSOFIAハブ長5.5 cm登録指定をSofia EX（有効長115 cm）に適用。登録済みSOFIA系列全5件を対象とし、出典名は指定どおり記載。"
+    },
+    {
       "device_id": "via17",
       "source_type": "user_provided_measurement",
       "hub_length_cm": 7,
@@ -348,11 +393,11 @@
   ],
   "coverage": {
     "total": 146,
-    "populated": 27,
-    "unavailable": 119,
+    "populated": 32,
+    "unavailable": 114,
     "derived_proximal_populated": 10,
-    "any_hub_information": 29,
-    "no_hub_information": 117
+    "any_hub_information": 34,
+    "no_hub_information": 112
   },
   "public_sources": {
     "marathon-pmda": {

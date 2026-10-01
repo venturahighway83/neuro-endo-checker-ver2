@@ -1,6 +1,6 @@
 {
   "schema_version": "0.4.0",
-  "generated_at": "2026-10-01T09:40:07.898Z",
+  "generated_at": "2026-10-01T09:56:10.125Z",
   "source_url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSgVsdmTcaWlepz42z8pHGNGn5VjT9FADDr-Tl4Nm7dEw7IxoeBXJJ-TEMm1qXzCbntsa2-94h43fbF/pubhtml",
   "devices": [
     {
@@ -1479,8 +1479,8 @@
       "proximal_od_inch": 0.068,
       "distal_id_inch": 0.055,
       "distal_od_inch": 0.067,
-      "hub_length_cm": null,
-      "hub_length_source": "",
+      "hub_length_cm": 5.5,
+      "hub_length_source": "順天堂大学実測値",
       "proximal_non_effective_length_cm": null,
       "proximal_length_source": "",
       "proximal_length_note": ""
@@ -1498,8 +1498,8 @@
       "proximal_od_inch": 0.068,
       "distal_id_inch": 0.055,
       "distal_od_inch": 0.067,
-      "hub_length_cm": null,
-      "hub_length_source": "",
+      "hub_length_cm": 5.5,
+      "hub_length_source": "順天堂大学実測値",
       "proximal_non_effective_length_cm": null,
       "proximal_length_source": "",
       "proximal_length_note": ""
@@ -1517,8 +1517,8 @@
       "proximal_od_inch": 0.0825,
       "distal_id_inch": 0.07,
       "distal_od_inch": 0.0815,
-      "hub_length_cm": null,
-      "hub_length_source": "",
+      "hub_length_cm": 5.5,
+      "hub_length_source": "順天堂大学実測値",
       "proximal_non_effective_length_cm": null,
       "proximal_length_source": "",
       "proximal_length_note": ""
@@ -1536,8 +1536,8 @@
       "proximal_od_inch": 0.0825,
       "distal_id_inch": 0.07,
       "distal_od_inch": 0.0815,
-      "hub_length_cm": null,
-      "hub_length_source": "",
+      "hub_length_cm": 5.5,
+      "hub_length_source": "順天堂大学実測値",
       "proximal_non_effective_length_cm": null,
       "proximal_length_source": "",
       "proximal_length_note": ""
@@ -1555,8 +1555,8 @@
       "proximal_od_inch": 0.071,
       "distal_id_inch": 0.058,
       "distal_od_inch": 0.068,
-      "hub_length_cm": null,
-      "hub_length_source": "",
+      "hub_length_cm": 5.5,
+      "hub_length_source": "順天堂大学実測値",
       "proximal_non_effective_length_cm": null,
       "proximal_length_source": "",
       "proximal_length_note": ""
