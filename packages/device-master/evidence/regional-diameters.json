@@ -10,7 +10,8 @@
     "legacy": "既存id_inch/od_fr/length_cmは変更しない。source_urlは元の一覧の出典であり、追加4項目の出典はこのファイル。 ユーザー指定で新規追加した製品の基本寸法はdevice-additions-2026-09-18.json参照。od_frには公称サイズでなく採用外径の実寸換算値を保存。",
     "local_book": "ユーザー指定のローカル書籍も出典として採用。PDFファイル名・SHA-256・刊行日・書籍ページとPDFページを記録し、部位・長さが一致する未登録値のみ補完。メーカー資料による登録済み値は上書きしない。",
     "generic_assignment": "2026-09-18ユーザー指定: 部位区別のない外径は近位外径、内径は遠位内径に割り当てる。明示部位の登録値を優先。割当値にはassignment=user_conventionを付け、部位確認済みの測定と区別する。既存一覧由来の一般径はlegacySheetを出典とし、メーカーでの再確認を意味しない。型式不一致・寸法種別不明の保留は維持。",
-    "variant_alignment": "2026-09-24ユーザー指定: Carnelian HF-S 105 cmの未登録3項目を125/135 cmに合わせる。このモデルに限る明示指定であり、一般的な長さ違いへの転用規則ではない。assignment=user_requested_variant_alignmentと参照モデルを記録。105 cmのメーカー・書籍仕様を確認した意味ではない。近位内径は未登録を維持。"
+    "variant_alignment": "2026-09-24ユーザー指定: Carnelian HF-S 105 cmの未登録3項目を125/135 cmに合わせる。このモデルに限る明示指定であり、一般的な長さ違いへの転用規則ではない。assignment=user_requested_variant_alignmentと参照モデルを記録。105 cmのメーカー・書籍仕様を確認した意味ではない。近位内径は未登録を維持。",
+    "documented_non_tapered_lumen": "2026-10-01ユーザー指定: ENVOY 6F・7F（各90/100 cm）の近位内径を遠位内径と同値で登録。FDA K140307の非テーパー内腔と寸法表を根拠とし、assignment=documented_non_tapered_lumenを記録。一般径の無条件複製とは区別し、外径や5F・XBには適用しない。"
   },
   "sources": {
     "strykerUserWorkbook": {
@@ -280,6 +281,13 @@
       "type": "legacy_dataset",
       "location": "既存145件のうち元一覧に由来する138件。今回のメーカー再照合なし。",
       "accessed_on": "2026-09-18"
+    },
+    "envoyFDAK140307": {
+      "title": "FDA K140307 ENVOY Guiding Catheter 510(k) Summary (2014-02-06)",
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/pdf14/K140307.pdf",
+      "type": "regulatory_submission",
+      "location": "PDF 1ページ E. Device Description: non-tapered lumen。PDF 2ページ Table 2: 6Fr/7Fr、90/100 cm、内径0.070/0.078 inch。",
+      "accessed_on": "2026-10-01"
     }
   },
   "records": [
@@ -4732,6 +4740,44 @@
           "note": "部位区別のない内径を遠位内径に割当（2026-09-18ユーザー指定）。部位を明示した仕様ではない。"
         }
       }
+    },
+    {
+      "device_ids": [
+        "6f-envoy-90cm",
+        "6f-envoy-100cm"
+      ],
+      "match_note": "FDA K140307 Table 2のENVOY 6Fr・90/100 cmと既存製品をサイズ・長さで対応。非テーパー内腔の明記と公称内径0.070 inchに基づき、2026-10-01ユーザー指定で近位内径を既存遠位内径と同値で補完。5F・XB・DAおよび外径には転用しない。",
+      "values": {
+        "proximal_id_inch": {
+          "original_value": 0.07,
+          "original_unit": "inch",
+          "value_inch": 0.07,
+          "source_ids": [
+            "envoyFDAK140307"
+          ],
+          "assignment": "documented_non_tapered_lumen",
+          "note": "内腔にテーパーがないという資料記載に基づく近位への適用。近位部の個別実測値ではない。既存遠位内径と数値一致。"
+        }
+      }
+    },
+    {
+      "device_ids": [
+        "7f-envoy-90cm",
+        "7f-envoy-100cm"
+      ],
+      "match_note": "FDA K140307 Table 2のENVOY 7Fr・90/100 cmと既存製品をサイズ・長さで対応。非テーパー内腔の明記と公称内径0.078 inchに基づき、2026-10-01ユーザー指定で近位内径を既存遠位内径と同値で補完。5F・XB・DAおよび外径には転用しない。",
+      "values": {
+        "proximal_id_inch": {
+          "original_value": 0.078,
+          "original_unit": "inch",
+          "value_inch": 0.078,
+          "source_ids": [
+            "envoyFDAK140307"
+          ],
+          "assignment": "documented_non_tapered_lumen",
+          "note": "内腔にテーパーがないという資料記載に基づく近位への適用。近位部の個別実測値ではない。既存遠位内径と数値一致。"
+        }
+      }
     }
   ],
   "issues": [
@@ -5126,12 +5172,13 @@
     {
       "device_id": "6f-envoy-90cm",
       "name": "6F Envoy (90 cm)",
-      "populated_fields": 2,
+      "populated_fields": 3,
       "status": "partial",
-      "remaining_reason": "未確認: proximal_id_inch, distal_od_inch。一般径の割当はユーザー指定ルールであり部位明示の確認ではない。",
+      "remaining_reason": "未確認: distal_od_inch。近位内径はFDA K140307の非テーパー内腔に基づき遠位内径と同値で登録。近位外径の一般径からの割当は維持。",
       "additional_source_ids": [
         "prowlerJP",
-        "legacySheet"
+        "legacySheet",
+        "envoyFDAK140307"
       ],
       "previous_remaining_reason": "公開資料から既存モデルに対応する近位/遠位の区別を確定できていない。",
       "assigned_fields": [
@@ -5142,12 +5189,13 @@
     {
       "device_id": "6f-envoy-100cm",
       "name": "6F Envoy (100 cm)",
-      "populated_fields": 2,
+      "populated_fields": 3,
       "status": "partial",
-      "remaining_reason": "未確認: proximal_id_inch, distal_od_inch。一般径の割当はユーザー指定ルールであり部位明示の確認ではない。",
+      "remaining_reason": "未確認: distal_od_inch。近位内径はFDA K140307の非テーパー内腔に基づき遠位内径と同値で登録。近位外径の一般径からの割当は維持。",
       "additional_source_ids": [
         "prowlerJP",
-        "legacySheet"
+        "legacySheet",
+        "envoyFDAK140307"
       ],
       "previous_remaining_reason": "公開資料から既存モデルに対応する近位/遠位の区別を確定できていない。",
       "assigned_fields": [
@@ -5158,12 +5206,13 @@
     {
       "device_id": "7f-envoy-90cm",
       "name": "7F Envoy (90 cm)",
-      "populated_fields": 2,
+      "populated_fields": 3,
       "status": "partial",
-      "remaining_reason": "未確認: proximal_id_inch, distal_od_inch。一般径の割当はユーザー指定ルールであり部位明示の確認ではない。",
+      "remaining_reason": "未確認: distal_od_inch。近位内径はFDA K140307の非テーパー内腔に基づき遠位内径と同値で登録。近位外径の一般径からの割当は維持。",
       "additional_source_ids": [
         "prowlerJP",
-        "legacySheet"
+        "legacySheet",
+        "envoyFDAK140307"
       ],
       "previous_remaining_reason": "公開資料から既存モデルに対応する近位/遠位の区別を確定できていない。",
       "assigned_fields": [
@@ -5174,12 +5223,13 @@
     {
       "device_id": "7f-envoy-100cm",
       "name": "7F Envoy (100 cm)",
-      "populated_fields": 2,
+      "populated_fields": 3,
       "status": "partial",
-      "remaining_reason": "未確認: proximal_id_inch, distal_od_inch。一般径の割当はユーザー指定ルールであり部位明示の確認ではない。",
+      "remaining_reason": "未確認: distal_od_inch。近位内径はFDA K140307の非テーパー内腔に基づき遠位内径と同値で登録。近位外径の一般径からの割当は維持。",
       "additional_source_ids": [
         "prowlerJP",
-        "legacySheet"
+        "legacySheet",
+        "envoyFDAK140307"
       ],
       "previous_remaining_reason": "公開資料から既存モデルに対応する近位/遠位の区別を確定できていない。",
       "assigned_fields": [

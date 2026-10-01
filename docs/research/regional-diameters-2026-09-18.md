@@ -1,8 +1,10 @@
 # 近位・遠位径の公開資料・書籍調査
 
-更新日: 2026-09-24
+更新日: 2026-10-01
 
-145件中137件に347項目を登録。全4項目は22件、一部登録は115件、未登録は8件。2026-09-18に113件の200項目を一般径から補完し、2026-09-24にユーザー指定でCarnelian HF-S 105 cmの3項目を125/135 cmに合わせました。
+2026-09-24時点では145件中137件に347項目を登録。全4項目は22件、一部登録は115件、未登録は8件。2026-09-18に113件の200項目を一般径から補完し、2026-09-24にユーザー指定でCarnelian HF-S 105 cmの3項目を125/135 cmに合わせました。
+
+2026-10-01にユーザー指定でENVOY 6F・7F（各90/100 cm、計4件）の近位内径を遠位内径と同値で登録しました。6Fは0.070 inch、7Fは0.078 inchです。[FDA K140307](https://www.accessdata.fda.gov/cdrh_docs/pdf14/K140307.pdf)のPDF 1ページの非テーパー内腔の記載と、2ページTable 2の6F/7F内径・長さに基づきます。近位内径の根拠は`envoyFDAK140307`、割当は`documented_non_tapered_lumen`として記録しました。外径の均一性を確認した意味ではなく、遠位外径・5F・Envoy XBは今回の補完対象に含めていません。
 
 ## 一般径の割当規則
 
@@ -33,10 +35,10 @@
 | 8F Launcher (90 cm) | — | 0.10498688 | 0.09 | — | legacySheet |
 | 5F Envoy (90 cm) | — | 0.0656168 | 0.056 | — | legacySheet |
 | 5F Envoy (100 cm) | — | 0.0656168 | 0.056 | — | legacySheet |
-| 6F Envoy (90 cm) | — | 0.07874016 | 0.07 | — | legacySheet |
-| 6F Envoy (100 cm) | — | 0.07874016 | 0.07 | — | legacySheet |
-| 7F Envoy (90 cm) | — | 0.09186352 | 0.078 | — | legacySheet |
-| 7F Envoy (100 cm) | — | 0.09186352 | 0.078 | — | legacySheet |
+| 6F Envoy (90 cm) | 0.07 | 0.07874016 | 0.07 | — | envoyFDAK140307 / legacySheet |
+| 6F Envoy (100 cm) | 0.07 | 0.07874016 | 0.07 | — | envoyFDAK140307 / legacySheet |
+| 7F Envoy (90 cm) | 0.078 | 0.09186352 | 0.078 | — | envoyFDAK140307 / legacySheet |
+| 7F Envoy (100 cm) | 0.078 | 0.09186352 | 0.078 | — | envoyFDAK140307 / legacySheet |
 | Envoy XB (90 cm) | — | 0.07874016 | 0.07 | — | legacySheet |
 | Envoy XB (100 cm) | — | 0.07874016 | 0.07 | — | legacySheet |
 | 6F Fubuki (80 cm) | — | 0.07874016 | 0.071 | — | legacySheet |
