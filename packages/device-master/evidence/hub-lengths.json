@@ -1,6 +1,7 @@
 {
   "schema_version": "2.0.0",
   "recorded_at": "2026-09-26",
+  "updated_at": "2026-10-01",
   "source": {
     "type": "user_supplied_excel",
     "local_path": "アクセス製品スペック一覧（Stryker）.xlsx",
@@ -229,6 +230,27 @@
       "match_note": "メーカーHirataは既存Medicos Hirataの略表記。BULL・165 cmが一致。"
     }
   ],
+  "manual_records": [
+    {
+      "device_id": "via17",
+      "source_type": "user_provided_measurement",
+      "hub_length_cm": 7,
+      "hub_length_source": "順天堂大学実測値",
+      "unit": "cm",
+      "recorded_at": "2026-10-01",
+      "match_note": "ユーザー指定によりVIA17のハブ長を登録。出典名は指定どおり記載。"
+    },
+    {
+      "device_id": "excelsior-xt-17",
+      "source_type": "user_provided_measurement",
+      "hub_length_cm": 6.3,
+      "hub_length_source": "順天堂大学実測値",
+      "unit": "cm",
+      "recorded_at": "2026-10-01",
+      "reference_device_id": "excelsior-sl-10",
+      "match_note": "ユーザー指定によりSL-10と同じハブ長6.3 cmを登録。出典名は指定どおり記載。基本寸法は元ExcelのXT-17行に基づき新規追加。"
+    }
+  ],
   "holds": [
     {
       "device_ids": [
@@ -325,12 +347,12 @@
     }
   ],
   "coverage": {
-    "total": 145,
-    "populated": 25,
-    "unavailable": 120,
+    "total": 146,
+    "populated": 27,
+    "unavailable": 119,
     "derived_proximal_populated": 10,
-    "any_hub_information": 27,
-    "no_hub_information": 118
+    "any_hub_information": 29,
+    "no_hub_information": 117
   },
   "public_sources": {
     "marathon-pmda": {

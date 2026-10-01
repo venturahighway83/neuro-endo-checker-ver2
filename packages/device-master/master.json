@@ -1,6 +1,6 @@
 {
   "schema_version": "0.4.0",
-  "generated_at": "2026-09-26T03:28:58.352Z",
+  "generated_at": "2026-10-01T09:24:55.660Z",
   "source_url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSgVsdmTcaWlepz42z8pHGNGn5VjT9FADDr-Tl4Nm7dEw7IxoeBXJJ-TEMm1qXzCbntsa2-94h43fbF/pubhtml",
   "devices": [
     {
@@ -1904,6 +1904,25 @@
       "proximal_length_note": ""
     },
     {
+      "id": "excelsior-xt-17",
+      "name": "Excelsior XT-17",
+      "category": "マイクロ",
+      "maker": "Stryker",
+      "id_inch": 0.017,
+      "od_fr": 2.4384,
+      "length_cm": 150,
+      "notes": "基本寸法: アクセス製品スペック一覧（Stryker）.xlsx / スペック表17行。手元外径0.032inchからod_fr=2.4384へ換算（資料公称2.4Fr）。部位未区別の内径→遠位内径（ユーザー指定ルール）。",
+      "proximal_id_inch": null,
+      "proximal_od_inch": 0.032,
+      "distal_id_inch": 0.017,
+      "distal_od_inch": 0.022,
+      "hub_length_cm": 6.3,
+      "hub_length_source": "順天堂大学実測値",
+      "proximal_non_effective_length_cm": null,
+      "proximal_length_source": "",
+      "proximal_length_note": ""
+    },
+    {
       "id": "excelsior-xt-27",
       "name": "Excelsior XT-27",
       "category": "マイクロ",
@@ -2638,8 +2657,8 @@
       "proximal_od_inch": 0.03188976,
       "distal_id_inch": 0.0175,
       "distal_od_inch": 0.02913386,
-      "hub_length_cm": null,
-      "hub_length_source": "",
+      "hub_length_cm": 7,
+      "hub_length_source": "順天堂大学実測値",
       "proximal_non_effective_length_cm": null,
       "proximal_length_source": "",
       "proximal_length_note": ""

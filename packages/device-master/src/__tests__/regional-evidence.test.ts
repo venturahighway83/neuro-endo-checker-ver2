@@ -32,8 +32,8 @@ describe('researched regional dimensions', () => {
         for (const sourceId of measurement.source_ids) {
           const source = evidence.sources[sourceId];
           expect(source).toBeDefined();
-          if (source?.type === 'local_book') {
-            expect(source.local_path).toMatch(/\.pdf$/);
+          if (source?.type === 'local_book' || source?.type === 'user_supplied_excel') {
+            expect(source.local_path).toMatch(source.type === 'local_book' ? /\.pdf$/ : /\.xlsx$/);
             expect(source.sha256).toMatch(/^[a-f0-9]{64}$/);
           } else {
             expect(source?.url).toMatch(/^https:\/\//);

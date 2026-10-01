@@ -13,6 +13,15 @@
     "variant_alignment": "2026-09-24ユーザー指定: Carnelian HF-S 105 cmの未登録3項目を125/135 cmに合わせる。このモデルに限る明示指定であり、一般的な長さ違いへの転用規則ではない。assignment=user_requested_variant_alignmentと参照モデルを記録。105 cmのメーカー・書籍仕様を確認した意味ではない。近位内径は未登録を維持。"
   },
   "sources": {
+    "strykerUserWorkbook": {
+      "title": "アクセス製品スペック一覧（Stryker）.xlsx",
+      "type": "user_supplied_excel",
+      "local_path": "アクセス製品スペック一覧（Stryker）.xlsx",
+      "sha256": "e0ad4d426977385b39f6857079ab79cf879087e37f6d4de40c62cd067de3f07f",
+      "sheet": "スペック表",
+      "location": "XT-17の17行。D17: 先端外径、G17: 手元外径、J17: 内腔（いずれもinch）。",
+      "accessed_on": "2026-10-01"
+    },
     "1018": {
       "title": "Stryker Japan Excelsior 1018",
       "url": "https://www.stryker.com/jp/ja/neurovascular/products/excelsior--1018--microcatheter.html",
@@ -274,6 +283,36 @@
     }
   },
   "records": [
+    {
+      "device_ids": ["excelsior-xt-17"],
+      "match_note": "ユーザーのXT-17ハブ長登録依頼に伴う製品追加。元ExcelのStryker・XT-17・有効長150 cmを照合。一般内径は既存のユーザー指定ルールで遠位内径へ割当。",
+      "values": {
+        "proximal_od_inch": {
+          "original_value": 0.032,
+          "original_unit": "inch",
+          "value_inch": 0.032,
+          "source_ids": ["strykerUserWorkbook"],
+          "source_cell": "G17"
+        },
+        "distal_od_inch": {
+          "original_value": 0.022,
+          "original_unit": "inch",
+          "value_inch": 0.022,
+          "source_ids": ["strykerUserWorkbook"],
+          "source_cell": "D17"
+        },
+        "distal_id_inch": {
+          "original_value": 0.017,
+          "original_unit": "inch",
+          "value_inch": 0.017,
+          "source_ids": ["strykerUserWorkbook"],
+          "source_cell": "J17",
+          "assignment": "user_convention",
+          "source_field": "id_inch",
+          "note": "部位区別のない内径を遠位内径に割当。部位を明示した仕様ではない。"
+        }
+      }
+    },
     {
       "device_ids": [
         "guidepost-120cm",
@@ -4843,6 +4882,15 @@
   ],
   "coverage": [
     {
+      "device_id": "excelsior-xt-17",
+      "name": "Excelsior XT-17",
+      "populated_fields": 3,
+      "status": "partial",
+      "remaining_reason": "未確認: proximal_id_inch。一般内径の遠位割当はユーザー指定ルールであり部位明示の確認ではない。",
+      "additional_source_ids": ["strykerUserWorkbook"],
+      "assigned_fields": ["distal_id_inch"]
+    },
+    {
       "device_id": "6f-roadmaster-90cm",
       "name": "6F Roadmaster (90 cm)",
       "populated_fields": 2,
@@ -6843,5 +6891,5 @@
       ]
     }
   ],
-  "updated_on": "2026-09-24"
+  "updated_on": "2026-10-01"
 }

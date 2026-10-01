@@ -12,6 +12,8 @@ const evidence = JSON.parse(readFileSync('evidence/hub-lengths.json', 'utf8')) a
   source: { unit: string; sha256: string; sheet: string };
   records: { device_ids: string[]; source_cell: string; source_effective_lengths_cm: number[];
     hub_length_cm: number; match_note: string }[];
+  manual_records: { device_id: string; source_type: string; hub_length_cm: number;
+    hub_length_source: string; unit: string; recorded_at: string; match_note: string }[];
   holds: { device_ids: string[]; reason: string }[];
   coverage: { total: number; populated: number; unavailable: number };
   public_sources: Record<string, { url: string; page: number; sha256: string }>;
@@ -41,7 +43,7 @@ describe('hub length import', () => {
     expect(() => normalizeValidRows(rows, report)).toThrow();
   });
 
-  it('traces every imported value to a source cell and an explicitly listed catheter length', () => {
+  it('traces every hub length to its spreadsheet source or user-provided measurement', () => {
     const byId = new Map(master.devices.map(d => [d.id, d]));
     const registered = new Set<string>();
     expect(evidence.source.unit).toBe('cm');
@@ -56,13 +58,27 @@ describe('hub length import', () => {
         const device = byId.get(id)!;
         expect(device.hub_length_cm, id).toBe(record.hub_length_cm);
         expect(record.source_effective_lengths_cm, id).toContain(device.length_cm);
+        expect(device.hub_length_source, id).toContain('実測値を含む');
       }
+    }
+    expect(registered.size).toBe(25);
+    for (const record of evidence.manual_records) {
+      expect(registered.has(record.device_id), record.device_id).toBe(false);
+      registered.add(record.device_id);
+      expect(record.source_type).toBe('user_provided_measurement');
+      expect(record.unit).toBe('cm');
+      expect(record.recorded_at).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      expect(record.match_note.length).toBeGreaterThan(0);
+      expect(record.hub_length_source.length).toBeGreaterThan(0);
+      expect(byId.get(record.device_id)).toMatchObject({
+        hub_length_cm: record.hub_length_cm, hub_length_source: record.hub_length_source,
+      });
     }
     for (const device of master.devices) {
       expect(registered.has(device.id), device.id).toBe(device.hub_length_cm !== null);
     }
-    expect(registered.size).toBe(25);
-    expect(evidence.coverage).toMatchObject({ total: 145, populated: 25, unavailable: 120 });
+    expect(registered.size).toBe(27);
+    expect(evidence.coverage).toMatchObject({ total: 146, populated: 27, unavailable: 119 });
     for (const hold of evidence.holds) {
       expect(hold.reason.length).toBeGreaterThan(0);
       for (const id of hold.device_ids) expect(byId.get(id)?.hub_length_cm, id).toBeNull();
@@ -70,6 +86,15 @@ describe('hub length import', () => {
     expect(byId.get('5f-guider-softip-100cm')?.hub_length_cm).toBe(2);
     expect(byId.get('excelsior-sl-10')?.hub_length_cm).toBe(6.3);
     expect(byId.get('guidepost-120cm')?.hub_length_cm).toBe(10);
+    expect(byId.get('via17')).toMatchObject({
+      hub_length_cm: 7, hub_length_source: '順天堂大学実測値',
+      length_cm: 154, proximal_non_effective_length_cm: null,
+    });
+    expect(byId.get('excelsior-xt-17')).toMatchObject({
+      hub_length_cm: byId.get('excelsior-sl-10')?.hub_length_cm,
+      hub_length_source: '順天堂大学実測値',
+      length_cm: 150, proximal_non_effective_length_cm: null,
+    });
   });
 
   it('keeps the calculated proximal assembly separate from explicitly reported hub lengths', () => {
@@ -94,7 +119,6 @@ describe('hub length import', () => {
     }
     for (const device of master.devices) {
       expect(traced.has(device.id), device.id).toBe(device.proximal_non_effective_length_cm !== null);
-      if (device.hub_length_cm != null) expect(device.hub_length_source).toContain('実測値を含む');
     }
     expect(traced.size).toBe(10);
     expect(master.devices.find(d => d.id === 'marathon')).toMatchObject({

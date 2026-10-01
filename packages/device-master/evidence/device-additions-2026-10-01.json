@@ -1,0 +1,34 @@
+{
+  "recorded_at": "2026-10-01",
+  "sources": {
+    "strykerUserWorkbook": {
+      "type": "user_supplied_excel",
+      "local_path": "アクセス製品スペック一覧（Stryker）.xlsx",
+      "sha256": "e0ad4d426977385b39f6857079ab79cf879087e37f6d4de40c62cd067de3f07f",
+      "sheet": "スペック表",
+      "row": 17
+    }
+  },
+  "records": [
+    {
+      "device_id": "excelsior-xt-17",
+      "name": "Excelsior XT-17",
+      "source_id": "strykerUserWorkbook",
+      "source_product": "XT-17",
+      "source_maker": "Stryker",
+      "source_category": "MC",
+      "length_cm": 150,
+      "length_cell": "M17",
+      "id_inch": 0.017,
+      "id_cell": "J17",
+      "proximal_od_inch": 0.032,
+      "proximal_od_cell": "G17",
+      "distal_od_inch": 0.022,
+      "distal_od_cell": "D17",
+      "nominal_proximal_od_fr": 2.4,
+      "stored_od_fr": 2.4384,
+      "conversion": "0.032 inch × 76.2 = 2.4384 Fr。既存の追加製品方針に合わせ、inch値の実寸換算を保存。",
+      "note": "ユーザー指定のハブ長登録に伴い製品を追加。基本寸法は元Excelを採用し、ハブ長6.3 cmと出典「順天堂大学実測値」はユーザー指定としてhub-lengths.jsonに記録。"
+    }
+  ]
+}
