@@ -10,6 +10,8 @@ interface Props {
   devices: Device[];
   selected: Device | null;
   onSelect: (device: Device | null) => void;
+  /** Optional rows can be removed even before a device has been selected. */
+  onRemove?: () => void;
   nodeId?: string;
   parentId?: string;
 }
@@ -34,7 +36,7 @@ function formatOuterDiameter(value: number | null | undefined): string {
     : '—';
 }
 
-export function DevicePanel({ title, devices, selected, onSelect, nodeId, parentId }: Props) {
+export function DevicePanel({ title, devices, selected, onSelect, onRemove, nodeId, parentId }: Props) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [position, setPosition] = useState<DropdownPosition | null>(null);
@@ -129,7 +131,8 @@ export function DevicePanel({ title, devices, selected, onSelect, nodeId, parent
     : devices;
 
   function handleSelect(device: Device | null) {
-    onSelect(device);
+    if (device === null && onRemove) onRemove();
+    else onSelect(device);
     setOpen(false);
     setQuery('');
     triggerRef.current?.focus({ preventScroll: true });
@@ -137,23 +140,11 @@ export function DevicePanel({ title, devices, selected, onSelect, nodeId, parent
 
   return (
     <div ref={ref} className="relative">
-      {/* Label and selection removal */}
-      <div className="flex h-6 items-center justify-between gap-2 mb-1">
-        <div className="text-sm font-semibold text-gray-300">{title}</div>
-        {selected && (
-          <button
-            type="button"
-            onClick={() => handleSelect(null)}
-            aria-label={`${title}の選択を削除`}
-            title={`${selected.name}の選択を削除`}
-            className="shrink-0 rounded border border-gray-600 px-2 py-0.5 text-xs text-gray-400 transition-colors hover:border-red-500 hover:text-red-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400"
-          >
-            削除
-          </button>
-        )}
-      </div>
+      {/* Label */}
+      <div className="h-6 text-sm font-semibold text-gray-300 mb-1">{title}</div>
 
-      {/* Trigger */}
+      {/* Selector and removal control, shared by every device slot. */}
+      <div className="flex items-center gap-1">
       <button
         ref={triggerRef}
         type="button"
@@ -164,7 +155,7 @@ export function DevicePanel({ title, devices, selected, onSelect, nodeId, parent
         data-device-parent={parentId}
         data-device-selected={!!selected}
         onClick={() => setOpen((v) => !v)}
-        className={`w-full flex items-center gap-1 px-2 py-1.5 text-left rounded border text-sm transition-colors ${
+        className={`min-w-0 flex-1 flex items-center gap-1 px-2 py-1.5 text-left rounded border text-sm transition-colors ${
           open
             ? 'border-blue-500 ring-1 ring-blue-800 bg-gray-700'
             : selected
@@ -177,6 +168,17 @@ export function DevicePanel({ title, devices, selected, onSelect, nodeId, parent
         </span>
         <span className="text-gray-500 shrink-0 text-xs">{open ? '▲' : '▼'}</span>
       </button>
+      <button
+        type="button"
+        onClick={() => handleSelect(null)}
+        disabled={!selected && !onRemove}
+        aria-label={`${title}を削除`}
+        title={`${selected?.name ?? title}を削除`}
+        className="flex h-8 w-7 shrink-0 items-center justify-center rounded border border-gray-600 bg-gray-700 text-sm text-gray-400 transition-colors hover:border-red-500 hover:text-red-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-gray-600 disabled:hover:text-gray-400"
+      >
+        <span aria-hidden="true">×</span>
+      </button>
+      </div>
 
       {/* Selected specs */}
       {selected && (

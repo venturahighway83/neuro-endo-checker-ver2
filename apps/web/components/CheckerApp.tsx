@@ -87,22 +87,14 @@ function MicroColumn({
         onSelect={setMicro1}
       />
       {showMicro2 ? (
-        <div className="flex items-start gap-1">
-          <div className="flex-1">
-            <DevicePanel
-              nodeId={`${parentId}-m2`} parentId={parentId}
-              title={`マイクロ（${outerLabel}内）②`}
-              devices={microDevices}
-              selected={micro2}
-              onSelect={setMicro2}
-            />
-          </div>
-          <button
-            onClick={removeMicro2}
-            className="mt-5 text-sm bg-gray-700 border border-gray-600 rounded px-1 py-0.5 text-gray-400 hover:text-red-400 hover:border-red-600 shrink-0"
-            title="2本目を削除"
-          >✕</button>
-        </div>
+        <DevicePanel
+          nodeId={`${parentId}-m2`} parentId={parentId}
+          title={`マイクロ（${outerLabel}内）②`}
+          devices={microDevices}
+          selected={micro2}
+          onSelect={setMicro2}
+          onRemove={removeMicro2}
+        />
       ) : (
         <button
           onClick={() => setShowMicro2(true)}
@@ -190,9 +182,17 @@ export function CheckerApp({ guidingDevices, intermediateDevices, microDevices }
   );
 
   // ── Handlers ───────────────────────────────────────────────────────────────
+  function handleSelectGuiding(device: Device | null) {
+    setGuiding(device);
+    if (device === null) {
+      handleSelectInner1(null);
+      handleRemoveInner2();
+    }
+  }
+
   function handleSelectInner1(device: Device | null) {
     setInner1(device);
-    if (inner1?.id !== device?.id) {
+    if (device === null || inner1?.id !== device.id) {
       setMicro_i1_1(null);
       setMicro_i1_2(null);
       setShowMicro2_i1(false);
@@ -201,7 +201,7 @@ export function CheckerApp({ guidingDevices, intermediateDevices, microDevices }
 
   function handleSelectInner2(device: Device | null) {
     setInner2(device);
-    if (inner2?.id !== device?.id) {
+    if (device === null || inner2?.id !== device.id) {
       setMicro_i2_1(null);
       setMicro_i2_2(null);
       setShowMicro2_i2(false);
@@ -239,7 +239,7 @@ export function CheckerApp({ guidingDevices, intermediateDevices, microDevices }
                 title="ガイディング"
                 devices={guidingDevices}
                 selected={guiding}
-                onSelect={setGuiding}
+                onSelect={handleSelectGuiding}
               />
             </div>
             <div className="w-64 shrink-0">
@@ -269,21 +269,15 @@ export function CheckerApp({ guidingDevices, intermediateDevices, microDevices }
             <div className="flex gap-12 items-start">
               {/* spacer to align inner② under inner① */}
               <div className="w-64 shrink-0" aria-hidden />
-              <div className="relative w-64 shrink-0">
-                <div className="w-64">
-                  <DevicePanel
-                    nodeId="inner2" parentId="guiding"
-                    title="内腔カテーテル②"
-                    devices={innerDevices}
-                    selected={inner2}
-                    onSelect={handleSelectInner2}
-                  />
-                </div>
-                <button
-                  onClick={handleRemoveInner2}
-                  className="absolute -right-6 top-5 text-sm bg-gray-700 border border-gray-600 rounded px-1 py-0.5 text-gray-400 hover:text-red-400 hover:border-red-600 shrink-0"
-                  title="2本目を削除"
-                >✕</button>
+              <div className="w-64 shrink-0">
+                <DevicePanel
+                  nodeId="inner2" parentId="guiding"
+                  title="内腔カテーテル②"
+                  devices={innerDevices}
+                  selected={inner2}
+                  onSelect={handleSelectInner2}
+                  onRemove={handleRemoveInner2}
+                />
               </div>
               {inner2IsIntermediate && (
                 <div className="w-64 shrink-0">
