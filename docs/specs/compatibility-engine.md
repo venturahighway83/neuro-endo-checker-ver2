@@ -1,7 +1,7 @@
 # Compatibility Engine Specification
 
 **Package:** `packages/core/src/engine.ts`
-**Status:** 実装済み（2026-09-24：1本挿入の近位・遠位径条件をともに `≤` に更新）
+**Status:** 実装済み（2026-10-09：近位内径が未登録の場合、遠位内径を近位内径として判定）
 
 ---
 
@@ -14,6 +14,7 @@
 | 比較単位 | **inch** (mm に変換せず inch のまま比較) | 医師確認済み |
 | margin | **0.001 inch** を outer の有効 ID から差し引いて比較 | 医師確認済み |
 | 比較部位 | **近位同士・遠位同士**で比較し、両方を満たす場合のみ径が適合 | ユーザー指定（2026-09-24） |
+| 近位内径の補完 | 近位内径が未登録で遠位内径が有効なら、判定時に **近位内径＝遠位内径** とする（1本・2本同時共通） | ユーザー指定（2026-10-09） |
 | category check | **engine が実施** (caller 責任ではない) | — |
 | 2デバイスペア | **有効** (skip check はあるが可能) | — |
 
@@ -28,12 +29,16 @@
 ```
 MARGIN = 0.001  (inch, fixed)
 
-近位: inner.proximal_od_inch ≤ outer.proximal_id_inch − MARGIN
+判定用近位内径 = outer.proximal_id_inch ?? outer.distal_id_inch
+  // null / undefined のみ補完。使用する値は正の有限数であること。
+
+近位: inner.proximal_od_inch ≤ 判定用近位内径 − MARGIN
 遠位: inner.distal_od_inch   ≤ outer.distal_id_inch   − MARGIN
 
 各部位:
   inner_od_inch           = inner[region + '_od_inch']
-  effective_outer_id_inch = outer[region + '_id_inch'] − MARGIN
+  outer_id_inch           = 近位なら判定用近位内径、遠位なら outer.distal_id_inch
+  effective_outer_id_inch = outer_id_inch − MARGIN
 
 DIAMETER_OK:           inner_od_inch ≤ effective_outer_id_inch（近位・遠位共通）
 DIAMETER_INCOMPATIBLE: inner_od_inch > effective_outer_id_inch（近位・遠位共通）
@@ -41,8 +46,11 @@ DIAMETER_UNKNOWN:      その部位の必要な内径・外径が正の有限数
 ```
 
 両部位が `ok` の場合のみ径が適合。片方が `incompatible` なら径は不適合。
-不適合がなく片方でも `unknown` なら判定不明。従来の `id_inch`・`od_fr` や反対側の値による補完は行わない。
-近位外径と遠位内径など、異なる部位同士の比較は行わない。
+不適合がなく片方でも `unknown` なら判定不明。
+近位内径が `null` または未指定の場合のみ、有効な遠位内径を近位内径として使用する。
+近位内径が登録済みならその値を優先し、0・負数・非有限数などの無効値は補完せず `unknown` とする。
+遠位内径も欠損・無効なら補完できない。近位内径から遠位内径への逆補完、外径の補完、従来の `id_inch`・`od_fr` からの補完は行わない。
+補完は判定時のみ行い、元のデバイスデータは変更しない。
 
 近位・遠位とも入力数値の十進表記を整数化して差を計算し、追加の許容誤差は設けない。
 例: `0.030 − 0.001 − 0.029 = 0` は適合、外径 `0.02900001` は不適合。
@@ -102,15 +110,17 @@ incompatible (3) > unknown (2) > warning (1) > ok (0)
 ## 2本同時挿入
 
 近位・遠位それぞれで、2本の内側カテーテルの外径を合計して比較する。
+近位内径には1本挿入と同じ補完ルールを適用する。
 
 ```
-clearance(region) = outer[region + '_id_inch'] − 0.001
+outer_id(region) = 近位なら判定用近位内径、遠位なら outer.distal_id_inch
+clearance(region) = outer_id(region) − 0.001
                    − inner1[region + '_od_inch'] − inner2[region + '_od_inch']
 
 clearance ≤ 0:         incompatible
 0 < clearance ≤ 0.001: warning
 clearance > 0.001:     ok
-必要な部位別径が欠損: unknown
+補完後も必要な部位別径が欠損・無効: unknown
 ```
 
 両部位の結果を同じ優先順位で集約する。`compatible=true` は両部位とも `ok` または `warning` の場合のみ。
@@ -132,7 +142,7 @@ interface CompatibilityResult {
 
 interface RegionalDiameterMetrics {
   // --- 部位ごとに比較した値 ---
-  outer_id_inch: number | null;          // 当該部位の外側内径
+  outer_id_inch: number | null;          // 判定に使用した外側内径（近位は補完値を含む）
   inner_od_inch: number | null;          // 当該部位の内側外径
   effective_outer_id_inch: number | null; // 当該部位の外側内径 − 0.001
   clearance_inch: number | null;          // effective_outer_id_inch − inner_od_inch
@@ -154,6 +164,7 @@ interface DerivedMetrics extends RegionalDiameterMetrics {
 }
 
 interface EvidenceState {
+  outer_proximal_id_source: 'proximal' | 'distal' | null; // 近位内径に使用した値の出所
   outer_proximal_id_inch: 'present' | 'missing';
   outer_distal_id_inch:   'present' | 'missing';
   inner_proximal_od_inch: 'present' | 'missing';
@@ -165,6 +176,8 @@ interface EvidenceState {
 
 径の `CheckOutcome` には `region: 'proximal' | 'distal'` を付け、`evidence` にその部位の数値を返す。
 2本同時挿入は `diameter_dual` を2要素返し、各部位の外径①・外径②・合計外径・余裕を記録する。
+1本・2本同時とも、`evidence_state.outer_proximal_id_source` は近位内径を直接使えば `proximal`、遠位内径で補完すれば `distal`、どちらも使えなければ `null`。
+既存の `present` / `missing` は元データの登録状態を示すため、補完後も `outer_proximal_id_inch` は `missing` のままとする。
 UIは近位径・遠位径を区別して表示する。適合性チェック欄は従来どおり不適合の結果のみを表示する。
 
 ### プルダウン候補の表示
@@ -193,7 +206,7 @@ UIは近位径・遠位径を区別して表示する。適合性チェック欄
 |--------|-------|--------|------|
 | `DIAMETER_OK` | diameter | ok | 当該部位の内側外径 ≤ 外側内径 − 0.001 |
 | `DIAMETER_INCOMPATIBLE` | diameter | incompatible | 当該部位の内側外径 > 外側内径 − 0.001 |
-| `DIAMETER_UNKNOWN` | diameter | unknown | 当該部位の必要な内径・外径が欠損・無効 |
+| `DIAMETER_UNKNOWN` | diameter | unknown | 近位内径の補完後も必要な内径・外径が欠損・無効 |
 | `CATEGORY_ADJACENT` | category | ok | delta = +1 |
 | `CATEGORY_SKIP` | category | ok | delta ≥ +2 |
 | `CATEGORY_SAME` | category | incompatible | delta = 0 |
@@ -225,6 +238,7 @@ UIは近位径・遠位径を区別して表示する。適合性チェック欄
 | 2026-09-24 | 部位別径 | 近位同士・遠位同士を別々に比較し両方の通過を必須化。2本同時挿入にも適用 |
 | 2026-09-24 | 近位の境界 | 1本挿入の近位条件を `≤` に変更し、0.001 inchのすき間ちょうどを適合とする。遠位の `<`、2本同時挿入、欠損・カテゴリ・長さの扱いは維持 |
 | 2026-09-24 | 遠位の境界 | 追加指定により1本挿入の遠位条件も `≤` に変更。近位・遠位とも0.001 inchのすき間ちょうどを適合とする。2本同時挿入、欠損・カテゴリ・長さの扱いは維持 |
+| 2026-10-09 | 近位内径の補完 | ユーザー指定により、近位内径が未登録の場合は有効な遠位内径を近位内径として判定する。1本・2本同時挿入に適用。登録済み近位内径、逆方向・外径・従来径の補完禁止、元データの登録状態は維持 |
 
 ## Unresolved 論点
 
@@ -242,3 +256,5 @@ UIは近位径・遠位径を区別して表示する。適合性チェック欄
 - `packages/core/src/units.ts` — 単位変換 (inchToMm, frToMm)
 - `packages/core/src/__tests__/engine.test.ts` — テスト
 - `packages/core/src/__tests__/regional-compatibility.test.ts` — 部位別径・欠損・境界値・2本同時挿入のテスト
+- `packages/core/src/__tests__/proximal-id-fallback.test.ts` — 近位内径補完・登録値優先・判定根拠のテスト
+- `packages/core/tests/rist071Compatibility.test.ts` — RIST071＋VIA21＋Scepter XCの実データ回帰テスト

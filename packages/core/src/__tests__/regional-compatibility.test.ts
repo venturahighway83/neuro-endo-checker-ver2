@@ -97,21 +97,23 @@ describe('matching regional diameters', () => {
   describe.each(regions)('%s equality', (region) => {
     it.each([
       [null, 'unknown'], [0.063499, 'incompatible'],
-    ] as const)('does not override opposite ID %s: %s', (oppositeId, status) => {
+    ] as const)('resolves opposite ID %s while preserving explicit values', (oppositeId, status) => {
       const opposite = region === 'proximal' ? 'distal' : 'proximal';
       const result = checkCompatibility({
         outer: { ...outer, [`${region}_id_inch`]: 0.0635, [`${opposite}_id_inch`]: oppositeId },
         inner: { ...inner, proximal_od_inch: 0.0625, distal_od_inch: 0.0625 },
       });
       expect(result.reasons.find((r) => r.region === region)?.status).toBe('ok');
-      expect(result.status).toBe(status);
+      expect(result.status).toBe(region === 'distal' && oppositeId === null ? 'ok' : status);
     });
   });
 
   describe.each([
     ['outer', 'proximal'], ['outer', 'distal'], ['inner', 'proximal'], ['inner', 'distal'],
   ] as const)('invalid %s %s diameter', (role, region) => {
-    it.each(invalidDiameters)('%s stays unknown without legacy fallback', (value) => {
+    const values = role === 'outer' && region === 'proximal'
+      ? invalidDiameters.filter((value) => value != null) : invalidDiameters;
+    it.each(values)('%s stays unknown without legacy fallback', (value) => {
       const pair = { outer: { ...outer }, inner: { ...inner } };
       const field = `${region}_${role === 'outer' ? 'id' : 'od'}_inch`;
       pair[role] = { ...pair[role], [field]: value };
@@ -129,8 +131,8 @@ describe('matching regional diameters', () => {
   it.each(regions)('known %s failure outranks an unknown opposite end', (region) => {
     const opposite = region === 'proximal' ? 'distal' : 'proximal';
     const result = checkCompatibility({
-      outer: { ...outer, [`${opposite}_id_inch`]: null },
-      inner: { ...inner, [`${region}_od_inch`]: 0.1 },
+      outer,
+      inner: { ...inner, [`${region}_od_inch`]: 0.1, [`${opposite}_od_inch`]: null },
     });
     expect(result.status).toBe('incompatible');
     expect(result.compatible).toBe(false);
@@ -171,11 +173,12 @@ describe('regional metrics', () => {
   });
 
   it('retains valid evidence when one measurement is missing', () => {
-    const result = checkCompatibility({ outer: { ...outer, proximal_id_inch: null }, inner });
+    const result = checkCompatibility({ outer: { ...outer, proximal_id_inch: 0 }, inner });
     expect(result.derived_metrics.proximal.outer_id_inch).toBeNull();
     expect(result.derived_metrics.proximal.inner_od_inch).toBe(0.06);
     expect(result.derived_metrics.distal.clearance_inch).toBeGreaterThan(0);
     expect(result.evidence_state).toEqual({
+      outer_proximal_id_source: null,
       outer_proximal_id_inch: 'missing', outer_distal_id_inch: 'present',
       inner_proximal_od_inch: 'present', inner_distal_od_inch: 'present',
       outer_length_cm: 'present', inner_length_cm: 'present',
@@ -231,7 +234,9 @@ describe('two simultaneous catheters', () => {
     ['outer', 'proximal'], ['outer', 'distal'],
     ['inner1', 'proximal'], ['inner1', 'distal'], ['inner2', 'proximal'], ['inner2', 'distal'],
   ] as const)('invalid %s %s diameter', (role, region) => {
-    it.each(invalidDiameters)('%s stays unknown without legacy fallback', (value) => {
+    const values = role === 'outer' && region === 'proximal'
+      ? invalidDiameters.filter((value) => value != null) : invalidDiameters;
+    it.each(values)('%s stays unknown without legacy fallback', (value) => {
       const pair = { outer: { ...outer }, inner1: { ...inner1 }, inner2: { ...inner2 } };
       const field = `${region}_${role === 'outer' ? 'id' : 'od'}_inch`;
       pair[role] = { ...pair[role], [field]: value };
@@ -245,7 +250,7 @@ describe('two simultaneous catheters', () => {
   });
 
   it.each([
-    [null, 0.03125, 'unknown'], [null, 0.1, 'incompatible'],
+    [null, 0.03125, 'warning'], [null, 0.1, 'incompatible'],
     [0.064, 0.1, 'incompatible'], [0.064, 0.03125, 'warning'],
   ] as const)('proximal ID %s and distal second OD %s aggregate to %s', (proximalId, distalOd, status) => {
     const result = checkDualCompatibility({

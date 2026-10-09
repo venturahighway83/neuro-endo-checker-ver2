@@ -137,8 +137,21 @@ export function DevicePanel({ title, devices, selected, onSelect, nodeId, parent
 
   return (
     <div ref={ref} className="relative">
-      {/* Label */}
-      <div className="text-sm font-semibold text-gray-300 mb-1">{title}</div>
+      {/* Label and selection removal */}
+      <div className="flex h-6 items-center justify-between gap-2 mb-1">
+        <div className="text-sm font-semibold text-gray-300">{title}</div>
+        {selected && (
+          <button
+            type="button"
+            onClick={() => handleSelect(null)}
+            aria-label={`${title}の選択を削除`}
+            title={`${selected.name}の選択を削除`}
+            className="shrink-0 rounded border border-gray-600 px-2 py-0.5 text-xs text-gray-400 transition-colors hover:border-red-500 hover:text-red-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400"
+          >
+            削除
+          </button>
+        )}
+      </div>
 
       {/* Trigger */}
       <button

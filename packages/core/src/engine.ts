@@ -1,13 +1,14 @@
 /**
  * Compatibility engine.
  *
- * Diameter rules updated 2026-09-24:
+ * Diameter rules updated 2026-10-09:
  *   - Comparison is performed in INCH units (not mm)
  *   - Single-device comparisons at both regions: inner_od_inch <= effective_outer_id_inch
  *   - Simultaneous dual comparisons remain strict (<)
  *   - Compare proximal to proximal and distal to distal; both must pass
  *   - Margin: MARGIN_INCH = 0.001 inch subtracted from each outer regional ID
- *   - Missing regional measurements are unknown; never fall back to legacy diameters
+ *   - An absent proximal ID uses the distal ID; other missing measurements stay unknown
+ *   - Never fall back to legacy diameters or replace explicitly invalid measurements
  *   - No additional tolerance beyond the margin
  *   - Category check is performed by the engine (not the caller)
  *   - Two-device pairs are valid inputs (e.g. guiding → micro with no intermediate)
@@ -111,6 +112,7 @@ export interface CheckOutcome {
  * null means a required source field was absent.
  */
 export interface RegionalDiameterMetrics {
+  /** ID used for comparison, including the distal-ID fallback at the proximal region. */
   outer_id_inch: number | null;
   // --- Inch-based: the values used for the actual comparison ---
   /** Inner device's OD at this region, in inches. */
@@ -164,6 +166,8 @@ export interface DerivedMetrics extends RegionalDiameterMetrics {
  * Only tracks fields that are actually consumed by one of the three checks.
  */
 export interface EvidenceState {
+  /** Source used for proximal ID; presence fields below still describe the original data. */
+  outer_proximal_id_source: DiameterRegion | null;
   outer_proximal_id_inch: 'present' | 'missing';
   outer_distal_id_inch: 'present' | 'missing';
   inner_proximal_od_inch: 'present' | 'missing';
@@ -226,6 +230,17 @@ const STATUS_PRIORITY: Readonly<Record<CheckStatus, number>> = {
 
 function isPositiveFinite(n: unknown): n is number {
   return typeof n === 'number' && isFinite(n) && n > 0;
+}
+
+/** User rule (2026-10-09): only an unregistered proximal ID may use the distal ID. */
+function resolveProximalInnerDiameter(device: Device): { value: number | null; source: DiameterRegion | null } {
+  if (isPositiveFinite(device.proximal_id_inch)) {
+    return { value: device.proximal_id_inch, source: 'proximal' };
+  }
+  if (device.proximal_id_inch == null && isPositiveFinite(device.distal_id_inch)) {
+    return { value: device.distal_id_inch, source: 'distal' };
+  }
+  return { value: null, source: null };
 }
 
 function aggregateStatus(outcomes: CheckOutcome[]): CheckStatus {
@@ -415,7 +430,8 @@ function runLengthCheck(outer: Device, inner: Device): CheckOutcome {
 export function checkCompatibility(pair: CompatibilityPair): CompatibilityResult {
   const { outer, inner } = pair;
 
-  const proximal = singleDiameterMetrics(outer.proximal_id_inch, inner.proximal_od_inch);
+  const proximalId = resolveProximalInnerDiameter(outer);
+  const proximal = singleDiameterMetrics(proximalId.value, inner.proximal_od_inch);
   const distal = singleDiameterMetrics(outer.distal_id_inch, inner.distal_od_inch);
   const categoryOutcome = runCategoryCheck(outer, inner);
   const lengthOutcome = runLengthCheck(outer, inner);
@@ -450,6 +466,7 @@ export function checkCompatibility(pair: CompatibilityPair): CompatibilityResult
   };
 
   const evidence_state: EvidenceState = {
+    outer_proximal_id_source: proximalId.source,
     outer_proximal_id_inch: isPositiveFinite(outer.proximal_id_inch) ? 'present' : 'missing',
     outer_distal_id_inch: isPositiveFinite(outer.distal_id_inch) ? 'present' : 'missing',
     inner_proximal_od_inch: isPositiveFinite(inner.proximal_od_inch) ? 'present' : 'missing',
@@ -499,6 +516,7 @@ export function checkThreeWay(devices: {
  * All inch values are used for the actual comparison; mm values are for display.
  */
 export interface RegionalDualDiameterMetrics {
+  /** ID used for comparison, including the distal-ID fallback at the proximal region. */
   outer_id_inch: number | null;
   // --- Inch (comparison values) ---
   inner1_od_inch: number | null;
@@ -529,6 +547,8 @@ export interface DualDerivedMetrics extends RegionalDualDiameterMetrics {
 
 /** Records which source fields were present at dual check time. */
 export interface DualEvidenceState {
+  /** Source used for proximal ID; presence fields below still describe the original data. */
+  outer_proximal_id_source: DiameterRegion | null;
   outer_proximal_id_inch: 'present' | 'missing';
   outer_distal_id_inch: 'present' | 'missing';
   inner1_proximal_od_inch: 'present' | 'missing';
@@ -582,7 +602,8 @@ export function checkDualCompatibility(pair: {
 }): DualCompatibilityResult {
   const { outer, inner1, inner2 } = pair;
 
-  const proximal = dualDiameterMetrics(outer.proximal_id_inch, inner1.proximal_od_inch, inner2.proximal_od_inch);
+  const proximalId = resolveProximalInnerDiameter(outer);
+  const proximal = dualDiameterMetrics(proximalId.value, inner1.proximal_od_inch, inner2.proximal_od_inch);
   const distal = dualDiameterMetrics(outer.distal_id_inch, inner1.distal_od_inch, inner2.distal_od_inch);
   const reasons = [runDualDiameterCheck('proximal', proximal), runDualDiameterCheck('distal', distal)];
   const status = aggregateStatus(reasons);
@@ -591,6 +612,7 @@ export function checkDualCompatibility(pair: {
     ? dualDiameterMetrics(null, null, null) : { proximal, distal }[limiting_region];
 
   const evidence_state: DualEvidenceState = {
+    outer_proximal_id_source: proximalId.source,
     outer_proximal_id_inch: isPositiveFinite(outer.proximal_id_inch) ? 'present' : 'missing',
     outer_distal_id_inch: isPositiveFinite(outer.distal_id_inch) ? 'present' : 'missing',
     inner1_proximal_od_inch: isPositiveFinite(inner1.proximal_od_inch) ? 'present' : 'missing',

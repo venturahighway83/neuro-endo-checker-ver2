@@ -190,12 +190,27 @@ export function CheckerApp({ guidingDevices, intermediateDevices, microDevices }
   );
 
   // ── Handlers ───────────────────────────────────────────────────────────────
+  function handleSelectInner1(device: Device | null) {
+    setInner1(device);
+    if (inner1?.id !== device?.id) {
+      setMicro_i1_1(null);
+      setMicro_i1_2(null);
+      setShowMicro2_i1(false);
+    }
+  }
+
+  function handleSelectInner2(device: Device | null) {
+    setInner2(device);
+    if (inner2?.id !== device?.id) {
+      setMicro_i2_1(null);
+      setMicro_i2_2(null);
+      setShowMicro2_i2(false);
+    }
+  }
+
   function handleRemoveInner2() {
     setShowInner2(false);
-    setInner2(null);
-    setMicro_i2_1(null);
-    setMicro_i2_2(null);
-    setShowMicro2_i2(false);
+    handleSelectInner2(null);
   }
 
   const hasIncompatibleResult = [
@@ -233,7 +248,7 @@ export function CheckerApp({ guidingDevices, intermediateDevices, microDevices }
                 title="内腔カテーテル①"
                 devices={innerDevices}
                 selected={inner1}
-                onSelect={setInner1}
+                onSelect={handleSelectInner1}
               />
             </div>
             {inner1IsIntermediate && (
@@ -261,7 +276,7 @@ export function CheckerApp({ guidingDevices, intermediateDevices, microDevices }
                     title="内腔カテーテル②"
                     devices={innerDevices}
                     selected={inner2}
-                    onSelect={setInner2}
+                    onSelect={handleSelectInner2}
                   />
                 </div>
                 <button
