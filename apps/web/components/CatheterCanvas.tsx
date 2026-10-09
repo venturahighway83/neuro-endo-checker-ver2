@@ -103,8 +103,6 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, proximalExposur
     return [{ tube, parent, label: tipExtensionLabel(route.tipExtension / lengthScale), port: route.port,
       needsCaution: tipExtensionNeedsCaution(route.tipExtension / lengthScale),
       assumed: parent.hub?.basis === 'fallback',
-      connectorCm: Number(((parent.connectorLength ?? 0) / lengthScale).toFixed(1)),
-      hubCm: Number(((parent.hubLength ?? 0) / lengthScale).toFixed(1)),
     }];
   });
 
@@ -309,32 +307,30 @@ export function CatheterCanvas({ tubes, totalLen, maxR3, camPos, proximalExposur
       {tipRows.length > 0 && (
         <div ref={tipPanelRef} role="region" aria-label="先端からどれくらい出るか" style={{
           position: 'absolute', top: overlayTop + 12, left: 12, zIndex: 2,
-          width: 400, maxWidth: 'calc(55% - 18px)', maxHeight: '55%', overflowY: 'auto',
+          width: 480, maxWidth: 'calc(55% - 18px)', maxHeight: '55%', overflowY: 'auto',
           boxSizing: 'border-box', padding: '10px 12px', borderRadius: 8,
           border: '1px solid #475569', background: 'rgba(17,24,39,0.94)',
           color: '#e2e8f0', pointerEvents: 'auto', opacity: ready ? 1 : 0,
         }}>
-          <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 6 }}>
-            先端からどれくらい出るか <span title="手元の露出を0 cmとした最大値" style={{ fontSize: 10, fontWeight: 400, color: '#94a3b8' }}>（最大挿入時）</span>
+          <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 6 }}>
+            先端からどれくらい出るか <span style={{ fontSize: 12, fontWeight: 400, color: '#94a3b8' }}>（Yコネ 5cm想定）</span>
           </div>
-          {tipRows.map(({ tube, parent, label, port, assumed, connectorCm, hubCm, needsCaution }) => (
+          {tipRows.map(({ tube, parent, label, port, assumed, needsCaution }) => (
             <div key={tube.id} style={{ padding: '5px 0', borderTop: '1px solid #334155' }}>
-              <div style={{ fontSize: 12, whiteSpace: 'nowrap', overflowX: 'auto' }}>
+              <div style={{ fontSize: 14, whiteSpace: 'nowrap', overflowX: 'auto' }}>
                 <span title={parent.label}>{compactDeviceLabel(parent.label)}</span>の先端から
                 <span title={tube.label} style={{ color: tube.c.fill }}>{compactDeviceLabel(tube.label)}{port ? `（${port === 'side' ? '側孔' : '中央'}）` : ''}</span>は
-                <strong style={{ whiteSpace: 'nowrap', fontVariantNumeric: 'tabular-nums', color: needsCaution ? '#ff8080' : undefined }}>
-                  {label.replace(/\.0(?= cm)/, '').replace(' cm ', 'cm')}{assumed && <span style={{ fontSize: 10, color: '#fcd34d', marginLeft: 4 }}>（想定値）</span>}
-                </strong>
-              </div>
-              <div style={{ fontSize: 10, color: '#94a3b8', whiteSpace: 'nowrap', overflowX: 'auto' }}>
-                {parent.id === 'g' ? 'ガイディング' : '中間カテーテル'}の{parent.connector === 'tri' ? 'トリコネ' : 'Yコネ'}{connectorCm}cm、
-                <span style={{ color: assumed ? '#fcd34d' : undefined }}>ハブ{hubCm}cm{assumed ? '（想定値）' : ''}</span>
+                <span style={{ whiteSpace: 'nowrap', fontVariantNumeric: 'tabular-nums', color: needsCaution ? '#ff8080' : undefined }}>
+                  {label.replace(/\.0(?= cm)/, '').replace(' cm ', 'cm').split(/(\d+(?:\.\d+)?)/).map((part, index) =>
+                    index % 2 === 1 ? <strong key={index}>{part}</strong> : part
+                  )}{assumed && <span style={{ fontSize: 12, color: '#fcd34d', marginLeft: 4 }}>（想定値）</span>}
+                </span>
               </div>
               {needsCaution && (
                 <div role="status" style={{ marginTop: 6, padding: '6px 8px', border: '1px solid #ef4444',
                   borderLeft: '4px solid #ef4444', borderRadius: 4, background: 'rgba(127,29,29,0.35)',
-                  color: '#ff8080', fontSize: 12, lineHeight: '18px', fontWeight: 700 }}>
-                  注意：最大でも5 cm以下です
+                  color: '#ff8080', fontSize: 14, lineHeight: '20px' }}>
+                  注意：最大でも<strong>5</strong> cm以下です
                 </div>
               )}
             </div>
