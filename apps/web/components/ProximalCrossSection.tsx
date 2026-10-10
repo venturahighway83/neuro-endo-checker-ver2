@@ -95,7 +95,11 @@ export function ProximalCrossSection(props: Props) {
             <dl aria-label="カテーテル間の隙間" className="space-y-2">
               {gaps.map(row => (
                 <div key={row.label} title={row.devices} className="flex items-center justify-between gap-2 text-xs leading-5">
-                  <dt className="min-w-0 break-keep text-sm font-bold text-gray-400">{row.label}</dt>
+                  <dt className="min-w-0 text-sm font-bold text-gray-400">
+                    <span className="whitespace-nowrap">{row.label.split(' ↔ ')[0]}</span>
+                    {' ↔ '}
+                    <span className="whitespace-nowrap">{row.label.split(' ↔ ')[1]}</span>
+                  </dt>
                   <dd className={`grid min-w-[8.25rem] shrink-0 grid-cols-[auto_4ch] items-baseline gap-x-1 border-2 px-2 py-1.5 text-right font-mono text-sm tabular-nums ${row.inch !== null && row.inch < 0 ? 'border-red-400/70 bg-red-950/40 text-red-300' : 'border-gray-500 bg-gray-800 text-gray-100'}`}>
                     <span className="text-xl font-bold leading-6">{row.inch === null ? '—' : row.inch.toFixed(3)}</span>
                     {row.inch !== null && <span>inch</span>}
