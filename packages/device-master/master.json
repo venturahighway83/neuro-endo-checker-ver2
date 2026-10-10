@@ -1,6 +1,6 @@
 {
   "schema_version": "0.4.0",
-  "generated_at": "2026-10-01T09:56:10.125Z",
+  "generated_at": "2026-10-10T01:16:23.082Z",
   "source_url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSgVsdmTcaWlepz42z8pHGNGn5VjT9FADDr-Tl4Nm7dEw7IxoeBXJJ-TEMm1qXzCbntsa2-94h43fbF/pubhtml",
   "devices": [
     {
@@ -966,8 +966,8 @@
       "proximal_od_inch": 0.08661417,
       "distal_id_inch": 0.071,
       "distal_od_inch": null,
-      "hub_length_cm": null,
-      "hub_length_source": "",
+      "hub_length_cm": 4,
+      "hub_length_source": "ユーザー提供値（2026-10-10）",
       "proximal_non_effective_length_cm": null,
       "proximal_length_source": "",
       "proximal_length_note": ""
@@ -985,8 +985,8 @@
       "proximal_od_inch": 0.08661417,
       "distal_id_inch": 0.071,
       "distal_od_inch": null,
-      "hub_length_cm": null,
-      "hub_length_source": "",
+      "hub_length_cm": 4,
+      "hub_length_source": "ユーザー提供値（2026-10-10）",
       "proximal_non_effective_length_cm": null,
       "proximal_length_source": "",
       "proximal_length_note": ""
@@ -1004,8 +1004,8 @@
       "proximal_od_inch": 0.08661417,
       "distal_id_inch": 0.071,
       "distal_od_inch": null,
-      "hub_length_cm": null,
-      "hub_length_source": "",
+      "hub_length_cm": 4,
+      "hub_length_source": "ユーザー提供値（2026-10-10）",
       "proximal_non_effective_length_cm": null,
       "proximal_length_source": "",
       "proximal_length_note": ""
@@ -1023,8 +1023,8 @@
       "proximal_od_inch": 0.09317585,
       "distal_id_inch": 0.079,
       "distal_od_inch": null,
-      "hub_length_cm": null,
-      "hub_length_source": "",
+      "hub_length_cm": 4,
+      "hub_length_source": "ユーザー提供値（2026-10-10）",
       "proximal_non_effective_length_cm": null,
       "proximal_length_source": "",
       "proximal_length_note": ""
@@ -1042,8 +1042,8 @@
       "proximal_od_inch": 0.09317585,
       "distal_id_inch": 0.079,
       "distal_od_inch": null,
-      "hub_length_cm": null,
-      "hub_length_source": "",
+      "hub_length_cm": 4,
+      "hub_length_source": "ユーザー提供値（2026-10-10）",
       "proximal_non_effective_length_cm": null,
       "proximal_length_source": "",
       "proximal_length_note": ""
@@ -1061,8 +1061,8 @@
       "proximal_od_inch": 0.09317585,
       "distal_id_inch": 0.079,
       "distal_od_inch": null,
-      "hub_length_cm": null,
-      "hub_length_source": "",
+      "hub_length_cm": 4,
+      "hub_length_source": "ユーザー提供値（2026-10-10）",
       "proximal_non_effective_length_cm": null,
       "proximal_length_source": "",
       "proximal_length_note": ""
@@ -2011,8 +2011,8 @@
       "proximal_od_inch": 0.04,
       "distal_id_inch": 0.027,
       "distal_od_inch": 0.036,
-      "hub_length_cm": null,
-      "hub_length_source": "",
+      "hub_length_cm": 6.5,
+      "hub_length_source": "ユーザー提供値（2026-10-10）",
       "proximal_non_effective_length_cm": null,
       "proximal_length_source": "",
       "proximal_length_note": ""
@@ -2030,8 +2030,8 @@
       "proximal_od_inch": 0.04068241,
       "distal_id_inch": 0.027,
       "distal_od_inch": 0.036,
-      "hub_length_cm": null,
-      "hub_length_source": "",
+      "hub_length_cm": 6.5,
+      "hub_length_source": "ユーザー提供値（2026-10-10）",
       "proximal_non_effective_length_cm": null,
       "proximal_length_source": "",
       "proximal_length_note": ""
@@ -2068,8 +2068,8 @@
       "proximal_od_inch": 0.02755906,
       "distal_id_inch": 0.0165,
       "distal_od_inch": 0.02086614,
-      "hub_length_cm": null,
-      "hub_length_source": "",
+      "hub_length_cm": 6.5,
+      "hub_length_source": "ユーザー提供値（2026-10-10）",
       "proximal_non_effective_length_cm": null,
       "proximal_length_source": "",
       "proximal_length_note": ""

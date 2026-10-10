@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0.0",
   "recorded_at": "2026-09-26",
-  "updated_at": "2026-10-01",
+  "updated_at": "2026-10-10",
   "source": {
     "type": "user_supplied_excel",
     "local_path": "アクセス製品スペック一覧（Stryker）.xlsx",
@@ -232,6 +232,87 @@
   ],
   "manual_records": [
     {
+      "device_id": "rist071-95cm",
+      "source_type": "user_provided_measurement",
+      "hub_length_cm": 4,
+      "hub_length_source": "ユーザー提供値（2026-10-10）",
+      "unit": "cm",
+      "recorded_at": "2026-10-10",
+      "match_note": "ユーザー指定によりRIST071 (95 cm)のハブ長を4 cmで登録。登録済みの同製品各有効長に適用。メーカー公称値としての確認はなく、測定方法・測定施設は未指定。"
+    },
+    {
+      "device_id": "rist071-100cm",
+      "source_type": "user_provided_measurement",
+      "hub_length_cm": 4,
+      "hub_length_source": "ユーザー提供値（2026-10-10）",
+      "unit": "cm",
+      "recorded_at": "2026-10-10",
+      "match_note": "ユーザー指定によりRIST071 (100 cm)のハブ長を4 cmで登録。登録済みの同製品各有効長に適用。メーカー公称値としての確認はなく、測定方法・測定施設は未指定。"
+    },
+    {
+      "device_id": "rist071-105cm",
+      "source_type": "user_provided_measurement",
+      "hub_length_cm": 4,
+      "hub_length_source": "ユーザー提供値（2026-10-10）",
+      "unit": "cm",
+      "recorded_at": "2026-10-10",
+      "match_note": "ユーザー指定によりRIST071 (105 cm)のハブ長を4 cmで登録。登録済みの同製品各有効長に適用。メーカー公称値としての確認はなく、測定方法・測定施設は未指定。"
+    },
+    {
+      "device_id": "rist079-95cm",
+      "source_type": "user_provided_measurement",
+      "hub_length_cm": 4,
+      "hub_length_source": "ユーザー提供値（2026-10-10）",
+      "unit": "cm",
+      "recorded_at": "2026-10-10",
+      "match_note": "ユーザー指定によりRIST079 (95 cm)のハブ長を4 cmで登録。登録済みの同製品各有効長に適用。メーカー公称値としての確認はなく、測定方法・測定施設は未指定。"
+    },
+    {
+      "device_id": "rist079-100cm",
+      "source_type": "user_provided_measurement",
+      "hub_length_cm": 4,
+      "hub_length_source": "ユーザー提供値（2026-10-10）",
+      "unit": "cm",
+      "recorded_at": "2026-10-10",
+      "match_note": "ユーザー指定によりRIST079 (100 cm)のハブ長を4 cmで登録。登録済みの同製品各有効長に適用。メーカー公称値としての確認はなく、測定方法・測定施設は未指定。"
+    },
+    {
+      "device_id": "rist079-105cm",
+      "source_type": "user_provided_measurement",
+      "hub_length_cm": 4,
+      "hub_length_source": "ユーザー提供値（2026-10-10）",
+      "unit": "cm",
+      "recorded_at": "2026-10-10",
+      "match_note": "ユーザー指定によりRIST079 (105 cm)のハブ長を4 cmで登録。登録済みの同製品各有効長に適用。メーカー公称値としての確認はなく、測定方法・測定施設は未指定。"
+    },
+    {
+      "device_id": "phenom-27-150cm",
+      "source_type": "user_provided_measurement",
+      "hub_length_cm": 6.5,
+      "hub_length_source": "ユーザー提供値（2026-10-10）",
+      "unit": "cm",
+      "recorded_at": "2026-10-10",
+      "match_note": "ユーザー指定によりPhenom 27 (150 cm)のハブ長を6.5 cmで登録。登録済みの同製品各有効長に適用。メーカー公称値としての確認はなく、測定方法・測定施設は未指定。"
+    },
+    {
+      "device_id": "phenom-27-160cm",
+      "source_type": "user_provided_measurement",
+      "hub_length_cm": 6.5,
+      "hub_length_source": "ユーザー提供値（2026-10-10）",
+      "unit": "cm",
+      "recorded_at": "2026-10-10",
+      "match_note": "ユーザー指定によりPhenom 27 (160 cm)のハブ長を6.5 cmで登録。登録済みの同製品各有効長に適用。メーカー公称値としての確認はなく、測定方法・測定施設は未指定。"
+    },
+    {
+      "device_id": "headway-duo",
+      "source_type": "user_provided_measurement",
+      "hub_length_cm": 6.5,
+      "hub_length_source": "ユーザー提供値（2026-10-10）",
+      "unit": "cm",
+      "recorded_at": "2026-10-10",
+      "match_note": "ユーザー指定により既存Headway Duo（有効長156 cm）のハブ長を6.5 cmで登録。メーカー公称値としての確認はなく、測定方法・測定施設は未指定。"
+    },
+    {
       "device_id": "5f-sofia-select-115cm",
       "source_type": "user_provided_measurement",
       "hub_length_cm": 5.5,
@@ -393,11 +474,11 @@
   ],
   "coverage": {
     "total": 146,
-    "populated": 32,
-    "unavailable": 114,
+    "populated": 41,
+    "unavailable": 105,
     "derived_proximal_populated": 10,
-    "any_hub_information": 34,
-    "no_hub_information": 112
+    "any_hub_information": 43,
+    "no_hub_information": 103
   },
   "public_sources": {
     "marathon-pmda": {
