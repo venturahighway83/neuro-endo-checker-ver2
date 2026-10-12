@@ -78,7 +78,11 @@ describe('hub length import', () => {
       expect(registered.has(device.id), device.id).toBe(device.hub_length_cm !== null);
     }
     expect(registered.size).toBe(41);
-    expect(evidence.coverage).toMatchObject({ total: 146, populated: 41, unavailable: 105 });
+    expect(evidence.coverage).toMatchObject({
+      total: master.devices.length,
+      populated: registered.size,
+      unavailable: master.devices.length - registered.size,
+    });
     for (const hold of evidence.holds) {
       expect(hold.reason.length).toBeGreaterThan(0);
       for (const id of hold.device_ids) expect(byId.get(id)?.hub_length_cm, id).toBeNull();

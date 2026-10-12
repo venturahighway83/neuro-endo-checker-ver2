@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0.0",
   "recorded_at": "2026-09-26",
-  "updated_at": "2026-10-10",
+  "updated_at": "2026-10-12",
   "source": {
     "type": "user_supplied_excel",
     "local_path": "アクセス製品スペック一覧（Stryker）.xlsx",
@@ -473,12 +473,12 @@
     }
   ],
   "coverage": {
-    "total": 146,
+    "total": 155,
     "populated": 41,
-    "unavailable": 105,
+    "unavailable": 114,
     "derived_proximal_populated": 10,
     "any_hub_information": 43,
-    "no_hub_information": 103
+    "no_hub_information": 112
   },
   "public_sources": {
     "marathon-pmda": {

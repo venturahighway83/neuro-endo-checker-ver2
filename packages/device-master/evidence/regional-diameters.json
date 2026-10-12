@@ -288,32 +288,53 @@
       "type": "regulatory_submission",
       "location": "PDF 1ページ E. Device Description: non-tapered lumen。PDF 2ページ Table 2: 6Fr/7Fr、90/100 cm、内径0.070/0.078 inch。",
       "accessed_on": "2026-10-01"
+    },
+    "esperancePMDA20261012": {
+      "title": "Esperanceアスピレーションカテーテル 電子添文 TB223-M01JA-02",
+      "type": "regulatory_labeling",
+      "url": "https://www.pmda.go.jp/PmdaSearch/kikiDetail/ResultDataSetPDF/530381_30500BZI00015000_A_01_03",
+      "revision": "2025年3月 第2版",
+      "pmda_listed_on": "2026-09-11",
+      "accessed_on": "2026-10-12",
+      "approval_number": "30500BZI00015000",
+      "page": 1,
+      "location": "構造、寸法 1. 吸引カテーテル 表A〜F",
+      "sha256": "925484fdccac4aab9e3570adc1706c45fbf8fcbb788bf11a83dad211d88c17ce",
+      "note": "現行PMDA検索結果から取得し1ページ目の寸法図と表を目視照合。PDF配信URL末尾03と文書の第2版表記は別。外国製造業者Wallaby Medical、選任製造販売業者日本ライフライン（4ページ）。"
     }
   },
   "records": [
     {
-      "device_ids": ["excelsior-xt-17"],
+      "device_ids": [
+        "excelsior-xt-17"
+      ],
       "match_note": "ユーザーのXT-17ハブ長登録依頼に伴う製品追加。元ExcelのStryker・XT-17・有効長150 cmを照合。一般内径は既存のユーザー指定ルールで遠位内径へ割当。",
       "values": {
         "proximal_od_inch": {
           "original_value": 0.032,
           "original_unit": "inch",
           "value_inch": 0.032,
-          "source_ids": ["strykerUserWorkbook"],
+          "source_ids": [
+            "strykerUserWorkbook"
+          ],
           "source_cell": "G17"
         },
         "distal_od_inch": {
           "original_value": 0.022,
           "original_unit": "inch",
           "value_inch": 0.022,
-          "source_ids": ["strykerUserWorkbook"],
+          "source_ids": [
+            "strykerUserWorkbook"
+          ],
           "source_cell": "D17"
         },
         "distal_id_inch": {
           "original_value": 0.017,
           "original_unit": "inch",
           "value_inch": 0.017,
-          "source_ids": ["strykerUserWorkbook"],
+          "source_ids": [
+            "strykerUserWorkbook"
+          ],
           "source_cell": "J17",
           "assignment": "user_convention",
           "source_field": "id_inch",
@@ -4778,6 +4799,132 @@
           "note": "内腔にテーパーがないという資料記載に基づく近位への適用。近位部の個別実測値ではない。既存遠位内径と数値一致。"
         }
       }
+    },
+    {
+      "device_ids": [
+        "esperance-5f-125cm",
+        "esperance-5f-131cm"
+      ],
+      "match_note": "国内承認30500BZI00015000のEsperance 5F。添文の同一タイプ行に掲載された有効長を照合。A/Bは遠位内径/外径、C/Dは近位内径/外径。国内添文のmm値を採用し、海外仕様や別承認のディスタルアクセスカテーテルの値は混在させない。",
+      "values": {
+        "proximal_id_inch": {
+          "original_value": 1.4,
+          "original_unit": "mm",
+          "value_inch": 0.05511811,
+          "source_ids": [
+            "esperancePMDA20261012"
+          ]
+        },
+        "proximal_od_inch": {
+          "original_value": 1.68,
+          "original_unit": "mm",
+          "value_inch": 0.06614173,
+          "source_ids": [
+            "esperancePMDA20261012"
+          ]
+        },
+        "distal_id_inch": {
+          "original_value": 1.4,
+          "original_unit": "mm",
+          "value_inch": 0.05511811,
+          "source_ids": [
+            "esperancePMDA20261012"
+          ]
+        },
+        "distal_od_inch": {
+          "original_value": 1.57,
+          "original_unit": "mm",
+          "value_inch": 0.06181102,
+          "source_ids": [
+            "esperancePMDA20261012"
+          ]
+        }
+      }
+    },
+    {
+      "device_ids": [
+        "esperance-6f-125cm",
+        "esperance-6f-131cm"
+      ],
+      "match_note": "国内承認30500BZI00015000のEsperance 6F。添文の同一タイプ行に掲載された有効長を照合。A/Bは遠位内径/外径、C/Dは近位内径/外径。国内添文のmm値を採用し、海外仕様や別承認のディスタルアクセスカテーテルの値は混在させない。",
+      "values": {
+        "proximal_id_inch": {
+          "original_value": 1.8,
+          "original_unit": "mm",
+          "value_inch": 0.07086614,
+          "source_ids": [
+            "esperancePMDA20261012"
+          ]
+        },
+        "proximal_od_inch": {
+          "original_value": 2.08,
+          "original_unit": "mm",
+          "value_inch": 0.08188976,
+          "source_ids": [
+            "esperancePMDA20261012"
+          ]
+        },
+        "distal_id_inch": {
+          "original_value": 1.8,
+          "original_unit": "mm",
+          "value_inch": 0.07086614,
+          "source_ids": [
+            "esperancePMDA20261012"
+          ]
+        },
+        "distal_od_inch": {
+          "original_value": 2.06,
+          "original_unit": "mm",
+          "value_inch": 0.08110236,
+          "source_ids": [
+            "esperancePMDA20261012"
+          ]
+        }
+      }
+    },
+    {
+      "device_ids": [
+        "esperance-3-120cm",
+        "esperance-3-133cm",
+        "esperance-3-145cm",
+        "esperance-3-153cm",
+        "esperance-3-160cm"
+      ],
+      "match_note": "国内承認30500BZI00015000のEsperance 3+。添文の同一タイプ行に掲載された有効長を照合。A/Bは遠位内径/外径、C/Dは近位内径/外径。国内添文のmm値を採用し、海外仕様や別承認のディスタルアクセスカテーテルの値は混在させない。",
+      "values": {
+        "proximal_id_inch": {
+          "original_value": 1.37,
+          "original_unit": "mm",
+          "value_inch": 0.05393701,
+          "source_ids": [
+            "esperancePMDA20261012"
+          ]
+        },
+        "proximal_od_inch": {
+          "original_value": 1.68,
+          "original_unit": "mm",
+          "value_inch": 0.06614173,
+          "source_ids": [
+            "esperancePMDA20261012"
+          ]
+        },
+        "distal_id_inch": {
+          "original_value": 1.04,
+          "original_unit": "mm",
+          "value_inch": 0.04094488,
+          "source_ids": [
+            "esperancePMDA20261012"
+          ]
+        },
+        "distal_od_inch": {
+          "original_value": 1.27,
+          "original_unit": "mm",
+          "value_inch": 0.05,
+          "source_ids": [
+            "esperancePMDA20261012"
+          ]
+        }
+      }
     }
   ],
   "issues": [
@@ -4933,8 +5080,12 @@
       "populated_fields": 3,
       "status": "partial",
       "remaining_reason": "未確認: proximal_id_inch。一般内径の遠位割当はユーザー指定ルールであり部位明示の確認ではない。",
-      "additional_source_ids": ["strykerUserWorkbook"],
-      "assigned_fields": ["distal_id_inch"]
+      "additional_source_ids": [
+        "strykerUserWorkbook"
+      ],
+      "assigned_fields": [
+        "distal_id_inch"
+      ]
     },
     {
       "device_id": "6f-roadmaster-90cm",
@@ -6939,7 +7090,97 @@
         "proximal_od_inch",
         "distal_id_inch"
       ]
+    },
+    {
+      "device_id": "esperance-5f-125cm",
+      "name": "Esperance 5F (125 cm)",
+      "populated_fields": 4,
+      "status": "complete",
+      "remaining_reason": "",
+      "additional_source_ids": [
+        "esperancePMDA20261012"
+      ]
+    },
+    {
+      "device_id": "esperance-5f-131cm",
+      "name": "Esperance 5F (131 cm)",
+      "populated_fields": 4,
+      "status": "complete",
+      "remaining_reason": "",
+      "additional_source_ids": [
+        "esperancePMDA20261012"
+      ]
+    },
+    {
+      "device_id": "esperance-6f-125cm",
+      "name": "Esperance 6F (125 cm)",
+      "populated_fields": 4,
+      "status": "complete",
+      "remaining_reason": "",
+      "additional_source_ids": [
+        "esperancePMDA20261012"
+      ]
+    },
+    {
+      "device_id": "esperance-6f-131cm",
+      "name": "Esperance 6F (131 cm)",
+      "populated_fields": 4,
+      "status": "complete",
+      "remaining_reason": "",
+      "additional_source_ids": [
+        "esperancePMDA20261012"
+      ]
+    },
+    {
+      "device_id": "esperance-3-120cm",
+      "name": "Esperance 3+ (120 cm)",
+      "populated_fields": 4,
+      "status": "complete",
+      "remaining_reason": "",
+      "additional_source_ids": [
+        "esperancePMDA20261012"
+      ]
+    },
+    {
+      "device_id": "esperance-3-133cm",
+      "name": "Esperance 3+ (133 cm)",
+      "populated_fields": 4,
+      "status": "complete",
+      "remaining_reason": "",
+      "additional_source_ids": [
+        "esperancePMDA20261012"
+      ]
+    },
+    {
+      "device_id": "esperance-3-145cm",
+      "name": "Esperance 3+ (145 cm)",
+      "populated_fields": 4,
+      "status": "complete",
+      "remaining_reason": "",
+      "additional_source_ids": [
+        "esperancePMDA20261012"
+      ]
+    },
+    {
+      "device_id": "esperance-3-153cm",
+      "name": "Esperance 3+ (153 cm)",
+      "populated_fields": 4,
+      "status": "complete",
+      "remaining_reason": "",
+      "additional_source_ids": [
+        "esperancePMDA20261012"
+      ]
+    },
+    {
+      "device_id": "esperance-3-160cm",
+      "name": "Esperance 3+ (160 cm)",
+      "populated_fields": 4,
+      "status": "complete",
+      "remaining_reason": "",
+      "additional_source_ids": [
+        "esperancePMDA20261012"
+      ]
     }
   ],
-  "updated_on": "2026-10-01"
+  "updated_on": "2026-10-12"
 }
