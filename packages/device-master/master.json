@@ -1,6 +1,6 @@
 {
   "schema_version": "0.4.0",
-  "generated_at": "2026-10-12T04:14:56.926Z",
+  "generated_at": "2026-11-26T09:01:12.186Z",
   "source_url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSgVsdmTcaWlepz42z8pHGNGn5VjT9FADDr-Tl4Nm7dEw7IxoeBXJJ-TEMm1qXzCbntsa2-94h43fbF/pubhtml",
   "devices": [
     {
@@ -2518,12 +2518,12 @@
       "maker": "Terumo",
       "id_inch": 0.033,
       "od_fr": 3.8,
-      "length_cm": 154,
-      "notes": "",
+      "length_cm": 133,
+      "notes": "国内MV-VIA33。2026-11-25ユーザー指定により国内仕様へ修正（旧154 cm）。",
       "proximal_id_inch": null,
-      "proximal_od_inch": null,
-      "distal_id_inch": null,
-      "distal_od_inch": null,
+      "proximal_od_inch": 0.05,
+      "distal_id_inch": 0.033,
+      "distal_od_inch": 0.04488189,
       "hub_length_cm": null,
       "hub_length_source": "",
       "proximal_non_effective_length_cm": null,
