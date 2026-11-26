@@ -75,9 +75,17 @@ describe('researched regional dimensions', () => {
     expect(byId.get('5f-sofia-select-115cm')).toMatchObject({
       proximal_id_inch: null, distal_id_inch: 0.055, proximal_od_inch: 0.068, distal_od_inch: 0.067,
     });
-    for (const id of ['via33', 'acs-vecta71-115cm', 'acs-vecta71-125cm']) {
+    for (const id of ['acs-vecta71-115cm', 'acs-vecta71-125cm']) {
       for (const field of REGIONAL_DIAMETER_COLUMNS) expect(byId.get(id)?.[field]).toBeNull();
     }
+  });
+
+  it('uses domestic MV-VIA33 dimensions after resolving the length mismatch', () => {
+    expect(byId.get('via33')).toMatchObject({
+      length_cm: 133, id_inch: 0.033, od_fr: 3.8,
+      proximal_id_inch: null, distal_id_inch: 0.033,
+      proximal_od_inch: 0.05, distal_od_inch: 0.04488189,
+    });
   });
 
   it('matches historical book models by length and assigns their generic ID only to distal', () => {
