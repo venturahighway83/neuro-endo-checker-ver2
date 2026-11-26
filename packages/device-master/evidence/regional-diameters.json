@@ -14,6 +14,13 @@
     "documented_non_tapered_lumen": "2026-10-01ユーザー指定: ENVOY 6F・7F（各90/100 cm）の近位内径を遠位内径と同値で登録。FDA K140307の非テーパー内腔と寸法表を根拠とし、assignment=documented_non_tapered_lumenを記録。一般径の無条件複製とは区別し、外径や5F・XBには適用しない。"
   },
   "sources": {
+    "1018": {
+      "title": "Stryker Japan Excelsior 1018",
+      "url": "https://www.stryker.com/jp/ja/neurovascular/products/excelsior--1018--microcatheter.html",
+      "type": "manufacturer",
+      "location": "仕様表",
+      "accessed_on": "2026-09-18"
+    },
     "strykerUserWorkbook": {
       "title": "アクセス製品スペック一覧（Stryker）.xlsx",
       "type": "user_supplied_excel",
@@ -22,13 +29,6 @@
       "sheet": "スペック表",
       "location": "XT-17の17行。D17: 先端外径、G17: 手元外径、J17: 内腔（いずれもinch）。",
       "accessed_on": "2026-10-01"
-    },
-    "1018": {
-      "title": "Stryker Japan Excelsior 1018",
-      "url": "https://www.stryker.com/jp/ja/neurovascular/products/excelsior--1018--microcatheter.html",
-      "type": "manufacturer",
-      "location": "仕様表",
-      "accessed_on": "2026-09-18"
     },
     "terumo2025": {
       "title": "Terumo Neuro Access Products Portfolio 25T028 (2025年6月)",
@@ -301,6 +301,13 @@
       "location": "構造、寸法 1. 吸引カテーテル 表A〜F",
       "sha256": "925484fdccac4aab9e3570adc1706c45fbf8fcbb788bf11a83dad211d88c17ce",
       "note": "現行PMDA検索結果から取得し1ページ目の寸法図と表を目視照合。PDF配信URL末尾03と文書の第2版表記は別。外国製造業者Wallaby Medical、選任製造販売業者日本ライフライン（4ページ）。"
+    },
+    "terumoVIA20261125": {
+      "title": "Terumo 国内VIA仕様 25T097",
+      "type": "manufacturer",
+      "url": "https://medical.terumo.co.jp/sites/default/files/assets/equipment/me180/pdf/25T097.pdf",
+      "location": "PDF 1ページ VIA33 / MV-VIA33 仕様表",
+      "accessed_on": "2026-11-25"
     }
   },
   "records": [
@@ -4925,23 +4932,43 @@
           ]
         }
       }
-    }
-  ],
-  "issues": [
+    },
     {
       "device_ids": [
         "via33"
       ],
-      "reason": "既存154 cmに対し国内MV-VIA33は133 cm。型式・長さ不一致のため寸法反映を保留。",
-      "source_ids": [
-        "terumo2025"
-      ],
-      "candidates": {
-        "length_cm": 133,
-        "proximal_od_mm": 1.27,
-        "distal_od_mm": 1.14
+      "match_note": "2026-11-25ユーザー指定により国内MV-VIA33（有効長133 cm）へ修正。旧154 cmとの不一致による保留を解除。",
+      "values": {
+        "proximal_od_inch": {
+          "original_value": 1.27,
+          "original_unit": "mm",
+          "value_inch": 0.05,
+          "source_ids": [
+            "terumoVIA20261125"
+          ]
+        },
+        "distal_od_inch": {
+          "original_value": 1.14,
+          "original_unit": "mm",
+          "value_inch": 0.04488189,
+          "source_ids": [
+            "terumoVIA20261125"
+          ]
+        },
+        "distal_id_inch": {
+          "original_value": 0.033,
+          "original_unit": "inch",
+          "value_inch": 0.033,
+          "source_ids": [
+            "terumoVIA20261125"
+          ],
+          "assignment": "user_convention",
+          "note": "部位区別のない内径を遠位内径に割当。近位内径は未登録を維持。"
+        }
       }
-    },
+    }
+  ],
+  "issues": [
     {
       "device_ids": [
         "echelon-10"
@@ -6886,10 +6913,15 @@
     {
       "device_id": "via33",
       "name": "VIA33",
-      "populated_fields": 0,
-      "status": "held",
-      "remaining_reason": "既存154 cmに対し国内MV-VIA33は133 cm。型式・長さ不一致のため寸法反映を保留。",
-      "additional_source_ids": []
+      "populated_fields": 3,
+      "status": "partial",
+      "remaining_reason": "未確認: proximal_id_inch。国内MV-VIA33へ修正して保留解除。",
+      "additional_source_ids": [
+        "terumoVIA20261125"
+      ],
+      "assigned_fields": [
+        "distal_id_inch"
+      ]
     },
     {
       "device_id": "6f-optimo-100cm",
@@ -7182,5 +7214,5 @@
       ]
     }
   ],
-  "updated_on": "2026-10-12"
+  "updated_on": "2026-11-26"
 }
